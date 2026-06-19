@@ -1,0 +1,21 @@
+# CS project files
+bin/
+obj/
+
+# CMake
+build/
+out/
+CMakeUserPresets.json
+
+# project files
+.vs/
+.idea/
+.vscode/
+.user
+.suo
+
+# dll test files
+NativeMonitor.dll
+
+# logs
+*.log
