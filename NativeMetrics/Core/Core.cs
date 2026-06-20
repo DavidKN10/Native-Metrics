@@ -8,6 +8,11 @@ public static class NativeMetricsCore
     private const string dll = "NativeMetrics_core.dll";
 
     [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void test();
-    
+    public static extern ulong getTotalMemory();
+
+    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    public static extern ulong getAvailableMemory();
+
+    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    public static extern ulong getApproxPercentInUse();
 }

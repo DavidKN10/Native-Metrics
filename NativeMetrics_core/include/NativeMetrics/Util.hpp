@@ -9,6 +9,14 @@
 
 #define DIV 1024	// to convert bytes to other units
 
+u64 bytesToMB(u64 bytesAmount) {
+	return bytesAmount / (DIV * DIV);
+}
+
+u64 bytesToGB(u64 bytesAmount) {
+	return bytesAmount / (DIV * DIV * DIV);
+}
+
 void printError(TCHAR const* message) {
 	u32 eNum;				// Windows error code
 	TCHAR sysMessage[256];	// buffer for translated error message
