@@ -9,7 +9,9 @@ set(SOURCE_FILES
 )
 
 set(HEADER_FILES
-  "include/NativeMetrics.hpp"
+  "include/NativeMetrics/NativeMetrics.hpp"
+  "include/NativeMetrics/Types.hpp"
+  "include/NativeMetrics/Util.hpp"
 )
 
 add_library(NativeMetrics_core SHARED

@@ -1,5 +1,5 @@
-#include <NativeMetrics.hpp>
+#include <NativeMetrics/NativeMetrics.hpp>
 
 void test() {
-  std::cout << "Hello world!" << std::endl;
+	std::cout << "Hello world!" << std::endl;
 }
