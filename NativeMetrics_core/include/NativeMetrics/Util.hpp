@@ -17,6 +17,12 @@ u64 bytesToGB(u64 bytesAmount) {
 	return bytesAmount / (DIV * DIV * DIV);
 }
 
+u64 fileTimeToU64(const FILETIME& ft) {
+	u64 highDateTime = static_cast<u64>(ft.dwHighDateTime);
+	u64 result = (highDateTime << 32) | ft.dwLowDateTime;
+	return result;
+}
+
 void printError(TCHAR const* message) {
 	u32 eNum;				// Windows error code
 	TCHAR sysMessage[256];	// buffer for translated error message

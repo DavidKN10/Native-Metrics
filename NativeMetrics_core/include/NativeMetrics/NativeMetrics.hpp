@@ -32,9 +32,15 @@
 #define NATIVEMETRICS_API __declspec(dllimport)
 #endif
 
+const u32 ONE_SEC = 1000;
+
 extern "C" {
+	// RAM stats
 	NATIVEMETRICS_API u64 getTotalMemory();
 	NATIVEMETRICS_API u64 getAvailableMemory();
 	NATIVEMETRICS_API u64 getApproxPercentInUse();
+
+	// CPU stats
+	NATIVEMETRICS_API f64 getCpuUsage();
 }
 

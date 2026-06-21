@@ -15,4 +15,7 @@ public static class NativeMetricsCore
 
     [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong getApproxPercentInUse();
+
+    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double getCpuUsage();
 }
