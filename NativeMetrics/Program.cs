@@ -1,6 +1,7 @@
 ﻿using System;
 
 using NativeMetrics.Core;
+using NativeMetrics.Core.Models;
 
 namespace NativeMetrics;
 
@@ -18,8 +19,39 @@ public class Program
         Console.WriteLine($"CPU Usage: {cpuUsage.ToString("F2")}%");
     }
 
+    public static void getProcessesStats()
+    {
+        var processes = new ProcessInfo[200];
+        Console.WriteLine(
+                 $"Process Info:\n" +
+                 $"{"PID",-8} " +
+                 $"{"Process Name",-30} " +
+                 $"{"Memory (MB)",-12} " +
+                 $"{"Commit (MB)",-12} " +
+                 $"{"Private (MB)",-12} " +
+                 $"{"Threads",-8}"
+             );
+        Console.WriteLine(new string('-', 90));
+
+        if (NativeMetricsCore.getProcessList(processes, processes.Length, out int processesWritten))
+        {
+            for (int i = 0; i < processesWritten; i++)
+            {
+                Console.WriteLine(
+                    $"{processes[i].processId,-8}" +
+                    $"{processes[i].processName,-30}" +
+                    $"{processes[i].memoryUsage,12:F1}" +
+                    $"{processes[i].commitSize,12:F1}" +
+                    $"{processes[i].privateMemory,12:F1}" +
+                    $"{processes[i].threadsCount,8}"
+                );
+            }
+        }
+    }
+
     static void Main(string[] args)
     {
         getBasicStats();
+        getProcessesStats();
     }
 }

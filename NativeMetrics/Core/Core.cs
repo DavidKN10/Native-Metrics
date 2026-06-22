@@ -1,21 +1,27 @@
 using System;
 using System.Runtime.InteropServices;
 
+using NativeMetrics.Core.Models;
+
 namespace NativeMetrics.Core;
 
 public static class NativeMetricsCore
 {
-    private const string dll = "NativeMetrics_core.dll";
+    private const string NATIVE_METRICS_DLL = "NativeMetrics_core.dll";
 
-    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong getTotalMemory();
 
-    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong getAvailableMemory();
 
-    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong getApproxPercentInUse();
 
-    [DllImport(dll, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl)]
     public static extern double getCpuUsage();
+
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [return: MarshalAs(UnmanagedType.I1)]
+    public static extern bool getProcessList([Out] ProcessInfo[] buffer, int bufferSize, out int processesWritten);
 }
