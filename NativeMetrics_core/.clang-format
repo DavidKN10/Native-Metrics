@@ -1,0 +1,18 @@
+Language: Cpp
+
+AccessModifierOffset: -4
+AlignTralingComments: true
+AllowshortFunctionOnASingleLine: None
+BraceWrapping:
+	BeforeCatch: true
+	BeforeElse: true
+BreakBeforeBraces: Attach
+BreakConstructorInitializers: AfterColon
+ColumnLimit: 150
+IndentWidth: 4
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: All
+PointerAlignment: Right
+SortIncludes: true
+TabWidth: 4
+UseTab: Never

@@ -23,9 +23,9 @@
 #include <iphlpapi.h>
 
 // Native Metrics headers
+#include <NativeMetrics/Models/ProcessInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/ProcessInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
 #define NATIVEMETRICS_API __declspec(dllexport)
