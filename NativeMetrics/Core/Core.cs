@@ -24,4 +24,8 @@ public static class NativeMetricsCore
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
     public static extern bool getProcessList([Out] ProcessInfo[] buffer, int bufferSize, out int processesWritten);
+
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [return: MarshalAs(UnmanagedType.I1)]
+    public static extern bool getNetworkAdapterInfo([Out] NetworkAdapterInfo[] buffer, int bufferSize, out int adaptersWritten);
 }

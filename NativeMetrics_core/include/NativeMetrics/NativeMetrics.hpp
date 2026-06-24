@@ -1,7 +1,5 @@
 #pragma once
 
-// standard library headers
-#include <iostream>
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -12,7 +10,6 @@
 #include <wchar.h>
 #include <stdio.h>
 
-// Windows API headers
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <Windows.h>
@@ -23,9 +20,10 @@
 #include <iphlpapi.h>
 
 // Native Metrics headers
-#include <NativeMetrics/Models/ProcessInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
+#include <NativeMetrics/Models/ProcessInfo.hpp>
+#include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
 #define NATIVEMETRICS_API __declspec(dllexport)
@@ -36,7 +34,6 @@
 const u32 ONE_SEC = 1000;
 
 std::vector<ProcessInfo> collectProcesses();
-
 
 extern "C" {
 	// RAM stats
@@ -49,5 +46,7 @@ extern "C" {
 
 	// Process information
 	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
-}
 
+	// Network stats
+    NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
+}

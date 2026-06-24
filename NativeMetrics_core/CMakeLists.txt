@@ -12,10 +12,18 @@ set(HEADER_FILES
   "include/NativeMetrics/NativeMetrics.hpp"
   "include/NativeMetrics/Types.hpp"
   "include/NativeMetrics/Util.hpp"
+  "include/NativeMetrics/Models/ProcessInfo.hpp"
+  "include/NativeMetrics/Models/NetworkAdapterInfo.hpp"
 )
 
 add_library(NativeMetrics_core SHARED
 	${SOURCE_FILES}
+)
+
+target_link_libraries(NativeMetrics_core PRIVATE
+	Iphlpapi
+	Ws2_32
+	Psapi
 )
 
 target_include_directories(NativeMetrics_core PUBLIC

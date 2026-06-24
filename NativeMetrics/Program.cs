@@ -49,9 +49,37 @@ public class Program
         }
     }
 
+    public static void getNetworkStats()
+    {
+        var networkInfo = new NetworkAdapterInfo[200];
+
+        if (NativeMetricsCore.getNetworkAdapterInfo(networkInfo, networkInfo.Length, out int adaptersWritten))
+        {
+            for (int i = 0; i < adaptersWritten; i++)
+            {
+                if (networkInfo[i].alias.Equals("Ethernet"))
+                {
+                    Console.WriteLine(
+                    $"Alias: {networkInfo[i].alias}\n" +
+                    $"Locally Unique ID: {networkInfo[i].luid}\n" +
+                    $"Description: {networkInfo[i].description}\n" +
+                    $"Connected: {networkInfo[i].isConnected}\n" +
+                    $"Operational: {networkInfo[i].isOperational}\n" +
+                    $"Download Speed: {networkInfo[i].downloadBytesPerSec,0:F2} B/s\n" +
+                    $"Upload Speed: {networkInfo[i].uploadBytesPerSec,0:F2} B/s\n\n"
+                    );
+
+                }
+            }
+        }
+    }
+
     static void Main(string[] args)
     {
-        getBasicStats();
-        getProcessesStats();
+        while (true)
+        {
+            Thread.Sleep(1000);
+            getNetworkStats();
+        }
     }
 }
