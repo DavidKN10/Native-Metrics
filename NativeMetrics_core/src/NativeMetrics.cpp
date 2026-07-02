@@ -81,10 +81,15 @@ std::vector<NetworkAdapterInfo> collectNetworkAdapters() {
         for (u64 i = 0; i < table->NumEntries; i++) {
             const MIB_IF_ROW2 &currentRow = table->Table[i];
 
-            NetworkAdapterInfo currentAdapter{};
+			if (!isDisplayAdapter(currentRow)) {
+                continue;
+            }
+
+			NetworkAdapterInfo currentAdapter{};
             wcsncpy_s(currentAdapter.alias, currentRow.Alias, _TRUNCATE);
             wcsncpy_s(currentAdapter.description, currentRow.Description, _TRUNCATE);
             currentAdapter.luid = currentRow.InterfaceLuid.Value;
+            currentAdapter.type = currentRow.Type;
             currentAdapter.isConnected = currentRow.MediaConnectState == MediaConnectStateConnected;
             currentAdapter.isOperational = currentRow.OperStatus == IfOperStatusUp;
             currentAdapter.receiveLinkSpeedBits = currentRow.ReceiveLinkSpeed;
@@ -180,7 +185,7 @@ f64 getCpuUsage() {
 	return cpuUsage;
 }
 
-bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten) {
+bool getProcessList(ProcessInfo *buffer, i32 bufferSize, i32* processesWritten) {
 	if (!buffer || !processesWritten || bufferSize <= 0) {
 		return false;
 	}
@@ -197,7 +202,7 @@ bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten) 
 	return true;
 }
 
-bool getNetworkAdapterInfo(NetworkAdapterInfo *buffer, i32 bufferSize, i32* adaptersWritten) {
+bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten) {
     if (!buffer || !adaptersWritten || bufferSize <= 0) {
         return false;
     }

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <WS2tcpip.h>
+#include <ipifcons.h>
+#include <WinSock2.h>
 #include <Windows.h>
 #include <TlHelp32.h>
 #include <tchar.h>
@@ -21,6 +24,25 @@ u64 fileTimeToU64(const FILETIME& ft) {
 	u64 highDateTime = static_cast<u64>(ft.dwHighDateTime);
 	u64 result = (highDateTime << 32) | ft.dwLowDateTime;
 	return result;
+}
+
+bool isDisplayAdapter(const MIB_IF_ROW2& row) {
+    if (row.MediaConnectState != MediaConnectStateConnected) {
+        return false;
+    }
+
+	if (row.OperStatus != IfOperStatusUp) {
+        return false;
+    }
+
+	switch (row.Type) {
+        case IF_TYPE_ETHERNET_CSMACD:
+            return true;
+        case IF_TYPE_IEEE80211:
+            return true;
+        default:
+            return false;
+	}
 }
 
 void printError(TCHAR const* message) {

@@ -20,6 +20,7 @@ struct NetworkAdapterInfo {
     wchar_t description[CHAR_LENGTH_MAX] = {};
 
     u64 luid = 0;
+    u64 type = 0;
 
     bool isConnected = false;
     bool isOperational = false;

@@ -1,18 +1,21 @@
 Language: Cpp
+BasedOnStyle: LLVM
 
 AccessModifierOffset: -4
-AlignTrailingComments: true
-AllowShortFunctionsOnASingleLine: false
-BraceWrapping:
-  BeforeCatch: true
-  BeforeElse: true
+AllowShortFunctionsOnASingleLine: None 
+AllowShortIfStatementsOnASingleLine: Never
 BreakBeforeBraces: Attach
-BreakConstructorInitializers: AfterColon
+BreakConstructorInitializers: BeforeColon
 ColumnLimit: 150
+ConstructorInitializerIndentWidth: 4
+IndentCaseLabels: true
+IndentCaseBlocks: false
 IndentWidth: 4
+KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 1
-NamespaceIndentation: All
-PointerAlignment: Right
-SortIncludes: true
+NamespaceIndentation: None
+PackConstructorInitializers: Never
+PointerAlignment: Left 
+SpaceBeforeParens: ControlStatements
 TabWidth: 4
 UseTab: Never

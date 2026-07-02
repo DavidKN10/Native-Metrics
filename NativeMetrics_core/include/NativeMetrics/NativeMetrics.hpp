@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 #include <WS2tcpip.h>
+#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
 #include <intsafe.h>

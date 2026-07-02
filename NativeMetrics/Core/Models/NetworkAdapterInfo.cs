@@ -13,6 +13,7 @@ public struct NetworkAdapterInfo
     public string description;
 
     public ulong luid;
+    public ulong type;
 
     [MarshalAs(UnmanagedType.I1)]
     public bool isConnected;

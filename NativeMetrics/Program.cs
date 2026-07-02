@@ -57,19 +57,16 @@ public class Program
         {
             for (int i = 0; i < adaptersWritten; i++)
             {
-                if (networkInfo[i].alias.Equals("Ethernet"))
-                {
-                    Console.WriteLine(
+                Console.WriteLine(
                     $"Alias: {networkInfo[i].alias}\n" +
                     $"Locally Unique ID: {networkInfo[i].luid}\n" +
+                    $"Type: {networkInfo[i].type}\n"+
                     $"Description: {networkInfo[i].description}\n" +
                     $"Connected: {networkInfo[i].isConnected}\n" +
                     $"Operational: {networkInfo[i].isOperational}\n" +
                     $"Download Speed: {networkInfo[i].downloadBytesPerSec,0:F2} B/s\n" +
                     $"Upload Speed: {networkInfo[i].uploadBytesPerSec,0:F2} B/s\n\n"
-                    );
-
-                }
+                );
             }
         }
     }
