@@ -1,0 +1,19 @@
+{
+  "version": 7,
+  "configurePresets": [
+    {
+      "name": "config-ninja-debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "config-vs2026-debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Debug"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": 7,
+  "configurePresets": [
+    {
+      "name": "config-vs2026",
+      "hidden": true,
+      "generator": "Visual Studio 18 2026"
+    }
+  ]
+}

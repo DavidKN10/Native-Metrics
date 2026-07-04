@@ -31,7 +31,7 @@ std::vector<ProcessInfo> collectProcesses() {
 
 		u32 dwPriorityClass = 0;
 		HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pew32.th32ProcessID);
-		if (hProcess == NULL) {
+		if (hProcess == nullptr) {
 			printError(TEXT("OpenProcess"));
 		}
 		else {
@@ -47,7 +47,7 @@ std::vector<ProcessInfo> collectProcesses() {
 
 			PROCESS_MEMORY_COUNTERS_EX processMemory{};
 			bool processMemoryInfo = GetProcessMemoryInfo(hProcess, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&processMemory), sizeof(processMemory));
-			if (processMemoryInfo == NULL) {
+			if (!processMemoryInfo) {
 				printError(TEXT("GetProcessMemoryInfo"));
 			}
 			else {
@@ -193,7 +193,7 @@ bool getProcessList(ProcessInfo *buffer, i32 bufferSize, i32* processesWritten) 
 	auto processes = collectProcesses();
 
 	i32 count = static_cast<i32>(processes.size());
-	i32 toCopy = min(count, bufferSize);
+	i32 toCopy = std::min<i32>(count, bufferSize);
 
 	for (int i = 0; i < toCopy; i++) {
 		buffer[i] = processes[i];
@@ -210,7 +210,7 @@ bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adap
     auto networkAdapters = collectNetworkAdapters();
 
     i32 count = static_cast<i32>(networkAdapters.size());
-    i32 toCopy = min(count, bufferSize);
+    i32 toCopy = std::min<i32>(count, bufferSize);
 
     for (int i = 0; i < toCopy; i++) {
         buffer[i] = networkAdapters[i];

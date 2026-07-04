@@ -1,0 +1,99 @@
+{
+  "version": 7,
+  "include": [
+    "../compiler/msvc.json",
+    "../config/binaryDir.json",
+    "../config/debug.json",
+    "../config/ninja.json",
+    "../config/release.json",
+    "../config/vs2026.json"
+  ],
+  "configurePresets": [
+  {
+      "name": "x64-windows-msvc-debug",
+      "inherits": [
+        "compiler-msvc",
+        "config-binaryDir",
+        "config-vs2026",
+        "config-vs2026-debug"
+      ]
+    },
+    {
+      "name": "x64-windows-msvc-release",
+      "inherits": [
+        "compiler-msvc",
+        "config-binaryDir",
+        "config-vs2026-release",
+        "config-vs2026"
+      ]
+    },
+    {
+      "name": "x64-windows-ninja-debug",
+      "inherits": [
+        "compiler-msvc",
+        "config-binaryDir",
+        "config-ninja-debug",
+        "config-ninja"
+      ]
+    },
+    {
+      "name": "x64-windows-ninja-release",
+      "inherits": [
+        "compiler-msvc",
+        "config-binaryDir",
+        "config-ninja-release",
+        "config-ninja"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "x64-windows-msvc-debug",
+      "configurePreset": "x64-windows-msvc-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "x64-windows-msvc-release",
+      "configurePreset": "x64-windows-msvc-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "x64-windows-ninja-debug",
+      "configurePreset": "x64-windows-ninja-debug"
+    },
+    {
+      "name": "x64-windows-ninja-release",
+      "configurePreset": "x64-windows-ninja-release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "x64-windows-msvc-debug",
+      "configurePreset": "x64-windows-msvc-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "x64-windows-msvc-release",
+      "configurePreset": "x64-windows-msvc-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "x64-windows-ninja-debug",
+      "configurePreset": "x64-windows-ninja-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "x64-windows-ninja-release",
+      "configurePreset": "x64-windows-ninja-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

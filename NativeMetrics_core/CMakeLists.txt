@@ -3,6 +3,7 @@ project(NativeMetrics_core LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(SOURCE_FILES
   "src/NativeMetrics.cpp"
@@ -31,7 +32,3 @@ target_include_directories(NativeMetrics_core PUBLIC
 )
 
 target_compile_definitions(NativeMetrics_core PRIVATE NATIVEMETRICS_EXPORTS)
-
-if (MSVC)
-	target_compile_options(NativeMetrics_core PRIVATE /W4 /permissive-)
-endif()

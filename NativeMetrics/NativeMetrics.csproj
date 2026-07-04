@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
-		<Content Include="..\NativeMetrics_core\build\Release\NativeMetrics_core.dll">
+		<Content Include="..\NativeMetrics_core\build\x64-windows-msvc-release\NativeMetrics_core.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>	
 		</Content>
 	</ItemGroup>

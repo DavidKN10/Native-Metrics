@@ -1,0 +1,19 @@
+{
+  "version": 7,
+  "configurePresets": [
+    {
+      "name": "config-ninja-release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "config-vs2026-release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Release"
+      }
+    }
+  ]
+}

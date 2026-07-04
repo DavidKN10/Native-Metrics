@@ -9,6 +9,8 @@
 param(
     [switch]$Debug,
     [switch]$Release,
+    [switch]$Msvc,
+    [switch]$Ninja,
     [switch]$Clean
 )
 
@@ -36,10 +38,23 @@ if ($Debug) {
     }
 
     Write-Host "Creating debug build with CMake..."
+    
+    if ($Msvc) {
+        Set-Location $CoreDir; cmake --preset x64-windows-msvc-debug
+        Set-Location $CoreDir; cmake --build --preset x64-windows-msvc-debug     
+    }
+    elseif ($Ninja) {
+        Set-Location $CoreDir; cmake --preset x64-windows-ninja-debug
+        Set-Location $CoreDir; cmake --build --preset x64-windows-ninja-debug
+    }
+    else {
+        Set-Location $CoreDir; cmake --preset x64-windows-msvc-debug
+        Set-Location $CoreDir; cmake --build --preset x64-windows-msvc-debug
+    }
+    
 
-    cmake -S $CoreDir -B $BuildDir
-    cmake --build $BuildDir --config Debug
-
+    Set-Location "..\"
+   
     Write-Host "Done."
 }
 elseif ($Release) {
@@ -57,9 +72,21 @@ elseif ($Release) {
 
     Write-Host "Creating release build with CMake..."
 
-    cmake -S $CoreDir -B $BuildDir
-    cmake --build $BuildDir --config Release
+    if ($Msvc) {
+        Set-Location $CoreDir; cmake --preset x64-windows-msvc-release
+        Set-Location $CoreDir; cmake --build --preset x64-windows-msvc-release     
+    }
+    elseif ($Ninja) {
+        Set-Location $CoreDir; cmake --preset x64-windows-ninja-release
+        Set-Location $CoreDir; cmake --build --preset x64-windows-ninja-release
+    }
+    else {
+        Set-Location $CoreDir; cmake --preset x64-windows-msvc-release
+        Set-Location $CoreDir; cmake --build --preset x64-windows-msvc-release
+    }
 
+    Set-Location "..\"
+    
     Write-Host "Done."
 }
 else {
@@ -77,9 +104,11 @@ else {
     
     Write-Host "Build type not specified."
     Write-Host "Creating release build with CMake..."
-     
-    cmake -S $CoreDir -B $BuildDir
-    cmake --build $BuildDir --config Release
+
+    Set-Location $CoreDir; cmake --preset x64-windows-msvc-release
+    Set-Location $CoreDir; cmake --build --preset x64-windows-msvc-release
+
+    Set-Location "..\"
 
     Write-Host "Done."
 }
