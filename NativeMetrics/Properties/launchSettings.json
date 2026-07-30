@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NativeMetrics (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "NativeMetrics (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

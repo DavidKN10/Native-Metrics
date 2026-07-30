@@ -1,11 +1,15 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
-using NativeMetrics.Core.Models;
+using NativeMetrics.Services.Models;
 
-namespace NativeMetrics.Core;
+namespace NativeMetrics.Services;
 
-public static class NativeMetricsCore
+public static class NativeMetricsService
 {
     private const string NATIVE_METRICS_DLL = "NativeMetrics_core.dll";
 
@@ -28,6 +32,4 @@ public static class NativeMetricsCore
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
     public static extern bool getNetworkAdapterInfo([Out] NetworkAdapterInfo[] buffer, int bufferSize, out int adaptersWritten);
-
-
 }
