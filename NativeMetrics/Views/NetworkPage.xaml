@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="NativeMetrics.Views.PerformancePage"
+    x:Class="NativeMetrics.Views.NetworkPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NativeMetrics.Views"
@@ -9,6 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock Text="Performance Page Test"/>
+        <TextBlock Text="Network Page Test"/>
     </Grid>
 </Page>

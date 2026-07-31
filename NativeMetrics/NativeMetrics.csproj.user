@@ -11,6 +11,15 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\NetworkPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ProcessesPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\PerformancePage.xaml">
       <SubType>Designer</SubType>
     </Page>
