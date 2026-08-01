@@ -40,7 +40,11 @@ namespace NativeMetrics
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.SelectedItemContainer is NavigationViewItem item)
+            if (args.IsSettingsSelected is true)
+            {
+                ContentFrame.Navigate(typeof(SettingsPage)); 
+            }
+            else if (args.SelectedItemContainer is NavigationViewItem item)
             {
                 switch(item.Tag?.ToString())
                 {
