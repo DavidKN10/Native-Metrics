@@ -1,3 +1,4 @@
+using NativeMetrics.Services.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -7,6 +8,8 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -26,8 +29,7 @@ namespace NativeMetrics.Views
         public ProcessesPage()
         {
             InitializeComponent();
-            TextBlock tb1 = new TextBlock();
-            tb1.Text = "Processes Page Test";
         }
+
     }
 }
