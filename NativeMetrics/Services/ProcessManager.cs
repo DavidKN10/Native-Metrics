@@ -28,7 +28,7 @@ class ProcessManager
 
     private ProcessInfo[] RetrieveProcessSnapshot()
     {
-        ProcessInfo[] processList = new ProcessInfo[200];
+        ProcessInfo[] processList = new ProcessInfo[256];
 
         NativeMetricsService.getProcessList(processList, processList.Length, out int processesWritten);
 
@@ -41,12 +41,19 @@ class ProcessManager
  
         foreach(ProcessInfo process in snapshot)
         {
-            // update process in Dictionary
+            // update process in Dictionary and ObservableCollection
             if (processLookup.ContainsKey(process.processId))
             {
                 processLookup[process.processId].ThreadsCount = process.threadsCount;
                 processLookup[process.processId].MemoryUsage = process.memoryUsage;
                 processLookup[process.processId].PrivateMemory = process.privateMemory;
+
+                ProcessesViewModel? processToUpdate = Processes.FirstOrDefault(x => x.ProcessId == process.processId);
+                if (processToUpdate != null)
+                {
+                    processToUpdate.Update(process);
+                }
+                
             }
             // add new process to Dictionary and ObservableCollection
             else
@@ -64,7 +71,7 @@ class ProcessManager
             {
                 processLookup.Remove(processId);
 
-                ProcessesViewModel processToRemove = Processes.FirstOrDefault(x => x.ProcessId == processId);
+                ProcessesViewModel? processToRemove = Processes.FirstOrDefault(x => x.ProcessId == processId);
                 if (processToRemove != null)
                 {
                     Processes.Remove(processToRemove);
@@ -83,5 +90,4 @@ class ProcessManager
         }
         return processIds;
     }
-
 }
