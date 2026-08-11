@@ -11,28 +11,29 @@ using System.Threading.Tasks;
 
 namespace NativeMetrics.Services;
 
-class ProcessManager
+public class ProcessManager
 {
     public ObservableCollection<ProcessesViewModel> Processes { get; } = new();
 
     private readonly Dictionary<uint, ProcessesViewModel> processLookup = new Dictionary<uint, ProcessesViewModel>();
 
-    public Task RefreshAsync()
+    public async Task RefreshAsync()
     {
         ProcessInfo[] newProcesses = RetrieveProcessSnapshot();
 
         Synchronize(newProcesses);
-
-        return Task.CompletedTask;
     }
 
     private ProcessInfo[] RetrieveProcessSnapshot()
     {
-        ProcessInfo[] processList = new ProcessInfo[256];
+        ProcessInfo[] processList = new ProcessInfo[1024];
+        
+        if (!NativeMetricsService.getProcessList(processList, processList.Length, out int processesWritten))
+        {
+            return Array.Empty<ProcessInfo>();
+        }
 
-        NativeMetricsService.getProcessList(processList, processList.Length, out int processesWritten);
-
-        return processList;
+        return processList.Take(processesWritten).ToArray();
     }
     
     private void Synchronize(ProcessInfo[] snapshot)
@@ -64,7 +65,7 @@ class ProcessManager
             }
         }
 
-        // remove exited processes in 
+        // remove exited processes in Dictionary and ObservableCollection
         foreach (var (processId, process) in processLookup)
         {
             if (!snapshotProcessIds.Contains(processId))
@@ -78,7 +79,6 @@ class ProcessManager
                 }
             }
         }         
-        
     }
 
     private HashSet<uint> BuildSnapshotPidSet(ProcessInfo[] snapshot)

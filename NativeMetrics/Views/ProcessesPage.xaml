@@ -6,9 +6,25 @@
     xmlns:local="using:NativeMetrics.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tv="using:WinUI.TableView"
     mc:Ignorable="d">
-
+    
     <Grid>
-        <TextBlock Text="Processes Page Test"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <tv:TableView ItemsSource="{x:Bind _processManager.Processes}" AutoGenerateColumns="False">
+            <tv:TableView.Columns>
+                <tv:TableViewTextColumn Header="Name" Binding="{Binding ProcessName}" />
+                <tv:TableViewNumberColumn Header="ID" Binding="{Binding ProcessId}" />
+                <tv:TableViewNumberColumn Header="Threads" Binding="{Binding ThreadsCount}" />
+                <tv:TableViewNumberColumn Header="Parent ID" Binding="{Binding ParentProcessId}" />
+                <tv:TableViewNumberColumn Header="Usage" Binding="{Binding MemoryUsage}" />
+                <tv:TableViewNumberColumn Header="Commit" Binding="{Binding CommitSize}" />
+                <tv:TableViewNumberColumn Header="Private" Binding="{Binding PrivateMemory}" />
+            </tv:TableView.Columns> 
+        </tv:TableView>
     </Grid>
 </Page>

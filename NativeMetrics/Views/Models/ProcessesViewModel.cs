@@ -12,14 +12,14 @@ namespace NativeMetrics.Views.Models;
 public class ProcessesViewModel : INotifyPropertyChanged
 {
     public string? ProcessName { get; }
-    public uint ProcessId {  get; }
+    public uint ProcessId { get; }
     public uint ParentProcessId { get; }
     public int PriorityClassBase { get; }
     public uint PriorityClass { get; }
     public double CommitSize { get; }
     public double MemoryUsage { get; set; }
-    public uint ThreadsCount { get; set;  }
-    public double PrivateMemory {  get; set; }
+    public uint ThreadsCount { get; set; }
+    public double PrivateMemory { get; set; }
 
     public ProcessesViewModel(ProcessInfo process) 
     {
