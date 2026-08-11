@@ -24,7 +24,7 @@ std::vector<ProcessInfo> collectProcesses() {
 	do {
 		ProcessInfo currentProcess{};
 		wcsncpy_s(currentProcess.processName, pew32.szExeFile, _TRUNCATE);
-		currentProcess.parentProcessId = pew32.th32ProcessID;
+		currentProcess.processId = pew32.th32ProcessID;
 		currentProcess.threadsCount = pew32.cntThreads;
 		currentProcess.parentProcessId = pew32.th32ParentProcessID;
 		currentProcess.priorityClassBase = pew32.pcPriClassBase;
