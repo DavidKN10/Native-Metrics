@@ -14,16 +14,31 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
+        <tv:TableView 
+            Grid.Row="1"
+            ItemsSource="{x:Bind _processManager.Processes}" 
+            AutoGenerateColumns="False" 
+            IsReadOnly="True" 
+            HeadersVisibility="Columns"
+            SelectionUnit="Row"
+            SelectionMode="Single"
+            GridLinesVisibility="Vertical">
 
-        <tv:TableView ItemsSource="{x:Bind _processManager.Processes}" AutoGenerateColumns="False">
+            <tv:TableView.CellStyle>
+                <Style TargetType="tv:TableViewCell">
+                    <Setter Property="FontSize" Value="12"/>
+                </Style>
+            </tv:TableView.CellStyle>
+             
             <tv:TableView.Columns>
-                <tv:TableViewTextColumn Header="Name" Binding="{Binding ProcessName}" />
-                <tv:TableViewNumberColumn Header="ID" Binding="{Binding ProcessId}" />
-                <tv:TableViewNumberColumn Header="Threads" Binding="{Binding ThreadsCount}" />
-                <tv:TableViewNumberColumn Header="Parent ID" Binding="{Binding ParentProcessId}" />
-                <tv:TableViewNumberColumn Header="Usage" Binding="{Binding MemoryUsage}" />
-                <tv:TableViewNumberColumn Header="Commit" Binding="{Binding CommitSize}" />
-                <tv:TableViewNumberColumn Header="Private" Binding="{Binding PrivateMemory}" />
+                <tv:TableViewTextColumn Header="Name" Binding="{Binding ProcessName}" Width="250" />
+                <tv:TableViewNumberColumn Header="ID" Binding="{Binding ProcessId}" Width="80" />
+                <tv:TableViewNumberColumn Header="Threads" Binding="{Binding ThreadsCount}" Width="90" />
+                <tv:TableViewNumberColumn Header="Parent ID" Binding="{Binding ParentProcessId}" Width="95" />
+                <tv:TableViewNumberColumn Header="Usage" Binding="{Binding MemoryUsage}" Width="100" />
+                <tv:TableViewNumberColumn Header="Commit" Binding="{Binding CommitSize}" Width="100" />
+                <tv:TableViewNumberColumn Header="Private" Binding="{Binding PrivateMemory}" Width="100" />
             </tv:TableView.Columns> 
         </tv:TableView>
     </Grid>
