@@ -11,27 +11,49 @@ namespace NativeMetrics.Views.Models;
 
 public class ProcessesViewModel : INotifyPropertyChanged
 {
-    public string? ProcessName { get; }
-    public uint ProcessId { get; }
-    public uint ParentProcessId { get; }
-    public int PriorityClassBase { get; }
-    public uint PriorityClass { get; }
-    public double CommitSize { get; }
-    public double MemoryUsage { get; set; }
-    public uint ThreadsCount { get; set; }
-    public double PrivateMemory { get; set; }
+    private string? _processName;
+    private uint _processId;
+    private uint _parentProcessId;
+    private int _priorityClassBase;
+    private uint _priorityClass;
+    private double _commitSize;
+    private double _memoryUsage;
+    private uint _threadsCount;
+    private double _privateMemory;
+
+    public string? ProcessName { get { return _processName; } }
+    public uint ProcessId { get { return _processId; } }
+    public uint ParentProcessId { get { return _parentProcessId; } }
+    public int PriorityClassBase { get { return _priorityClassBase; } }
+    public uint PriorityClass { get { return _priorityClass; } }
+    public double CommitSize { get { return _commitSize; } }
+
+    public double MemoryUsage { 
+        get {  return _memoryUsage; } 
+        set { _memoryUsage = value; } 
+    }
+
+    public uint ThreadsCount {
+        get { return _threadsCount; } 
+        set { _threadsCount = value; }
+    }
+
+    public double PrivateMemory { 
+        get { return _privateMemory; } 
+        set { _privateMemory = value; }
+    }
 
     public ProcessesViewModel(ProcessInfo process) 
     {
-        ProcessName = process.processName;
-        ProcessId = process.processId;
-        ThreadsCount = process.threadsCount;
-        ParentProcessId = process.parentProcessId;
-        PriorityClassBase = process.priorityClassBase;
-        PriorityClass = process.priorityClass;
-        MemoryUsage = process.memoryUsage;
-        CommitSize = process.commitSize;
-        PrivateMemory = process.privateMemory;
+        _processName = process.processName;
+        _processId = process.processId;
+        _threadsCount = process.threadsCount;
+        _parentProcessId = process.parentProcessId;
+        _priorityClassBase = process.priorityClassBase;
+        _priorityClass = process.priorityClass;
+        _memoryUsage = process.memoryUsage;
+        _commitSize = process.commitSize;
+        _privateMemory = process.privateMemory;
     }
 
     public void Update(ProcessInfo process)
