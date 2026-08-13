@@ -27,18 +27,81 @@
 
             <tv:TableView.CellStyle>
                 <Style TargetType="tv:TableViewCell">
-                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontSize" Value="12" />
                 </Style>
             </tv:TableView.CellStyle>
              
             <tv:TableView.Columns>
                 <tv:TableViewTextColumn Header="Name" Binding="{Binding ProcessName}" Width="250" />
-                <tv:TableViewNumberColumn Header="ID" Binding="{Binding ProcessId}" Width="80" />
-                <tv:TableViewNumberColumn Header="Threads" Binding="{Binding ThreadsCount}" Width="90" />
-                <tv:TableViewNumberColumn Header="Parent ID" Binding="{Binding ParentProcessId}" Width="95" />
-                <tv:TableViewNumberColumn Header="Usage" Binding="{Binding MemoryUsage}" Width="100" />
-                <tv:TableViewNumberColumn Header="Commit" Binding="{Binding CommitSize}" Width="100" />
-                <tv:TableViewNumberColumn Header="Private" Binding="{Binding PrivateMemory}" Width="100" />
+                <tv:TableViewTextColumn Header="ID" Binding="{Binding ProcessId}" Width="80" />
+                <tv:TableViewTextColumn Header="Threads" Binding="{Binding ThreadsCount}" Width="90" />
+                <tv:TableViewTextColumn Header="Parent ID" Binding="{Binding ParentProcessId}" Width="95" />
+                
+                <tv:TableViewTemplateColumn Header="Usage" Width="100">
+                    <tv:TableViewTemplateColumn.HeaderStyle>
+                        <Style TargetType="tv:TableViewColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style> 
+                    </tv:TableViewTemplateColumn.HeaderStyle>
+                    <tv:TableViewTemplateColumn.CellStyle>
+                        <Style TargetType="tv:TableViewCell">
+                            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                            <Setter Property="Padding" Value="5,0"/>
+                        </Style>
+                    </tv:TableViewTemplateColumn.CellStyle>
+                    <tv:TableViewTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding MemoryUsage}"/>
+                                <TextBlock Text=" MB"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </tv:TableViewTemplateColumn.CellTemplate> 
+                </tv:TableViewTemplateColumn>
+
+                <tv:TableViewTemplateColumn Header="Commit" Width="100">
+                    <tv:TableViewTemplateColumn.HeaderStyle>
+                        <Style TargetType="tv:TableViewColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style> 
+                    </tv:TableViewTemplateColumn.HeaderStyle>
+                    <tv:TableViewTemplateColumn.CellStyle>
+                        <Style TargetType="tv:TableViewCell">
+                            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                            <Setter Property="Padding" Value="5,0"/>
+                        </Style>
+                    </tv:TableViewTemplateColumn.CellStyle>
+                    <tv:TableViewTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CommitSize}"/>
+                                <TextBlock Text=" MB"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </tv:TableViewTemplateColumn.CellTemplate>
+                </tv:TableViewTemplateColumn>
+
+                <tv:TableViewTemplateColumn Header="Private" Width="100">
+                    <tv:TableViewTemplateColumn.HeaderStyle>
+                        <Style TargetType="tv:TableViewColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </tv:TableViewTemplateColumn.HeaderStyle>
+                    <tv:TableViewTemplateColumn.CellStyle>
+                        <Style TargetType="tv:TableViewCell">
+                            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                            <Setter Property="Padding" Value="5,0"/>
+                        </Style>
+                    </tv:TableViewTemplateColumn.CellStyle>
+                    <tv:TableViewTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding PrivateMemory}"/>
+                                <TextBlock Text=" MB"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </tv:TableViewTemplateColumn.CellTemplate>
+                </tv:TableViewTemplateColumn>
             </tv:TableView.Columns> 
         </tv:TableView>
     </Grid>
