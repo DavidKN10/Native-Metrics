@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace NativeMetrics.Services;
 
-class UpdateService
+class ProcessesUpdateService
 {
     private readonly DispatcherTimer _updateTimer = new();
     private readonly ProcessManager _processManager;
 
     // performance and network managers will be placed here
 
-    public UpdateService(ProcessManager processManager)
+    public ProcessesUpdateService(ProcessManager processManager)
     {
         _processManager = processManager;
         InitializeTimer();

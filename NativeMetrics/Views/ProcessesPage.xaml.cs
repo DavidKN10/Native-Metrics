@@ -28,13 +28,13 @@ namespace NativeMetrics.Views
     public sealed partial class ProcessesPage : Page
     {
         private ProcessManager _processManager;
-        private UpdateService _updateService;
+        private ProcessesUpdateService _updateService;
 
         public ProcessesPage()
         {
             InitializeComponent();
             _processManager = new ProcessManager();
-            _updateService = new UpdateService(_processManager);
+            _updateService = new ProcessesUpdateService(_processManager);
 
             this.Loaded += ProcessesPage_Loaded;
             this.Unloaded += ProcessPage_Unloaded;
