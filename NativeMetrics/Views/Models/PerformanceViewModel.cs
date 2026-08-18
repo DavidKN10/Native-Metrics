@@ -17,22 +17,22 @@ public class PerformanceViewModel : INotifyPropertyChanged
 
     public ulong TotalMemory { 
         get { return _totalMemory; } 
-        set { _totalMemory = value; }
+        set { _totalMemory = value; OnPropertyChanged(); }
     }
 
     public ulong AvailableMemory { 
         get { return _availableMemory; }
-        set { _availableMemory = value; }
+        set { _availableMemory = value; OnPropertyChanged(); }
     }
 
     public ulong ApproxMemPercent { 
         get { return _aprroxMemPercent; }
-        set {_aprroxMemPercent = value; }
+        set {_aprroxMemPercent = value; OnPropertyChanged(); }
     }
 
     public double CpuUsage { 
         get { return _cpuUsage; } 
-        set { _cpuUsage = value; }
+        set { _cpuUsage = value; OnPropertyChanged(); }
     }
 
     public PerformanceViewModel()
@@ -43,17 +43,6 @@ public class PerformanceViewModel : INotifyPropertyChanged
         _cpuUsage = 0.0;
     }
 
-    public PerformanceViewModel(
-        ulong totalMemory, 
-        ulong availableMemory, 
-        ulong approxMemPercent, 
-        double cpuUsage)
-    {
-        _totalMemory = totalMemory;
-        _availableMemory = availableMemory;
-        _aprroxMemPercent = approxMemPercent;
-        _cpuUsage = cpuUsage;
-    }
 
     public void Update(
         ulong totalMemory, 
@@ -65,7 +54,6 @@ public class PerformanceViewModel : INotifyPropertyChanged
         AvailableMemory = availableMemory;
         ApproxMemPercent = approxMemPercent;
         CpuUsage = cpuUsage;
-        OnPropertyChanged();
     }
  
     public event PropertyChangedEventHandler? PropertyChanged;

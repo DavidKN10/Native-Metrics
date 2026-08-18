@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NativeMetrics.Services;
 
-class PerformanceManager
+public class PerformanceManager
 {
     public PerformanceViewModel PerformanceStats = new();
     
@@ -23,9 +23,6 @@ class PerformanceManager
     
     private void Synchronize(ulong totalMemory, ulong availableMemory, ulong approxMemPercent, double cpuUsage)
     {
-        PerformanceStats.TotalMemory = totalMemory;
-        PerformanceStats.AvailableMemory = availableMemory;
-        PerformanceStats.ApproxMemPercent = approxMemPercent;
-        PerformanceStats.CpuUsage = cpuUsage;
+        PerformanceStats.Update(totalMemory, availableMemory, approxMemPercent, cpuUsage); 
     }
 }

@@ -9,6 +9,14 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock Text="Performance Page Test"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+         
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{x:Bind _performanceManager.PerformanceStats.AvailableMemory , Mode=OneWay}"/>
+            <TextBlock Text=" GB"/>
+        </StackPanel>  
     </Grid>
 </Page>
