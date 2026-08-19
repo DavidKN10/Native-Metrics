@@ -31,8 +31,8 @@ std::vector<ProcessInfo> collectProcesses() {
 
 		u32 dwPriorityClass = 0;
 		HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pew32.th32ProcessID);
-		if (hProcess == nullptr) {
-			printError(TEXT("OpenProcess"));
+		if (hProcess == nullptr) {	// ignore the system idle process
+            continue;
 		}
 		else {
 			dwPriorityClass = GetPriorityClass(hProcess);
@@ -59,8 +59,9 @@ std::vector<ProcessInfo> collectProcesses() {
 				currentProcess.commitSize = static_cast<f64>(commitSizeInt);
 				currentProcess.privateMemory = static_cast<f64>(privateMemoryInt);
 			}
+
+			processes.push_back(currentProcess);
 		}
-		processes.push_back(currentProcess);
 	} 
 	while (Process32NextW(hProcessSnap, &pew32));
 
