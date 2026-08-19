@@ -30,17 +30,17 @@ public class ProcessesViewModel : INotifyPropertyChanged
 
     public double MemoryUsage { 
         get {  return _memoryUsage; } 
-        set { _memoryUsage = value; } 
+        set { _memoryUsage = value; OnPropertyChanged(); } 
     }
 
     public uint ThreadsCount {
         get { return _threadsCount; } 
-        set { _threadsCount = value; }
+        set { _threadsCount = value; OnPropertyChanged(); }
     }
 
     public double PrivateMemory { 
         get { return _privateMemory; } 
-        set { _privateMemory = value; }
+        set { _privateMemory = value; OnPropertyChanged(); }
     }
 
     public ProcessesViewModel(ProcessInfo process) 
@@ -61,7 +61,6 @@ public class ProcessesViewModel : INotifyPropertyChanged
         ThreadsCount = process.threadsCount;
         MemoryUsage = process.memoryUsage;
         PrivateMemory = process.privateMemory;
-        OnPropertyChanged();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

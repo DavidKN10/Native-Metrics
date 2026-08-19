@@ -11,7 +11,7 @@ void testPerformanceStats() {
     std::cout << "Total memory: " << totalMemory << " GB" << std::endl;
     std::cout << "Available memory: " << availableMemory << " GB" << std::endl;
     std::cout << "Percent of memory in use: " << percentInUse << " %" << std::endl;
-    std::cout << "CPU Usage: " << cpuUsage << " GB" << std::endl;
+    std::cout << "CPU Usage: " << cpuUsage << " GB" << std::endl << std::endl;
 }
 
 void testProcesses() {
