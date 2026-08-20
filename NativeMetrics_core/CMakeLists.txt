@@ -31,12 +31,28 @@ target_include_directories(NativeMetrics_core PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-add_executable(NativeMetricsTest
-  "tests/main.cpp"
+add_executable(CpuTest
+  "tests/CpuTest.cpp"
 )
 
-target_link_libraries(NativeMetricsTest PRIVATE
+target_link_libraries(CpuTest PRIVATE
   NativeMetrics_core
+)
+
+add_executable(ProcessTest	
+	"tests/ProcessTest.cpp"
+)
+
+target_link_libraries(ProcessTest PRIVATE
+	NativeMetrics_core
+)
+
+add_executable(NetworkTest
+	"tests/NetworkTest.cpp"
+)
+
+target_link_libraries(NetworkTest PRIVATE
+	NativeMetrics_core
 )
 
 target_compile_definitions(NativeMetrics_core PRIVATE NATIVEMETRICS_EXPORTS)
