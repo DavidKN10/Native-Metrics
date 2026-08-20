@@ -37,6 +37,8 @@ const u32 ONE_SEC = 1000;
 
 std::vector<ProcessInfo> collectProcesses();
 
+std::vector<NetworkAdapterInfo> collectNetworkAdapters();
+
 extern "C" {
 	// RAM stats
 	NATIVEMETRICS_API u64 getTotalMemory();
