@@ -32,7 +32,17 @@
             </tv:TableView.CellStyle>
              
             <tv:TableView.Columns>
-                <tv:TableViewTextColumn Header="Name" Binding="{Binding ProcessName}" Width="250" />
+                <tv:TableViewTemplateColumn Header="Name" Width="250">
+                    <tv:TableViewTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Padding="5,0">
+                                <Image Source="{Binding IconSource}" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ProcessName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </tv:TableViewTemplateColumn.CellTemplate> 
+                </tv:TableViewTemplateColumn> 
+                
                 <tv:TableViewTextColumn Header="ID" Binding="{Binding ProcessId}" Width="80" />
                 <tv:TableViewTextColumn Header="Threads" Binding="{Binding ThreadsCount}" Width="90" />
                 <tv:TableViewTextColumn Header="Parent ID" Binding="{Binding ParentProcessId}" Width="95" />

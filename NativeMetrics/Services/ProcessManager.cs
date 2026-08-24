@@ -59,9 +59,11 @@ public class ProcessManager
             // add new process to Dictionary and ObservableCollection
             else
             {
-                processLookup.Add(process.processId, new ProcessesViewModel(process));
+                ProcessesViewModel newProcess = new ProcessesViewModel(process);
+                processLookup.Add(process.processId, newProcess);
+                Processes.Add(newProcess);
 
-                Processes.Add(new ProcessesViewModel(process));
+                _ = LoadIconAsync(newProcess);
             }
         }
 
@@ -89,5 +91,11 @@ public class ProcessManager
             processIds.Add(process.processId);
         }
         return processIds;
+    }
+
+    private async Task LoadIconAsync(ProcessesViewModel process)
+    {
+        var icon = await ExeHelper.GetIconAsync(process.ProcessPath);
+        process.IconSource = icon;
     }
 }

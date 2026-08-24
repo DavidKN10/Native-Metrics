@@ -13,6 +13,9 @@ public struct ProcessInfo
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
     public string processName;
 
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
+    public string processPath;
+
     public uint processId;
     public uint threadsCount;
     public uint parentProcessId;

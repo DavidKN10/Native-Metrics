@@ -1,4 +1,6 @@
-﻿using NativeMetrics.Services.Models;
+﻿using Microsoft.UI.Xaml.Media.Imaging;
+using NativeMetrics.Services;
+using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +14,7 @@ namespace NativeMetrics.Views.Models;
 public class ProcessesViewModel : INotifyPropertyChanged
 {
     private string? _processName;
+    private string? _processPath;
     private uint _processId;
     private uint _parentProcessId;
     private int _priorityClassBase;
@@ -20,8 +23,10 @@ public class ProcessesViewModel : INotifyPropertyChanged
     private double _memoryUsage;
     private uint _threadsCount;
     private double _privateMemory;
+    private SoftwareBitmapSource? _iconSource;
 
     public string? ProcessName { get { return _processName; } }
+    public string? ProcessPath { get { return _processPath; } }
     public uint ProcessId { get { return _processId; } }
     public uint ParentProcessId { get { return _parentProcessId; } }
     public int PriorityClassBase { get { return _priorityClassBase; } }
@@ -43,9 +48,15 @@ public class ProcessesViewModel : INotifyPropertyChanged
         set { _privateMemory = value; OnPropertyChanged(); }
     }
 
+    public SoftwareBitmapSource? IconSource { 
+        get { return _iconSource; } 
+        set { _iconSource = value; OnPropertyChanged(); }
+    }
+
     public ProcessesViewModel(ProcessInfo process) 
     {
         _processName = process.processName;
+        _processPath = process.processPath;
         _processId = process.processId;
         _threadsCount = process.threadsCount;
         _parentProcessId = process.parentProcessId;
