@@ -1,8 +1,9 @@
 #pragma once
 
-#include <cstdint>
 #include <chrono>
+#include <cstdint>
 #include <unordered_map>
+
 #include <NativeMetrics/Types.hpp>
 
 constexpr int CHAR_LENGTH_MAX = 260;

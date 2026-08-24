@@ -81,7 +81,7 @@ std::vector<ProcessInfo> collectProcesses() {
 
 	// walk the snapshot of processes, collect info,
 	// and add to processes vector
-	do {
+	while (Process32NextW(hProcessSnap, &pew32)) {
 		// skip system idle process
         if (pew32.th32ProcessID == 0) {
             continue;    
@@ -100,23 +100,31 @@ std::vector<ProcessInfo> collectProcesses() {
 			processes.push_back(currentProcess);
             continue; 
 		}
+        
+        // get process exe path if available
+        wchar_t exePath[PROCESS_PATH_LENGTH];
+        DWORD bufferSize = PROCESS_PATH_LENGTH;
+        
+        if (QueryFullProcessImageNameW(hProcess, 0, exePath, &bufferSize)) {
+            wcsncpy_s(currentProcess.processPath, exePath, _TRUNCATE); 
+        } 
 
+        // get process memory info
 		PROCESS_MEMORY_COUNTERS_EX processMemory{};
 		bool processMemoryInfo = GetProcessMemoryInfo(hProcess, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&processMemory), sizeof(processMemory));
         if (processMemoryInfo) {
-			u64 memoryUsageInt = bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
-			u64 commitSizeInt = bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
-			u64 privateMemoryInt = bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
+            u64 memoryUsageInt = bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
+            u64 commitSizeInt = bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
+            u64 privateMemoryInt = bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
 
-			currentProcess.memoryUsage = static_cast<f64>(memoryUsageInt);
-			currentProcess.commitSize = static_cast<f64>(commitSizeInt);
-			currentProcess.privateMemory = static_cast<f64>(privateMemoryInt);       
-		}	
+            currentProcess.memoryUsage = static_cast<f64>(memoryUsageInt);
+            currentProcess.commitSize = static_cast<f64>(commitSizeInt);
+            currentProcess.privateMemory = static_cast<f64>(privateMemoryInt);
+        }
 
         CloseHandle(hProcess);
 		processes.push_back(currentProcess);
 	} 
-	while (Process32NextW(hProcessSnap, &pew32));
 
 	CloseHandle(hProcessSnap);
 	return processes;

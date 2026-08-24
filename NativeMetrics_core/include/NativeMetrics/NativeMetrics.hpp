@@ -1,16 +1,18 @@
 #pragma once
 
+// C++ standard library
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
-#include <string>
-#include <iostream>
-#include <vector>
-#include <tchar.h>
 #include <cwchar>
-#include <wchar.h>
+#include <iostream>
 #include <stdio.h>
+#include <string>
+#include <tchar.h>
+#include <vector>
+#include <wchar.h>
 
+// Windows API
 #include <WS2tcpip.h>
 #include <ipifcons.h>
 #include <WinSock2.h>
@@ -21,7 +23,7 @@
 #include <Psapi.h>
 #include <iphlpapi.h>
 
-// Native Metrics headers
+// Native Metrics library  
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>

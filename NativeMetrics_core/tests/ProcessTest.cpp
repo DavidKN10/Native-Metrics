@@ -1,6 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+
 #include <NativeMetrics/NativeMetrics.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
@@ -16,6 +17,9 @@ void testProcesses() {
             std::wcout << L"PID: " << process.processId << std::endl;
             std::wcout << L"Threads: " << process.threadsCount << std::endl;
             std::wcout << L"Memory Usage (MB): " << process.memoryUsage << std::endl;
+            if (process.processPath) {
+                std::wcout << L"Exe path: " << process.processPath << std::endl; 
+            }
             std::cout << std::endl;
         }
     } else {
