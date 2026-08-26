@@ -32,7 +32,7 @@
             </tv:TableView.CellStyle>
              
             <tv:TableView.Columns>
-                <tv:TableViewTemplateColumn Header="Name" Width="250">
+                <tv:TableViewTemplateColumn Header="Name" Width="250" CanSort="True" SortMemberPath="ProcessName" CanFilter="True">
                     <tv:TableViewTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Padding="5,0">
@@ -47,7 +47,7 @@
                 <tv:TableViewTextColumn Header="Threads" Binding="{Binding ThreadsCount}" Width="90" />
                 <tv:TableViewTextColumn Header="Parent ID" Binding="{Binding ParentProcessId}" Width="95" />
                 
-                <tv:TableViewTemplateColumn Header="Usage" Width="100">
+                <tv:TableViewTemplateColumn Header="Usage" Width="100" CanSort="True" SortMemberPath="MemoryUsage" CanFilter="True">
                     <tv:TableViewTemplateColumn.HeaderStyle>
                         <Style TargetType="tv:TableViewColumnHeader">
                             <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -69,7 +69,7 @@
                     </tv:TableViewTemplateColumn.CellTemplate> 
                 </tv:TableViewTemplateColumn>
 
-                <tv:TableViewTemplateColumn Header="Commit" Width="100">
+                <tv:TableViewTemplateColumn Header="Commit" Width="100" CanSort="True" SortMemberPath="CommitSize" CanFilter="True">
                     <tv:TableViewTemplateColumn.HeaderStyle>
                         <Style TargetType="tv:TableViewColumnHeader">
                             <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -91,7 +91,7 @@
                     </tv:TableViewTemplateColumn.CellTemplate>
                 </tv:TableViewTemplateColumn>
 
-                <tv:TableViewTemplateColumn Header="Private" Width="100">
+                <tv:TableViewTemplateColumn Header="Private" Width="100" CanSort="True" SortMemberPath="PrivateMemory" CanFilter="True">
                     <tv:TableViewTemplateColumn.HeaderStyle>
                         <Style TargetType="tv:TableViewColumnHeader">
                             <Setter Property="HorizontalAlignment" Value="Right"/>
