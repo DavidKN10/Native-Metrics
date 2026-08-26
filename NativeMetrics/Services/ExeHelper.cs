@@ -14,7 +14,7 @@ namespace NativeMetrics.Services;
 
 public static class ExeHelper
 {
-    private static SoftwareBitmapSource _defaultIcon;
+    private static SoftwareBitmapSource? _defaultIcon;
     public static async Task<SoftwareBitmapSource> GetIconAsync(string exePath)
     {
         if (string.IsNullOrEmpty(exePath) || !File.Exists(exePath))
@@ -61,7 +61,7 @@ public static class ExeHelper
         try
         {
             StorageFile defaultIconFile = await StorageFile.GetFileFromApplicationUriAsync(
-                new Uri("ms-appx:///Assets/placeholder16x16.ico"));
+                new Uri("ms-appx:///Assets/default_icon16x16.ico"));
 
             using (var stream = await defaultIconFile.OpenReadAsync())
             {
