@@ -13,8 +13,9 @@ set(HEADER_FILES
   "include/NativeMetrics/NativeMetrics.hpp"
   "include/NativeMetrics/Types.hpp"
   "include/NativeMetrics/Util.hpp"
-  "include/NativeMetrics/Models/ProcessInfo.hpp"
+  "include/NativeMetrics/Models/CpuInfo.hpp"
   "include/NativeMetrics/Models/NetworkAdapterInfo.hpp"
+  "include/NativeMetrics/Models/ProcessInfo.hpp"
 )
 
 add_library(NativeMetrics_core SHARED

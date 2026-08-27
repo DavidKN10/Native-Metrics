@@ -22,10 +22,12 @@
 #include <TlHelp32.h>
 #include <Psapi.h>
 #include <iphlpapi.h>
+#include <sysinfoapi.h>
 
 // Native Metrics library  
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
+#include <NativeMetrics/Models/CpuInfo.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 
@@ -37,22 +39,23 @@
 
 const u32 ONE_SEC = 1000;
 
+// CPU stats
+f64 getCpuUsage();
+
+// RAM stats
+u64 getTotalMemory();
+u64 getAvailableMemory();
+u64 getApproxPercentInUse();
+
+// Process stats
 std::vector<ProcessInfo> collectProcesses();
 
+// Network stats
 std::vector<NetworkAdapterInfo> collectNetworkAdapters();
 
 extern "C" {
-	// RAM stats
-	NATIVEMETRICS_API u64 getTotalMemory();
-	NATIVEMETRICS_API u64 getAvailableMemory();
-	NATIVEMETRICS_API u64 getApproxPercentInUse();
-
-	// CPU stats
-	NATIVEMETRICS_API f64 getCpuUsage();
-
-	// Process information
 	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
 
-	// Network stats
-    NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
+	NATIVEMETRICS_API CpuInfo collectCpuInfo();
+	NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
 }

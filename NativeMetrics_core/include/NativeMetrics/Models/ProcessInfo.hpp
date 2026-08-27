@@ -20,7 +20,7 @@ struct ProcessInfo {
 	i32 priorityClassBase = 0;
 	u32 priorityClass = 0;
 
-	f64 memoryUsage = 0.0;
-	f64 commitSize = 0.0;
-	f64 privateMemory = 0.0;
+	f64 memoryUsage = 0.0f;
+	f64 commitSize = 0.0f;
+	f64 privateMemory = 0.0f;
 };

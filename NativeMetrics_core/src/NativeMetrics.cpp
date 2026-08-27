@@ -1,35 +1,5 @@
 #include <NativeMetrics/NativeMetrics.hpp>
 
-u64 getTotalMemory() {
-    MEMORYSTATUSEX statex{};
-    statex.dwLength = sizeof(statex);
-    GlobalMemoryStatusEx(&statex);
-
-    u64 totalPhysicalMemory = bytesToGB(statex.ullTotalPhys);
-
-    return totalPhysicalMemory;
-}
-
-u64 getAvailableMemory() {
-    MEMORYSTATUSEX statex{};
-    statex.dwLength = sizeof(statex);
-    GlobalMemoryStatusEx(&statex);
-
-    u64 availablePhysicalMemory = bytesToGB(statex.ullAvailPhys);
-
-    return availablePhysicalMemory;
-}
-
-u64 getApproxPercentInUse() {
-    MEMORYSTATUSEX statex{};
-    statex.dwLength = sizeof(statex);
-    GlobalMemoryStatusEx(&statex);
-
-    u64 approxMemPercent = static_cast<u64>(statex.dwMemoryLoad);
-
-    return approxMemPercent;
-}
-
 f64 getCpuUsage() {
     FILETIME idle1, kernel1, user1;
     FILETIME idle2, kernel2, user2;
@@ -58,6 +28,79 @@ f64 getCpuUsage() {
 
     f64 cpuUsage = (1.0 - (static_cast<f64>(idleDelta)) / (static_cast<f64>(totalDelta))) * 100.0;
     return cpuUsage;
+}
+
+CpuInfo collectCpuInfo() {
+    CpuInfo cpuInfo = {};
+    cpuInfo.cpuUsage = getCpuUsage();
+
+    SYSTEM_INFO si = {};
+    GetSystemInfo(&si);
+    cpuInfo.logicalProcessors = si.dwNumberOfProcessors;
+   
+    // determine required buffer size
+    DWORD bufferSize = 0;
+    GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &bufferSize); 
+    
+    // retreive data filtered by RelationProcessorCore
+    std::vector<BYTE> buffer(bufferSize);
+    if (!GetLogicalProcessorInformationEx(RelationProcessorCore, 
+        reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buffer.data()), 
+        &bufferSize)) 
+    {
+        return cpuInfo; 
+    }
+
+    u32 physicalCores = 0;
+    DWORD offset = 0;
+    
+    // loop through variable-length structs
+    while (offset < bufferSize) {
+        std::cout << offset << std::endl;
+        std::cout << physicalCores << std::endl;
+        auto info = reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(&buffer[offset]);
+     
+        if (info->Relationship == RelationProcessorCore) {
+            physicalCores++;
+        }
+
+        // move pointer foward by the size of the currect struct
+        offset += info->Size;
+    }
+
+    cpuInfo.cores = physicalCores;
+
+    return cpuInfo;
+}
+
+u64 getTotalMemory() {
+    MEMORYSTATUSEX statex{};
+    statex.dwLength = sizeof(statex);
+    GlobalMemoryStatusEx(&statex);
+
+    u64 totalPhysicalMemory = bytesToGB(statex.ullTotalPhys);
+
+    return totalPhysicalMemory;
+}
+
+u64 getAvailableMemory() {
+    MEMORYSTATUSEX statex{};
+    statex.dwLength = sizeof(statex);
+    GlobalMemoryStatusEx(&statex);
+
+    u64 availablePhysicalMemory = bytesToGB(statex.ullAvailPhys);
+
+    return availablePhysicalMemory;
+}
+
+u64 getApproxPercentInUse() {
+    MEMORYSTATUSEX statex{};
+    statex.dwLength = sizeof(statex);
+    GlobalMemoryStatusEx(&statex);
+
+    u64 approxMemPercent = static_cast<u64>(statex.dwMemoryLoad);
+
+    return approxMemPercent;
 }
 
 std::vector<ProcessInfo> collectProcesses() {
