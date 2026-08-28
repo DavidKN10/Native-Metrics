@@ -40,7 +40,10 @@
 const u32 ONE_SEC = 1000;
 
 // CPU stats
+std::wstring getProcessorName();
 f64 getCpuUsage();
+u32 getPhysicalCores();
+CpuInfo collectCpuInfo();
 
 // RAM stats
 u64 getTotalMemory();
@@ -55,7 +58,8 @@ std::vector<NetworkAdapterInfo> collectNetworkAdapters();
 
 extern "C" {
 	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
+	
+	NATIVEMETRICS_API bool getCpuInfo(CpuInfo* buffer, i32 bufferSize);
 
-	NATIVEMETRICS_API CpuInfo collectCpuInfo();
 	NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
 }

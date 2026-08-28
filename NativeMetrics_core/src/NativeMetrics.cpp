@@ -1,5 +1,29 @@
 #include <NativeMetrics/NativeMetrics.hpp>
 
+std::wstring getProcessorName() {
+    /*
+        We are getting the processor name by reading from the registry.
+    */
+
+    std::wstring processorName = L"Unkown";
+    HKEY key;
+    
+    // open the registry key for the first logical processor
+    LSTATUS openKeyResult = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &key);
+    if (openKeyResult == ERROR_SUCCESS) {
+        wchar_t buffer[256];
+        DWORD bufferSize = sizeof(buffer);
+       
+        // query the ProcessorNameString value
+        LSTATUS queryValueResult = RegQueryValueExW(key, L"ProcessorNameString", nullptr, nullptr, (LPBYTE)buffer, &bufferSize);
+        if (queryValueResult == ERROR_SUCCESS) {
+            processorName = buffer;     
+        }
+        RegCloseKey(key);
+    }
+    return processorName;
+}
+
 f64 getCpuUsage() {
     FILETIME idle1, kernel1, user1;
     FILETIME idle2, kernel2, user2;
@@ -30,47 +54,63 @@ f64 getCpuUsage() {
     return cpuUsage;
 }
 
+u32 getPhysicalCores() {
+    // determine required buffer size
+    DWORD bufferSize = 0;
+    GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &bufferSize);
+    
+    // retrieve data filtered by RelationProcessorCore
+    std::vector<BYTE> buffer(bufferSize);
+    if (!GetLogicalProcessorInformationEx(RelationProcessorCore, reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buffer.data()),
+                                          &bufferSize)) {
+        return 0;
+    }
+
+    u32 physicalCores = 0;
+    DWORD offset = 0;
+
+    // loop through variable-length structs
+    while (offset < bufferSize) {
+        auto info = reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(&buffer[offset]);
+
+        if (info->Relationship == RelationProcessorCore) {
+            physicalCores++;
+        }
+
+        // move pointer forward by the size of the current struct
+        offset += info->Size;
+    }
+
+    return physicalCores;
+}
+
 CpuInfo collectCpuInfo() {
     CpuInfo cpuInfo = {};
+    
+    std::wstring processorName = getProcessorName();
+
+    wcsncpy_s(cpuInfo.processorName, processorName.c_str(), _TRUNCATE);
+    
     cpuInfo.cpuUsage = getCpuUsage();
 
     SYSTEM_INFO si = {};
     GetSystemInfo(&si);
     cpuInfo.logicalProcessors = si.dwNumberOfProcessors;
    
-    // determine required buffer size
-    DWORD bufferSize = 0;
-    GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &bufferSize); 
-    
-    // retreive data filtered by RelationProcessorCore
-    std::vector<BYTE> buffer(bufferSize);
-    if (!GetLogicalProcessorInformationEx(RelationProcessorCore, 
-        reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buffer.data()), 
-        &bufferSize)) 
-    {
-        return cpuInfo; 
-    }
-
-    u32 physicalCores = 0;
-    DWORD offset = 0;
-    
-    // loop through variable-length structs
-    while (offset < bufferSize) {
-        std::cout << offset << std::endl;
-        std::cout << physicalCores << std::endl;
-        auto info = reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(&buffer[offset]);
-     
-        if (info->Relationship == RelationProcessorCore) {
-            physicalCores++;
-        }
-
-        // move pointer foward by the size of the currect struct
-        offset += info->Size;
-    }
-
-    cpuInfo.cores = physicalCores;
+    cpuInfo.cores = getPhysicalCores();
 
     return cpuInfo;
+}
+
+bool getCpuInfo(CpuInfo* buffer, i32 bufferSize) {
+    if (!buffer || bufferSize <= 0) {
+        return false;
+    }
+
+    auto cpuInfo = collectCpuInfo();
+    *buffer = cpuInfo;
+
+    return true;
 }
 
 u64 getTotalMemory() {

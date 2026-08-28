@@ -7,10 +7,16 @@
 #include <NativeMetrics/Models/CpuInfo.hpp>
 
 void testPerformanceStats() {
-    CpuInfo cpuStats = collectCpuInfo();
-    std::cout << "CPU Usage: " << cpuStats.cpuUsage << "%" << std::endl;
-    std::cout << "Cores: " << cpuStats.cores << std::endl;
-    std::cout << "Logical Processors: " << cpuStats.logicalProcessors << std::endl << std::endl;
+    CpuInfo cpuStats = {};
+    i32 bufferSize = sizeof(cpuStats);
+    if (getCpuInfo(&cpuStats, bufferSize)) {
+        std::wcout << L"Processor name: " << cpuStats.processorName << std::endl;
+        std::cout << "CPU Usage: " << cpuStats.cpuUsage << "%" << std::endl;
+        std::cout << "Cores: " << cpuStats.cores << std::endl;
+        std::cout << "Logical Processors: " << cpuStats.logicalProcessors << std::endl << std::endl;
+    } else {
+        std::cout << "Failed to retrieve CPU info" << std::endl;
+    }
 }
 
 int main() {
