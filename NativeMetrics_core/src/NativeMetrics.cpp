@@ -15,13 +15,68 @@ std::wstring getProcessorName() {
         DWORD bufferSize = sizeof(buffer);
        
         // query the ProcessorNameString value
-        LSTATUS queryValueResult = RegQueryValueExW(key, L"ProcessorNameString", nullptr, nullptr, (LPBYTE)buffer, &bufferSize);
+        LSTATUS queryValueResult = RegQueryValueExW(key, L"ProcessorNameString", nullptr, nullptr, reinterpret_cast<LPBYTE>(buffer), &bufferSize);
         if (queryValueResult == ERROR_SUCCESS) {
             processorName = buffer;     
         }
         RegCloseKey(key);
     }
     return processorName;
+}
+
+u32 getPhysicalCores() {
+    // first call to determine required buffer size
+    DWORD bufferSize = 0;
+    GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &bufferSize);
+
+    if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+        return 0;
+    }
+    
+    // second call to retrieve data filtered by RelationProcessorCore
+    std::vector<BYTE> buffer(bufferSize);
+    if (!GetLogicalProcessorInformationEx(RelationProcessorCore, reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buffer.data()),
+                                          &bufferSize)) {
+        return 0;
+    }
+
+    u32 physicalCores = 0;
+    DWORD offset = 0;
+
+    // loop through variable-length structs
+    while (offset < bufferSize) {
+        auto info = reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(&buffer[offset]);
+
+        if (info->Relationship == RelationProcessorCore) {
+            physicalCores++;
+        }
+
+        // move pointer forward by the size of the current struct
+        offset += info->Size;
+    }
+
+    return physicalCores;
+}
+
+u32 getBaseSpeedMHz() {
+    u32 baseSpeedMHz = 0;
+    HKEY key;
+
+    LSTATUS openKeyResult = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &key);
+    if (openKeyResult == ERROR_SUCCESS) {
+        DWORD buffer = 0; 
+        DWORD bufferSize = sizeof(LPBYTE);
+        DWORD dataType = REG_DWORD;
+        
+        LSTATUS queryValueResult = RegQueryValueExW(key, L"~MHz", nullptr, &dataType, reinterpret_cast<LPBYTE>(&buffer), &bufferSize);
+        if (queryValueResult == ERROR_SUCCESS) {
+            baseSpeedMHz = buffer;
+
+            RegCloseKey(key);
+            return baseSpeedMHz;
+        }
+    }
+    return baseSpeedMHz;
 }
 
 f64 getCpuUsage() {
@@ -54,36 +109,6 @@ f64 getCpuUsage() {
     return cpuUsage;
 }
 
-u32 getPhysicalCores() {
-    // determine required buffer size
-    DWORD bufferSize = 0;
-    GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &bufferSize);
-    
-    // retrieve data filtered by RelationProcessorCore
-    std::vector<BYTE> buffer(bufferSize);
-    if (!GetLogicalProcessorInformationEx(RelationProcessorCore, reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buffer.data()),
-                                          &bufferSize)) {
-        return 0;
-    }
-
-    u32 physicalCores = 0;
-    DWORD offset = 0;
-
-    // loop through variable-length structs
-    while (offset < bufferSize) {
-        auto info = reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(&buffer[offset]);
-
-        if (info->Relationship == RelationProcessorCore) {
-            physicalCores++;
-        }
-
-        // move pointer forward by the size of the current struct
-        offset += info->Size;
-    }
-
-    return physicalCores;
-}
-
 CpuInfo collectCpuInfo() {
     CpuInfo cpuInfo = {};
     
@@ -98,6 +123,8 @@ CpuInfo collectCpuInfo() {
     cpuInfo.logicalProcessors = si.dwNumberOfProcessors;
    
     cpuInfo.cores = getPhysicalCores();
+
+    cpuInfo.baseSpeed = getBaseSpeedMHz();
 
     return cpuInfo;
 }

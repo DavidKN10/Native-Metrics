@@ -26,6 +26,7 @@ target_link_libraries(NativeMetrics_core PRIVATE
 	Iphlpapi
 	Ws2_32
 	Psapi
+	PowrProf
 )
 
 target_include_directories(NativeMetrics_core PUBLIC

@@ -41,8 +41,9 @@ const u32 ONE_SEC = 1000;
 
 // CPU stats
 std::wstring getProcessorName();
-f64 getCpuUsage();
 u32 getPhysicalCores();
+u32 getBaseSpeedMHz();
+f64 getCpuUsage();
 CpuInfo collectCpuInfo();
 
 // RAM stats
