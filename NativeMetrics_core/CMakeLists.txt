@@ -42,6 +42,14 @@ target_link_libraries(CpuTest PRIVATE
   NativeMetrics_core
 )
 
+add_executable(MemoryTest
+	"tests/MemoryTest.cpp"
+)
+
+target_link_libraries(MemoryTest PRIVATE
+	NativeMetrics_core
+)
+
 add_executable(ProcessTest	
 	"tests/ProcessTest.cpp"
 )

@@ -25,7 +25,7 @@ std::wstring getProcessorName() {
 }
 
 u32 getLogicalProcessors() {
-    SYSTEM_INFO si = {};
+    SYSTEM_INFO si{};
     GetSystemInfo(&si);
     return si.dwNumberOfProcessors;
 }
@@ -116,7 +116,7 @@ f64 getCpuUsage() {
 }
 
 void getCpuPerformanceInformation(CpuInfo& cpuInfo) {
-    PERFORMANCE_INFORMATION buffer = {};
+    PERFORMANCE_INFORMATION buffer{};
     u32 bufferSize = sizeof(buffer);
     if (GetPerformanceInfo(&buffer, bufferSize)) {
         cpuInfo.handles = buffer.HandleCount;
@@ -126,7 +126,7 @@ void getCpuPerformanceInformation(CpuInfo& cpuInfo) {
 }
 
 CpuInfo collectCpuInfo() {
-    CpuInfo cpuInfo = {};
+    CpuInfo cpuInfo{};
     
     std::wstring processorName = getProcessorName();
 
@@ -150,40 +150,54 @@ bool getCpuInfo(CpuInfo* buffer, i32 bufferSize) {
         return false;
     }
 
-    auto cpuInfo = collectCpuInfo();
+    CpuInfo cpuInfo = collectCpuInfo();
     *buffer = cpuInfo;
 
     return true;
 }
 
-u64 getTotalMemory() {
+void getGlobalMemoryStatus(MemoryInfo& memoryInfo) {
     MEMORYSTATUSEX statex{};
     statex.dwLength = sizeof(statex);
     GlobalMemoryStatusEx(&statex);
 
-    u64 totalPhysicalMemory = bytesToGB(statex.ullTotalPhys);
-
-    return totalPhysicalMemory;
+    memoryInfo.totalMemory = bytesToGB(statex.ullTotalPhys);
+    memoryInfo.availableMemory = bytesToGB(statex.ullAvailPhys);
+    memoryInfo.percentInUse = static_cast<u64>(statex.dwMemoryLoad);
 }
 
-u64 getAvailableMemory() {
-    MEMORYSTATUSEX statex{};
-    statex.dwLength = sizeof(statex);
-    GlobalMemoryStatusEx(&statex);
 
-    u64 availablePhysicalMemory = bytesToGB(statex.ullAvailPhys);
-
-    return availablePhysicalMemory;
+void getMemoryPerformanceInformation(MemoryInfo& memoryInfo) {
+    PERFORMANCE_INFORMATION buffer{};
+    u32 bufferSize = sizeof(buffer);
+    if (GetPerformanceInfo(&buffer, bufferSize)) {
+        memoryInfo.commitCurrent = static_cast<u64>(buffer.CommitTotal);
+        memoryInfo.commitLimit = static_cast<u64>(buffer.CommitLimit);
+        memoryInfo.commitPeak = static_cast<u64>(buffer.CommitPeak);
+        memoryInfo.pagedPool = static_cast<u64>(buffer.KernelPaged);
+        memoryInfo.nonPagedPool = static_cast<u64>(buffer.KernelNonpaged);
+    }
 }
 
-u64 getApproxPercentInUse() {
-    MEMORYSTATUSEX statex{};
-    statex.dwLength = sizeof(statex);
-    GlobalMemoryStatusEx(&statex);
+MemoryInfo collectMemoryInfo() {
+    MemoryInfo memoryInfo{};
 
-    u64 approxMemPercent = static_cast<u64>(statex.dwMemoryLoad);
+    getGlobalMemoryStatus(memoryInfo);
 
-    return approxMemPercent;
+    getMemoryPerformanceInformation(memoryInfo);
+    
+    return memoryInfo;
+}
+
+bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize) {
+    if (!buffer || bufferSize <= 0) {
+        return false;
+    }
+
+    MemoryInfo memoryInfo = collectMemoryInfo();
+    *buffer = memoryInfo;
+    
+    return true;
 }
 
 std::vector<ProcessInfo> collectProcesses() {

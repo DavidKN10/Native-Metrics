@@ -7,7 +7,7 @@
 #include <NativeMetrics/Models/CpuInfo.hpp>
 
 void testPerformanceStats() {
-    CpuInfo cpuStats = {};
+    CpuInfo cpuStats{};
     i32 bufferSize = sizeof(cpuStats);
     if (getCpuInfo(&cpuStats, bufferSize)) {
         std::wcout << L"Processor name: " << cpuStats.processorName << std::endl;

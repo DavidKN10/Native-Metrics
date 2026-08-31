@@ -53,7 +53,9 @@ CpuInfo collectCpuInfo();
 u64 getTotalMemory();
 u64 getAvailableMemory();
 u64 getApproxPercentInUse();
-MemoryInfo getMemoryInfo();
+void getGlobalMemoryStatus(MemoryInfo& memoryInfo);
+void getMemoryPerformanceInformation(MemoryInfo& memoryInfo);
+MemoryInfo collectMemoryInfo();
 
 // Process stats
 std::vector<ProcessInfo> collectProcesses();
@@ -65,6 +67,8 @@ extern "C" {
 	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
 	
 	NATIVEMETRICS_API bool getCpuInfo(CpuInfo* buffer, i32 bufferSize);
+
+	NATIVEMETRICS_API bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize);
 
 	NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
 }
