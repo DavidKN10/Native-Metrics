@@ -115,6 +115,16 @@ f64 getCpuUsage() {
     return cpuUsage;
 }
 
+void getCpuPerformanceInformation(CpuInfo& cpuInfo) {
+    PERFORMANCE_INFORMATION buffer = {};
+    u32 bufferSize = sizeof(buffer);
+    if (GetPerformanceInfo(&buffer, bufferSize)) {
+        cpuInfo.handles = buffer.HandleCount;
+        cpuInfo.processCount = buffer.ProcessCount;
+        cpuInfo.threadCount = buffer.ThreadCount;
+    }
+}
+
 CpuInfo collectCpuInfo() {
     CpuInfo cpuInfo = {};
     
@@ -129,6 +139,8 @@ CpuInfo collectCpuInfo() {
     cpuInfo.cores = getPhysicalCores();
 
     cpuInfo.baseSpeed = getBaseSpeedMHz();
+
+    getCpuPerformanceInformation(cpuInfo);
 
     return cpuInfo;
 }

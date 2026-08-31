@@ -46,6 +46,7 @@ u32 getLogicalProcessors();
 u32 getPhysicalCores();
 u32 getBaseSpeedMHz();
 f64 getCpuUsage();
+void getCpuPerformanceInformation(CpuInfo& cpuInfo);
 CpuInfo collectCpuInfo();
 
 // RAM stats

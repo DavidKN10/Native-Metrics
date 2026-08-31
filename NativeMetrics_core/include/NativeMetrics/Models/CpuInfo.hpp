@@ -9,6 +9,9 @@ struct CpuInfo {
     u32 logicalProcessors = 0;
     u32 cores = 0;
     u32 baseSpeed = 0;
+    u32 handles = 0;
+    u32 processCount = 0;
+    u32 threadCount = 0;
 
     f64 cpuUsage = 0.0f;
 };
