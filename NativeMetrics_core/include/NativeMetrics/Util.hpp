@@ -34,6 +34,10 @@ void printError(TCHAR const* message) {
     _tprintf(TEXT("\n WARNING: %s failed with error %d (%s)\n"), message, eNum, sysMessage);
 }
 
+u64 bytesToKB(u64 bytesAmount) {
+    return bytesAmount / DIV;
+}
+
 u64 bytesToMB(u64 bytesAmount) {
 	return bytesAmount / (DIV * DIV);
 }

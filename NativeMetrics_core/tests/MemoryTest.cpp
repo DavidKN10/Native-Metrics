@@ -10,14 +10,15 @@ void testMemoryStats() {
     MemoryInfo memoryInfo{};
     i32 bufferSize = sizeof(memoryInfo);
     if (getMemoryInfo(&memoryInfo, bufferSize)) {
-        std::cout << "Total memory: " << memoryInfo.totalMemory << std::endl;
-        std::cout << "Available memory: " << memoryInfo.availableMemory<< std::endl;
-        std::cout << "Percent in use: " << memoryInfo.percentInUse << "%" << std::endl;
-        std::cout << "Current commit: " << memoryInfo.commitCurrent << std::endl;
-        std::cout << "Commit limit: " << memoryInfo.commitLimit << std::endl;
-        std::cout << "Commit peak: " << memoryInfo.commitPeak << std::endl;
-        std::cout << "Paged pool: " << memoryInfo.pagedPool << std::endl;
-        std::cout << "Non-paged pool: " << memoryInfo.nonPagedPool << std::endl << std::endl;
+        std::cout << "Page size: " << memoryInfo.pageSizeBytes << " Bytes" << std::endl;
+        std::cout << "Total memory: " << memoryInfo.totalMemoryBytes << std::endl;
+        std::cout << "Available memory: " << memoryInfo.availableMemoryBytes<< std::endl;
+        std::cout << "Percent in use: " << memoryInfo.memoryUsePercent << "%" << std::endl;
+        std::cout << "Current commit: " << memoryInfo.commitCurrentBytes << std::endl;
+        std::cout << "Commit limit: " << memoryInfo.commitLimitBytes << std::endl;
+        std::cout << "Commit peak: " << memoryInfo.commitPeakBytes << std::endl;
+        std::cout << "Paged pool: " << memoryInfo.pagedPoolBytes << std::endl;
+        std::cout << "Non-paged pool: " << memoryInfo.nonPagedPoolBytes << std::endl << std::endl;
     } else {
         std::cout << "Failed to retrieve memory information." << std::endl;
     }
