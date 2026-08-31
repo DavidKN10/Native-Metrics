@@ -23,6 +23,7 @@
 #include <Psapi.h>
 #include <iphlpapi.h>
 #include <sysinfoapi.h>
+#include <fileapi.h>
 
 // Native Metrics library  
 #include <NativeMetrics/Types.hpp>
@@ -31,6 +32,7 @@
 #include <NativeMetrics/Models/ProcessInfo.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 #include <NativeMetrics/Models/MemoryInfo.hpp>
+#include <NativeMetrics/Models/DiskInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
 #define NATIVEMETRICS_API __declspec(dllexport)
@@ -57,6 +59,10 @@ void getGlobalMemoryStatus(MemoryInfo& memoryInfo);
 void getMemoryPerformanceInformation(MemoryInfo& memoryInfo);
 MemoryInfo collectMemoryInfo();
 
+// Disk stats
+void getDriveString(std::vector<DiskInfo>& diskList);
+std::vector<DiskInfo> collectDiskInfo();
+
 // Process stats
 std::vector<ProcessInfo> collectProcesses();
 
@@ -69,6 +75,8 @@ extern "C" {
 	NATIVEMETRICS_API bool getCpuInfo(CpuInfo* buffer, i32 bufferSize);
 
 	NATIVEMETRICS_API bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize);
+
+    NATIVEMETRICS_API bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten);
 
 	NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
 }

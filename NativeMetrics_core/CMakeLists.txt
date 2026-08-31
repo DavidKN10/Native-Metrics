@@ -17,6 +17,7 @@ set(HEADER_FILES
   "include/NativeMetrics/Models/MemoryInfo.hpp"
   "include/NativeMetrics/Models/NetworkAdapterInfo.hpp"
   "include/NativeMetrics/Models/ProcessInfo.hpp"
+  "include/NativeMetrics/Models/DiskInfo.hpp"
 )
 
 add_library(NativeMetrics_core SHARED
@@ -50,6 +51,14 @@ target_link_libraries(MemoryTest PRIVATE
 	NativeMetrics_core
 )
 
+add_executable(DiskTest
+	"tests/DiskTest.cpp"
+)
+
+target_link_libraries(DiskTest PRIVATE
+	NativeMetrics_core
+)
+
 add_executable(ProcessTest	
 	"tests/ProcessTest.cpp"
 )
@@ -65,5 +74,6 @@ add_executable(NetworkTest
 target_link_libraries(NetworkTest PRIVATE
 	NativeMetrics_core
 )
+
 
 target_compile_definitions(NativeMetrics_core PRIVATE NATIVEMETRICS_EXPORTS)

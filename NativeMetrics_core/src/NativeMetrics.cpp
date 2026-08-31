@@ -201,6 +201,42 @@ bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize) {
     return true;
 }
 
+void getDriveString(std::vector<DiskInfo>& diskList) {
+    wchar_t buffer[512] = {};
+
+    u32 length = GetLogicalDriveStringsW(std::size(buffer), buffer);
+    if (length != 0) {
+        for (wchar_t* drive = buffer; *drive; drive += wcslen(drive) + 1) {
+            DiskInfo currentDisk{};
+            currentDisk.driveLetter = *drive;
+            diskList.push_back(currentDisk);
+        }
+    }
+}
+
+
+std::vector<DiskInfo> collectDiskInfo() {
+    std::vector<DiskInfo> disks{};
+    getDriveString(disks);
+    return disks;
+}
+
+bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten) {
+    if (!buffer || !disksWritten || bufferSize <= 0) {
+        return false;
+    }
+
+    auto disks = collectDiskInfo();
+    i32 count = static_cast<i32>(disks.size());
+    i32 toCopy = std::min<i32>(count, bufferSize);
+
+    for (int i = 0; i < toCopy; i++) {
+        buffer[i] = disks[i];
+    }
+    *disksWritten = toCopy;
+    return true;
+}
+
 std::vector<ProcessInfo> collectProcesses() {
 	std::vector<ProcessInfo> processes{};
 
