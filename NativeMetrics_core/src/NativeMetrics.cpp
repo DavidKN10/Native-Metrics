@@ -24,6 +24,12 @@ std::wstring getProcessorName() {
     return processorName;
 }
 
+u32 getLogicalProcessors() {
+    SYSTEM_INFO si = {};
+    GetSystemInfo(&si);
+    return si.dwNumberOfProcessors;
+}
+
 u32 getPhysicalCores() {
     // first call to determine required buffer size
     DWORD bufferSize = 0;
@@ -118,9 +124,7 @@ CpuInfo collectCpuInfo() {
     
     cpuInfo.cpuUsage = getCpuUsage();
 
-    SYSTEM_INFO si = {};
-    GetSystemInfo(&si);
-    cpuInfo.logicalProcessors = si.dwNumberOfProcessors;
+    cpuInfo.logicalProcessors = getLogicalProcessors(); 
    
     cpuInfo.cores = getPhysicalCores();
 

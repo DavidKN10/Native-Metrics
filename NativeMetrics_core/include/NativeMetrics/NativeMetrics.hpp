@@ -30,6 +30,7 @@
 #include <NativeMetrics/Models/CpuInfo.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
+#include <NativeMetrics/Models/MemoryInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
 #define NATIVEMETRICS_API __declspec(dllexport)
@@ -41,6 +42,7 @@ const u32 ONE_SEC = 1000;
 
 // CPU stats
 std::wstring getProcessorName();
+u32 getLogicalProcessors();
 u32 getPhysicalCores();
 u32 getBaseSpeedMHz();
 f64 getCpuUsage();
@@ -50,6 +52,7 @@ CpuInfo collectCpuInfo();
 u64 getTotalMemory();
 u64 getAvailableMemory();
 u64 getApproxPercentInUse();
+MemoryInfo getMemoryInfo();
 
 // Process stats
 std::vector<ProcessInfo> collectProcesses();
