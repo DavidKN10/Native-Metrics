@@ -214,36 +214,52 @@ void getDriveString(std::vector<DiskInfo>& diskList) {
     }
 }
 
-void getDriveType(std::vector<DiskInfo>& diskList) {
-    for (auto& disk : diskList) {
-        u32 type = GetDriveTypeW(disk.driveLetter);
-        switch (type) { 
-            case DRIVE_RAMDISK:
-                wcsncpy_s(disk.driveType, L"RAM disk", _TRUNCATE);
-                break;
-            case DRIVE_CDROM:
-                wcsncpy_s(disk.driveType, L"CD-ROM", _TRUNCATE);
-                break;
-            case DRIVE_REMOTE:
-                wcsncpy_s(disk.driveType, L"Remote drive", _TRUNCATE);
-                break;
-            case DRIVE_FIXED:
-                wcsncpy_s(disk.driveType, L"Fixed drive", _TRUNCATE);
-                break;
-            case DRIVE_REMOVABLE:
-                wcsncpy_s(disk.driveType, L"Removable drive", _TRUNCATE);
-                break;
-            default:
-                wcsncpy_s(disk.driveType, L"ERROR", _TRUNCATE);
-                break;
-        }
+void getDriveType(DiskInfo& disk) {
+    u32 type = GetDriveTypeW(disk.driveLetter);
+
+    switch (type) {
+        case DRIVE_RAMDISK:
+            wcsncpy_s(disk.driveType, L"RAM disk", _TRUNCATE);
+            break;
+        case DRIVE_CDROM:
+            wcsncpy_s(disk.driveType, L"CD-ROM", _TRUNCATE);
+            break;
+        case DRIVE_REMOTE:
+            wcsncpy_s(disk.driveType, L"Remote drive", _TRUNCATE);
+            break;
+        case DRIVE_FIXED:
+            wcsncpy_s(disk.driveType, L"Fixed drive", _TRUNCATE);
+            break;
+        case DRIVE_REMOVABLE:
+            wcsncpy_s(disk.driveType, L"Removable drive", _TRUNCATE);
+            break;
+        default:
+            wcsncpy_s(disk.driveType, L"UNKNOWN", _TRUNCATE);
+            break;
+    }
+}
+
+void getDriveSpace(DiskInfo& disk) {
+    ULARGE_INTEGER availableBytes{};
+    ULARGE_INTEGER totalBytes{};
+    ULARGE_INTEGER freeBytes{};
+
+    if (GetDiskFreeSpaceExW(disk.driveLetter, &availableBytes, &totalBytes, &freeBytes)) {
+        disk.availableSpaceBytes = availableBytes.QuadPart;
+        disk.totalSpaceBytes = totalBytes.QuadPart;
+        disk.freeSpaceBytes = freeBytes.QuadPart;
     }
 }
 
 std::vector<DiskInfo> collectDiskInfo() {
     std::vector<DiskInfo> disks{};
     getDriveString(disks);
-    getDriveType(disks);
+
+    for (auto& disk : disks) {
+        getDriveType(disk);
+        getDriveSpace(disk);
+    }
+
     return disks;
 }
 

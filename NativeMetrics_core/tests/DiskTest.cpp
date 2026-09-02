@@ -15,6 +15,9 @@ void testDisks() {
             DiskInfo& disk = diskList[i];
             std::wcout << L"Drive: " << disk.driveLetter << std::endl; 
             std::wcout << L"Type: " << disk.driveType << std::endl;
+            std::cout << disk.availableSpaceBytes << " B" << std::endl;
+            std::cout << disk.totalSpaceBytes << " B" << std::endl;
+            std::cout << disk.freeSpaceBytes << " B" << std::endl;
         }
         std::cout << std::endl;
     } else {

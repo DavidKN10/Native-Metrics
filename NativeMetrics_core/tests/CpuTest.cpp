@@ -13,7 +13,7 @@ void testPerformanceStats() {
         std::wcout << L"Processor name: " << cpuStats.processorName << std::endl;
         std::cout << "Logical processors: " << cpuStats.logicalProcessors << std::endl;
         std::cout << "Cores: " << cpuStats.cores << std::endl;
-        std::cout << "Base speed: " << cpuStats.baseSpeed << std::endl;
+        std::cout << "Base speed: " << cpuStats.baseSpeed << " MHz" << std::endl;
         std::cout << "CPU usage: " << cpuStats.cpuUsage << "%" << std::endl;
         std::cout << "Handles: " << cpuStats.handles << std::endl;
         std::cout << "Process count: " << cpuStats.processCount << std::endl;

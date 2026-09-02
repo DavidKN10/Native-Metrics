@@ -10,4 +10,7 @@ constexpr int DRIVE_TYPE_LENGTH = 256;
 struct DiskInfo {
     wchar_t driveLetter[DRIVE_LETTER_LENGTH] = {};
     wchar_t driveType[DRIVE_TYPE_LENGTH] = {};
+    u64 availableSpaceBytes = 0;
+    u64 totalSpaceBytes = 0;
+    u64 freeSpaceBytes = 0;
 };

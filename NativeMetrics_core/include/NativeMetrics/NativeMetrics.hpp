@@ -61,7 +61,8 @@ MemoryInfo collectMemoryInfo();
 
 // Disk stats
 void getDriveString(std::vector<DiskInfo>& diskList);
-void getDriveType(std::vector<DiskInfo>& diskList);
+void getDriveType(DiskInfo& disk);
+void getDriveSpace(DiskInfo& disk);
 std::vector<DiskInfo> collectDiskInfo();
 
 // Process stats

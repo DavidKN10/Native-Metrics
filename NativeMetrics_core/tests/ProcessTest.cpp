@@ -16,7 +16,7 @@ void testProcesses() {
             std::wcout << L"Process: " << process.processName << std::endl;
             std::wcout << L"PID: " << process.processId << std::endl;
             std::wcout << L"Threads: " << process.threadsCount << std::endl;
-            std::wcout << L"Memory Usage (MB): " << process.memoryUsage << std::endl;
+            std::wcout << L"Memory Usage: " << process.memoryUsage << " MB" << std::endl;
             if (process.processPath) {
                 std::wcout << L"Exe path: " << process.processPath << std::endl; 
             }
