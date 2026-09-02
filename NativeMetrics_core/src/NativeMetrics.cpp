@@ -251,6 +251,24 @@ void getDriveSpace(DiskInfo& disk) {
     }
 }
 
+void getVolumeInformation(DiskInfo& disk) {
+    wchar_t volumeNameBuffer[256] = {};
+    u32 volumeNameSize = std::size(volumeNameBuffer);
+
+    wchar_t fileSystemBuffer[256] = {};
+    u32 fileSystemNameSize = std::size(fileSystemBuffer);
+    
+    if (GetVolumeInformationW(disk.driveLetter, volumeNameBuffer, volumeNameSize, 
+        nullptr, nullptr, nullptr, 
+        fileSystemBuffer, 
+        fileSystemNameSize)) 
+    {
+        wcsncpy_s(disk.volumeName, volumeNameBuffer, _TRUNCATE);
+        wcsncpy_s(disk.fileSystemName, fileSystemBuffer, _TRUNCATE);
+    }
+
+}
+
 std::vector<DiskInfo> collectDiskInfo() {
     std::vector<DiskInfo> disks{};
     getDriveString(disks);
@@ -258,6 +276,7 @@ std::vector<DiskInfo> collectDiskInfo() {
     for (auto& disk : disks) {
         getDriveType(disk);
         getDriveSpace(disk);
+        getVolumeInformation(disk);
     }
 
     return disks;
