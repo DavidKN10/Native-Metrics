@@ -208,16 +208,42 @@ void getDriveString(std::vector<DiskInfo>& diskList) {
     if (length != 0) {
         for (wchar_t* drive = buffer; *drive; drive += wcslen(drive) + 1) {
             DiskInfo currentDisk{};
-            currentDisk.driveLetter = *drive;
+            wcsncpy_s(currentDisk.driveLetter, drive, _TRUNCATE);
             diskList.push_back(currentDisk);
         }
     }
 }
 
+void getDriveType(std::vector<DiskInfo>& diskList) {
+    for (auto& disk : diskList) {
+        u32 type = GetDriveTypeW(disk.driveLetter);
+        switch (type) { 
+            case DRIVE_RAMDISK:
+                wcsncpy_s(disk.driveType, L"RAM disk", _TRUNCATE);
+                break;
+            case DRIVE_CDROM:
+                wcsncpy_s(disk.driveType, L"CD-ROM", _TRUNCATE);
+                break;
+            case DRIVE_REMOTE:
+                wcsncpy_s(disk.driveType, L"Remote drive", _TRUNCATE);
+                break;
+            case DRIVE_FIXED:
+                wcsncpy_s(disk.driveType, L"Fixed drive", _TRUNCATE);
+                break;
+            case DRIVE_REMOVABLE:
+                wcsncpy_s(disk.driveType, L"Removable drive", _TRUNCATE);
+                break;
+            default:
+                wcsncpy_s(disk.driveType, L"ERROR", _TRUNCATE);
+                break;
+        }
+    }
+}
 
 std::vector<DiskInfo> collectDiskInfo() {
     std::vector<DiskInfo> disks{};
     getDriveString(disks);
+    getDriveType(disks);
     return disks;
 }
 

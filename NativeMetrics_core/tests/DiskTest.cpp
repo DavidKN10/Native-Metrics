@@ -13,7 +13,8 @@ void testDisks() {
     if (getDiskInfo(diskList.data(), 1024, &disksWritten)) {
         for (i32 i = 0; i < disksWritten; i++) {
             DiskInfo& disk = diskList[i];
-            std::wcout << L"Drive: " << disk.driveLetter << std::endl ; 
+            std::wcout << L"Drive: " << disk.driveLetter << std::endl; 
+            std::wcout << L"Type: " << disk.driveType << std::endl;
         }
         std::cout << std::endl;
     } else {
