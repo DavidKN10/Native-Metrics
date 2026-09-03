@@ -1,5 +1,23 @@
 #include <NativeMetrics/Process.hpp>
 
+void pew32ToProcessInfo(ProcessInfo& process, PROCESSENTRY32W& pew32) {
+    wcsncpy_s(process.processName, pew32.szExeFile, _TRUNCATE);
+    process.processId = pew32.th32ProcessID;
+    process.threadsCount = pew32.cntThreads;
+    process.parentProcessId = pew32.th32ParentProcessID;
+    process.priorityClassBase = pew32.pcPriClassBase;
+}
+
+void getProcessMemory(ProcessInfo& process, PROCESS_MEMORY_COUNTERS_EX& processMemory) {
+    u64 memoryUsageInt = bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
+    u64 commitSizeInt = bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
+    u64 privateMemoryInt = bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
+
+    process.memoryUsage = static_cast<f64>(memoryUsageInt);
+    process.commitSize = static_cast<f64>(commitSizeInt);
+    process.privateMemory = static_cast<f64>(privateMemoryInt);
+}
+
 std::vector<ProcessInfo> collectProcesses() {
     std::vector<ProcessInfo> processes{};
 
@@ -28,12 +46,8 @@ std::vector<ProcessInfo> collectProcesses() {
         }
 
         ProcessInfo currentProcess{};
-        wcsncpy_s(currentProcess.processName, pew32.szExeFile, _TRUNCATE);
-        currentProcess.processId = pew32.th32ProcessID;
-        currentProcess.threadsCount = pew32.cntThreads;
-        currentProcess.parentProcessId = pew32.th32ParentProcessID;
-        currentProcess.priorityClassBase = pew32.pcPriClassBase;
-
+        pew32ToProcessInfo(currentProcess, pew32);
+       
         HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pew32.th32ProcessID);
         if (hProcess == nullptr) {
             // protected processes that can't be opened should still be added
@@ -53,13 +67,7 @@ std::vector<ProcessInfo> collectProcesses() {
         PROCESS_MEMORY_COUNTERS_EX processMemory{};
         bool processMemoryInfo = GetProcessMemoryInfo(hProcess, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&processMemory), sizeof(processMemory));
         if (processMemoryInfo) {
-            u64 memoryUsageInt = bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
-            u64 commitSizeInt = bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
-            u64 privateMemoryInt = bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
-
-            currentProcess.memoryUsage = static_cast<f64>(memoryUsageInt);
-            currentProcess.commitSize = static_cast<f64>(commitSizeInt);
-            currentProcess.privateMemory = static_cast<f64>(privateMemoryInt);
+            getProcessMemory(currentProcess, processMemory);           
         }
 
         CloseHandle(hProcess);

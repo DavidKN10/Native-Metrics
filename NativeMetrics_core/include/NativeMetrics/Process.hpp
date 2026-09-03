@@ -30,4 +30,8 @@
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
 
+void pew32ToProcessInfo(ProcessInfo& process, PROCESSENTRY32W& pew32);
+
+void getProcessMemory(ProcessInfo& process, PROCESS_MEMORY_COUNTERS_EX& processMemory);
+
 std::vector<ProcessInfo> collectProcesses();
