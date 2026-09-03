@@ -3,13 +3,13 @@
 #include <NativeMetrics/NativeMetrics.hpp>
 
 struct MemoryInfo {
-    u64 pageSizeBytes = 0;
-	u64 totalMemoryBytes = 0;
-	u64 availableMemoryBytes = 0;
-	u64 memoryUsePercent = 0;
-    u64 commitCurrentBytes = 0;
-    u64 commitLimitBytes = 0;
-    u64 commitPeakBytes = 0;
-    u64 pagedPoolBytes = 0;
-    u64 nonPagedPoolBytes = 0;
+    u64 pageSizeBytes{};
+    u64 totalMemoryBytes{};
+    u64 availableMemoryBytes{};
+    u64 memoryUsePercent{};
+    u64 commitCurrentBytes{};
+    u64 commitLimitBytes{};
+    u64 commitPeakBytes{};
+    u64 pagedPoolBytes{};
+    u64 nonPagedPoolBytes{};
 };

@@ -9,11 +9,12 @@ constexpr int DRIVE_TYPE_LENGTH = 256;
 constexpr int BUFFER_SIZE = 256; 
 
 struct DiskInfo {
-    wchar_t driveLetter[DRIVE_LETTER_LENGTH] = {};
-    wchar_t driveType[DRIVE_TYPE_LENGTH] = {};
-    wchar_t volumeName[BUFFER_SIZE] = {};
-    wchar_t fileSystemName[BUFFER_SIZE] = {};
-    u64 availableSpaceBytes = 0;
-    u64 totalSpaceBytes = 0;
-    u64 freeSpaceBytes = 0;
+    wchar_t driveLetter[DRIVE_LETTER_LENGTH] {};
+    wchar_t driveType[DRIVE_TYPE_LENGTH] {};
+    wchar_t volumeName[BUFFER_SIZE] {};
+    wchar_t fileSystemName[BUFFER_SIZE] {};
+
+    u64 availableSpaceBytes{};
+    u64 totalSpaceBytes{};
+    u64 freeSpaceBytes{};
 };

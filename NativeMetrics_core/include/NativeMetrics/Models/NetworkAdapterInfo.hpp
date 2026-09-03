@@ -9,28 +9,28 @@
 constexpr int CHAR_LENGTH_MAX = 260;
 
 struct PreviousNetworkSample {
-    u64 receivedBytes = 0;
-    u64 sentBytes = 0;
-    std::chrono::steady_clock::time_point timestamp;
+    u64 receivedBytes{};
+    u64 sentBytes{};
+    std::chrono::steady_clock::time_point timestamp{};
 };
 
-std::unordered_map<u64, PreviousNetworkSample> networkHistory;
+std::unordered_map<u64, PreviousNetworkSample> networkHistory{};
 
 struct NetworkAdapterInfo {
-    wchar_t alias[CHAR_LENGTH_MAX] = {};
-    wchar_t description[CHAR_LENGTH_MAX] = {};
+    wchar_t alias[CHAR_LENGTH_MAX] {};
+    wchar_t description[CHAR_LENGTH_MAX] {};
 
-    u64 luid = 0;
-    u64 type = 0;
+    u64 luid{};
+    u64 type{};
 
-    bool isConnected = false;
-    bool isOperational = false;
+    bool isConnected{};
+    bool isOperational{};
 
-    u64 receiveLinkSpeedBits = 0;
-    u64 transmitLinkSpeedBits = 0;
-    u64 receivedBytes = 0;
-    u64 sentBytes = 0;
+    u64 receiveLinkSpeedBits{};
+    u64 transmitLinkSpeedBits{};
+    u64 receivedBytes{};
+    u64 sentBytes{};
 
-    f64 downloadBytesPerSec = 0.0;
-    f64 uploadBytesPerSec = 0.0;
+    f64 downloadBytesPerSec{};
+    f64 uploadBytesPerSec{};
 };
