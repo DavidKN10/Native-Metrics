@@ -46,13 +46,13 @@
 #endif
 
 extern "C" {
-	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
-	
 	NATIVEMETRICS_API bool getCpuInfo(CpuInfo* buffer, i32 bufferSize);
-
+	
+    NATIVEMETRICS_API bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten);
+	
 	NATIVEMETRICS_API bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize);
 
-    NATIVEMETRICS_API bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten);
-
 	NATIVEMETRICS_API bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adaptersWritten);
+	
+	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
 }

@@ -30,4 +30,10 @@
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 
+bool isDisplayAdapter(const MIB_IF_ROW2& row);
+
+void rowToNetworkAdapter(NetworkAdapterInfo& adapter, const MIB_IF_ROW2& row);
+
+void updateDownloadAndNetworkSpeed(NetworkAdapterInfo& adapter);
+
 std::vector<NetworkAdapterInfo> collectNetworkAdapters();

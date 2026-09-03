@@ -24,5 +24,3 @@ u64 bytesToMB(u64 bytesAmount);
 u64 bytesToGB(u64 bytesAmount);
 
 u64 fileTimeToU64(const FILETIME& ft);
-
-bool isDisplayAdapter(const MIB_IF_ROW2& row);

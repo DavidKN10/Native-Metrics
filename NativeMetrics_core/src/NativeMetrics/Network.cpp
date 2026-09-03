@@ -1,5 +1,63 @@
 #include <NativeMetrics/Network.hpp>
 
+bool isDisplayAdapter(const MIB_IF_ROW2& row) {
+    if (row.MediaConnectState != MediaConnectStateConnected) {
+        return false;
+    }
+
+    if (row.OperStatus != IfOperStatusUp) {
+        return false;
+    }
+
+    switch (row.Type) {
+        case IF_TYPE_ETHERNET_CSMACD:
+            return true;
+        case IF_TYPE_IEEE80211:
+            return true;
+        default:
+            return false;
+    }
+}
+
+void rowToNetworkAdapter(NetworkAdapterInfo& adapter, const MIB_IF_ROW2& row) {
+    wcsncpy_s(adapter.alias, row.Alias, _TRUNCATE);
+    wcsncpy_s(adapter.description, row.Description, _TRUNCATE);
+
+    adapter.luid = row.InterfaceLuid.Value;
+    adapter.type = row.Type;
+
+    adapter.isConnected = row.MediaConnectState == NdisMediaStateConnected;
+    adapter.isOperational = row.OperStatus == IfOperStatusUp;
+
+    adapter.receiveLinkSpeedBits = row.ReceiveLinkSpeed;
+    adapter.transmitLinkSpeedBits = row.TransmitLinkSpeed;
+
+    adapter.receivedBytes = row.InOctets;
+    adapter.sentBytes = row.OutOctets;
+}
+
+void updateDownloadAndNetworkSpeed(NetworkAdapterInfo& adapter) {
+    auto it = networkHistory.find(adapter.luid);
+    if (it == networkHistory.end()) {
+        networkHistory[adapter.luid] = {adapter.receivedBytes, adapter.sentBytes, std::chrono::steady_clock::now()};
+        adapter.downloadBytesPerSec = 0.0;
+        adapter.uploadBytesPerSec = 0.0;
+    } else {
+        auto& previous = it->second;
+        f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
+        
+        u64 bytesReceivedDelta = adapter.receivedBytes - previous.receivedBytes;
+        u64 bytesSentDelta = adapter.sentBytes - previous.sentBytes;
+
+        adapter.downloadBytesPerSec = bytesReceivedDelta / elapsedSeconds;
+        adapter.uploadBytesPerSec = bytesSentDelta / elapsedSeconds;
+
+        previous.receivedBytes = adapter.receivedBytes;
+        previous.sentBytes = adapter.sentBytes;
+        previous.timestamp = std::chrono::steady_clock::now();
+    }
+}
+
 std::vector<NetworkAdapterInfo> collectNetworkAdapters() {
     std::vector<NetworkAdapterInfo> networkAdapters{};
 
@@ -18,38 +76,10 @@ std::vector<NetworkAdapterInfo> collectNetworkAdapters() {
             }
 
             NetworkAdapterInfo currentAdapter{};
-            wcsncpy_s(currentAdapter.alias, currentRow.Alias, _TRUNCATE);
-            wcsncpy_s(currentAdapter.description, currentRow.Description, _TRUNCATE);
-            currentAdapter.luid = currentRow.InterfaceLuid.Value;
-            currentAdapter.type = currentRow.Type;
-            currentAdapter.isConnected = currentRow.MediaConnectState == MediaConnectStateConnected;
-            currentAdapter.isOperational = currentRow.OperStatus == IfOperStatusUp;
-            currentAdapter.receiveLinkSpeedBits = currentRow.ReceiveLinkSpeed;
-            currentAdapter.transmitLinkSpeedBits = currentRow.TransmitLinkSpeed;
-            currentAdapter.receivedBytes = currentRow.InOctets;
-            currentAdapter.sentBytes = currentRow.OutOctets;
+            rowToNetworkAdapter(currentAdapter, currentRow);
 
-            // updating download and upload speed
-            auto it = networkHistory.find(currentAdapter.luid);
-            if (it == networkHistory.end()) {
-                networkHistory[currentAdapter.luid] = {currentAdapter.receivedBytes, currentAdapter.sentBytes, std::chrono::steady_clock::now()};
-                currentAdapter.downloadBytesPerSec = 0.0;
-                currentAdapter.uploadBytesPerSec = 0.0;
-            } else {
-                auto& previous = it->second;
-                f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
-
-                u64 bytesReceivedDelta = currentAdapter.receivedBytes - previous.receivedBytes;
-                u64 bytesSentDelta = currentAdapter.sentBytes - previous.sentBytes;
-
-                currentAdapter.downloadBytesPerSec = bytesReceivedDelta / elapsedSeconds;
-                currentAdapter.uploadBytesPerSec = bytesSentDelta / elapsedSeconds;
-
-                previous.receivedBytes = currentAdapter.receivedBytes;
-                previous.sentBytes = currentAdapter.sentBytes;
-                previous.timestamp = std::chrono::steady_clock::now();
-            }
-
+            updateDownloadAndNetworkSpeed(currentAdapter);
+            
             networkAdapters.push_back(currentAdapter);
         }
     }
