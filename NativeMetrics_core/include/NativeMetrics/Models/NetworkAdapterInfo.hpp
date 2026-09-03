@@ -14,7 +14,7 @@ struct PreviousNetworkSample {
     std::chrono::steady_clock::time_point timestamp{};
 };
 
-std::unordered_map<u64, PreviousNetworkSample> networkHistory{};
+inline std::unordered_map<u64, PreviousNetworkSample> networkHistory{};
 
 struct NetworkAdapterInfo {
     wchar_t alias[CHAR_LENGTH_MAX] {};

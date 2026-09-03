@@ -6,18 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(SOURCE_FILES
-  "src/NativeMetrics.cpp"
-)
-
-set(HEADER_FILES
-  "include/NativeMetrics/NativeMetrics.hpp"
-  "include/NativeMetrics/Types.hpp"
-  "include/NativeMetrics/Util.hpp"
-  "include/NativeMetrics/Models/CpuInfo.hpp"
-  "include/NativeMetrics/Models/MemoryInfo.hpp"
-  "include/NativeMetrics/Models/NetworkAdapterInfo.hpp"
-  "include/NativeMetrics/Models/ProcessInfo.hpp"
-  "include/NativeMetrics/Models/DiskInfo.hpp"
+	"src/NativeMetrics.cpp"
+	"src/NativeMetrics/Cpu.cpp"
+	"src/NativeMetrics/Disk.cpp"
+	"src/NativeMetrics/Memory.cpp"
+	"src/NativeMetrics/Network.cpp"
+	"src/NativeMetrics/Process.cpp"
+	"src/NativeMetrics/Util.cpp"
 )
 
 add_library(NativeMetrics_core SHARED
@@ -28,7 +23,6 @@ target_link_libraries(NativeMetrics_core PRIVATE
 	Iphlpapi
 	Ws2_32
 	Psapi
-	PowrProf
 )
 
 target_include_directories(NativeMetrics_core PUBLIC

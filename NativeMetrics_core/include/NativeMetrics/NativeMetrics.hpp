@@ -26,51 +26,24 @@
 #include <fileapi.h>
 
 // Native Metrics library  
+#include <NativeMetrics/Cpu.hpp>
+#include <NativeMetrics/Disk.hpp>
+#include <NativeMetrics/Memory.hpp>
+#include <NativeMetrics/Network.hpp>
+#include <NativeMetrics/Process.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/CpuInfo.hpp>
-#include <NativeMetrics/Models/ProcessInfo.hpp>
-#include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
-#include <NativeMetrics/Models/MemoryInfo.hpp>
 #include <NativeMetrics/Models/DiskInfo.hpp>
+#include <NativeMetrics/Models/MemoryInfo.hpp>
+#include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
+#include <NativeMetrics/Models/ProcessInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
-#define NATIVEMETRICS_API __declspec(dllexport)
+	#define NATIVEMETRICS_API __declspec(dllexport)
 #else 
-#define NATIVEMETRICS_API __declspec(dllimport)
+	#define NATIVEMETRICS_API __declspec(dllimport)
 #endif
-
-const u32 ONE_SEC = 1000;
-
-// CPU stats
-std::wstring getProcessorName();
-u32 getLogicalProcessors();
-u32 getPhysicalCores();
-u32 getBaseSpeedMHz();
-f64 getCpuUsage();
-void getCpuPerformanceInformation(CpuInfo& cpuInfo);
-CpuInfo collectCpuInfo();
-
-// RAM stats
-u64 getTotalMemory();
-u64 getAvailableMemory();
-u64 getApproxPercentInUse();
-void getGlobalMemoryStatus(MemoryInfo& memoryInfo);
-void getMemoryPerformanceInformation(MemoryInfo& memoryInfo);
-MemoryInfo collectMemoryInfo();
-
-// Disk stats
-void getDriveString(std::vector<DiskInfo>& diskList);
-void getDriveType(DiskInfo& disk);
-void getDriveSpace(DiskInfo& disk);
-void getVolumeInformation(DiskInfo& disk);
-std::vector<DiskInfo> collectDiskInfo();
-
-// Process stats
-std::vector<ProcessInfo> collectProcesses();
-
-// Network stats
-std::vector<NetworkAdapterInfo> collectNetworkAdapters();
 
 extern "C" {
 	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);

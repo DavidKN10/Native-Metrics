@@ -1,6 +1,6 @@
 #pragma once
 
-#include <NativeMetrics/NativeMetrics.hpp>
+#include <NativeMetrics/Types.hpp>
 
 struct MemoryInfo {
     u64 pageSizeBytes{};
