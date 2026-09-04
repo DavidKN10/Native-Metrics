@@ -23,9 +23,6 @@ struct NetworkAdapterInfo {
     u64 luid{};
     u64 type{};
 
-    bool isConnected{};
-    bool isOperational{};
-
     u64 receiveLinkSpeedBits{};
     u64 transmitLinkSpeedBits{};
     u64 receivedBytes{};
@@ -33,4 +30,7 @@ struct NetworkAdapterInfo {
 
     f64 downloadBytesPerSec{};
     f64 uploadBytesPerSec{};
+   
+    bool isConnected{};
+    bool isOperational{};
 };

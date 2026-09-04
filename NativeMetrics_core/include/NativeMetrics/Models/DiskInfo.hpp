@@ -30,10 +30,9 @@ struct DiskInfo {
     wchar_t model[BUFFER_SIZE] {};
     wchar_t guidPath[GUID_SIZE] {};
 
-    u64 availableSpaceBytes{};
     u64 totalSpaceBytes{};
+    u64 availableSpaceBytes{};
     u64 freeSpaceBytes{};
-
     u64 bytesRead{};
     u64 bytesWritten{};
     f64 readSpeed{};
