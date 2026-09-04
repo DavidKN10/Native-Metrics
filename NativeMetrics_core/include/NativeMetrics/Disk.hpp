@@ -38,4 +38,10 @@ void getDriveSpace(DiskInfo& disk);
 
 void getVolumeInformation(DiskInfo& disk);
 
+u32 getPhysicalDiskNumber(DiskInfo& disk);
+
+void getBusType(DiskInfo& disk, STORAGE_BUS_TYPE& type);
+
+bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk);
+
 std::vector<DiskInfo> collectDiskInfo();

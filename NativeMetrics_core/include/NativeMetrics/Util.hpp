@@ -24,3 +24,5 @@ u64 bytesToMB(u64 bytesAmount);
 u64 bytesToGB(u64 bytesAmount);
 
 u64 fileTimeToU64(const FILETIME& ft);
+
+std::wstring AsciiToWide(const char* narrowStr);

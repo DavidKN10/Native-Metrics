@@ -13,10 +13,12 @@ void testDisks() {
     if (getDiskInfo(diskList.data(), 1024, &disksWritten)) {
         for (i32 i = 0; i < disksWritten; i++) {
             DiskInfo& disk = diskList[i];
-            std::wcout << L"Drive: " << disk.driveLetter << std::endl; 
+            std::wcout << disk.vendor << L" " << disk.model << std::endl;
+            std::wcout << L"Bus: " << disk.busType << std::endl;
             std::wcout << L"Type: " << disk.driveType << std::endl;
             std::wcout << L"Label: " << disk.volumeName << std::endl;
             std::wcout << L"Filesystem: " << disk.fileSystemName << std::endl;
+            std::wcout << L"Drive: " << disk.driveLetter << std::endl; 
             std::cout << "Available space: " << disk.availableSpaceBytes << " B" << std::endl;
             std::cout << "Total space: " << disk.totalSpaceBytes << " B" << std::endl;
             std::cout << "Free space: " << disk.freeSpaceBytes << " B" << std::endl;

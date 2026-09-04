@@ -38,3 +38,21 @@ u64 fileTimeToU64(const FILETIME& ft) {
     u64 result = (highDateTime << 32) | ft.dwLowDateTime;
     return result;
 }
+
+std::wstring AsciiToWide(const char* narrowStr) {
+    if (!narrowStr || *narrowStr == '\0') {
+        return L"";
+    }
+    
+    // determine required wide buffer size
+    int sizeNeeded = MultiByteToWideChar(CP_ACP, 0, narrowStr, -1, nullptr, 0);
+    if (sizeNeeded <= 0) {
+        return L"";
+    }
+
+    // perform conversion
+    std::wstring wideStr(sizeNeeded - 1, L'\0');
+    MultiByteToWideChar(CP_ACP, 0, narrowStr, -1, &wideStr[0], sizeNeeded);
+
+    return wideStr;
+}
