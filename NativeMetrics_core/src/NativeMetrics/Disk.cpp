@@ -8,8 +8,23 @@ void getDriveString(std::vector<DiskInfo>& diskList) {
         for (wchar_t* drive = buffer; *drive; drive += wcslen(drive) + 1) {
             DiskInfo currentDisk{};
             wcsncpy_s(currentDisk.driveLetter, drive, _TRUNCATE);
+
             diskList.push_back(currentDisk);
         }
+    }
+}
+
+void getDriveGuid(DiskInfo& disk) {
+    wchar_t buffer[50];
+
+    BOOL result = GetVolumeNameForVolumeMountPointW(
+        disk.driveLetter,
+        buffer, 
+        ARRAYSIZE(buffer) 
+    );
+
+    if (result) {
+        wcsncpy_s(disk.guidPath, buffer, _TRUNCATE);
     }
 }
 
@@ -214,11 +229,80 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk) {
     return true;
 }
 
+bool getDiskPerformance(u32 diskNumber, DiskInfo& disk) {
+    std::wstring diskName = L"\\\\.\\PhysicalDrive";
+    diskName += std::to_wstring(diskNumber);
+
+    HANDLE diskHandle = CreateFileW(
+        diskName.c_str(), 0, 
+        FILE_SHARE_READ | FILE_SHARE_WRITE, 
+        nullptr, 
+        OPEN_EXISTING, 
+        0, nullptr
+    );
+
+    if (diskHandle == INVALID_HANDLE_VALUE) {
+        return false;
+    }
+    
+    DISK_PERFORMANCE buffer{};
+    u32 bufferSize = sizeof(buffer);
+    DWORD bytesReturned = 0;
+    
+    BOOL result = DeviceIoControl(
+        diskHandle, 
+        IOCTL_DISK_PERFORMANCE, 
+        nullptr, 0, 
+        &buffer, bufferSize, 
+        &bytesReturned,
+        nullptr 
+    );
+
+    if (!result) {
+        CloseHandle(diskHandle);
+        return false;
+    }
+    
+    disk.bytesRead = buffer.BytesRead.QuadPart;
+    disk.bytesWritten = buffer.BytesWritten.QuadPart;
+    
+    CloseHandle(diskHandle);
+    return true;
+}
+
+void updateReadWriteSpeed(DiskInfo& disk) {
+    auto it = diskMetricHistory.find(std::wstring(disk.guidPath));
+    if (it == diskMetricHistory.end()) {
+        diskMetricHistory[std::wstring(disk.guidPath)] = {
+            disk.bytesRead, 
+            disk.bytesWritten,
+            std::chrono::steady_clock::now() 
+        };
+
+        disk.readSpeed = 0.0;
+        disk.writeSpeed = 0.0;
+    } else {
+        auto& previous = it->second;
+        f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
+
+        u64 readBytesDelta = disk.bytesRead - previous.bytesRead;
+        u64 writeBytesDelta = disk.bytesWritten - previous.bytesWritten;
+
+        disk.readSpeed = readBytesDelta / elapsedSeconds;
+        disk.writeSpeed = writeBytesDelta / elapsedSeconds;
+
+        previous.bytesRead = disk.bytesRead;
+        previous.bytesWritten = disk.bytesWritten;
+        previous.timestamp = std::chrono::steady_clock::now();
+    }
+}
+
 std::vector<DiskInfo> collectDiskInfo() {
     std::vector<DiskInfo> disks{};
     getDriveString(disks);
 
     for (auto& disk : disks) {
+        getDriveGuid(disk);
         getDriveType(disk);
         getDriveSpace(disk);
         getVolumeInformation(disk);
@@ -228,6 +312,12 @@ std::vector<DiskInfo> collectDiskInfo() {
         if (!getPhysicalDiskInfo(diskNumber, disk)) {
             continue; 
         }
+
+        if (!getDiskPerformance(diskNumber, disk)) {
+            continue;
+        }
+
+        updateReadWriteSpeed(disk);
     }
 
     return disks;

@@ -32,6 +32,8 @@
 
 void getDriveString(std::vector<DiskInfo>& diskList);
 
+void getDriveGuid(DiskInfo& disk);
+
 void getDriveType(DiskInfo& disk);
 
 void getDriveSpace(DiskInfo& disk);
@@ -43,5 +45,9 @@ u32 getPhysicalDiskNumber(DiskInfo& disk);
 void getBusType(DiskInfo& disk, STORAGE_BUS_TYPE& type);
 
 bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk);
+
+void updateReadWriteSpeed(DiskInfo& disk);
+
+bool getDiskPerformance(u32 diskNumber, DiskInfo& disk);
 
 std::vector<DiskInfo> collectDiskInfo();
