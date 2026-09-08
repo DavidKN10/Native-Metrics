@@ -1,6 +1,7 @@
 #pragma once
 
 // C++ standard library
+#include <set>
 #include <algorithm>
 #include <cstdint>
 #include <cstring>

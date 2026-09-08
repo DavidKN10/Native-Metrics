@@ -79,9 +79,14 @@ void getVolumeInformation(DiskInfo& disk) {
 }
 
 u32 getPhysicalDiskNumber(DiskInfo& disk) {
+    // convert from "C:\" to "\\.\C:" for CreateFileW
+    std::wstring devicePath = L"\\\\.\\";
+    devicePath += disk.driveLetter[0];
+    devicePath += L":";
+
     HANDLE diskHandle =
         CreateFileW(
-            disk.driveLetter, 
+            devicePath.c_str(), 
             GENERIC_READ, 
             FILE_SHARE_READ | FILE_SHARE_WRITE, 
             nullptr, 
@@ -91,12 +96,13 @@ u32 getPhysicalDiskNumber(DiskInfo& disk) {
         );
 
     if (diskHandle == INVALID_HANDLE_VALUE) {
+        std::wcout << L"ERROR: " <<  GetLastError() << std::endl;
         return 0; 
     }
 
     // get physical disk
     std::vector<BYTE> buffer(1024);
-    u32 bufferSize = sizeof(buffer); 
+    u32 bufferSize = static_cast<u32>(buffer.size()); 
     DWORD bytesReturned = 0;
 
     BOOL result = DeviceIoControl(
@@ -308,7 +314,7 @@ std::vector<DiskInfo> collectDiskInfo() {
         getVolumeInformation(disk);
 
         u32 diskNumber = getPhysicalDiskNumber(disk);
-
+        
         if (!getPhysicalDiskInfo(diskNumber, disk)) {
             continue; 
         }
