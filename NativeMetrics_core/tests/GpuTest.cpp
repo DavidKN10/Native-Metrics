@@ -15,10 +15,11 @@ void testGpu() {
             GpuInfo& gpu = gpuList[i];
             std::cout << "LUID: " << gpu.luid << std::endl;
             std::wcout << L"Description: " << gpu.description << std::endl;
-            std::cout << "Video memory: " << gpu.dedicatedVideoMemoryBytes << " B" << std::endl;
+            std::cout << "Video memory: " << gpu.dedicatedVideoMemoryBytes / (1024 * 1024 * 1024) << " B" << std::endl;
             std::cout << "System memory: " << gpu.dedicatedSystemMemoryBytes << " B" << std::endl;
-            std::cout << "Shared memory: " << gpu.sharedSystemMemoryBytes << " B" << std::endl;
+            std::cout << "Shared memory: " << gpu.sharedSystemMemoryBytes / (1024 * 1024 * 1024)<< " B" << std::endl;
         }
+        std::cout << std::endl;
     }
 }
 

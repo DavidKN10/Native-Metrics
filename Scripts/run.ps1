@@ -10,6 +10,7 @@ param(
     [switch]$Ninja,
     [switch]$Cpu,
     [switch]$Disk,
+    [switch]$Gpu,
     [switch]$Memory,
     [switch]$Network,
     [switch]$Process
@@ -21,6 +22,7 @@ $RootDir = Resolve-Path (Get-Item "$PSScriptRoot\..\NativeMetrics_core").FullNam
 # exe names
 $CpuExe = "CpuTest.exe"
 $DiskExe = "DiskTest.exe"
+$GpuExe = "GpuTest.exe"
 $MemoryExe = "MemoryTest.exe"
 $NetworkExe = "NetworkTest.exe"
 $ProcessExe = "ProcessTest.exe"
@@ -42,6 +44,11 @@ $DiskDebugNinja = Join-Path $DebugPathNinja $DiskExe
 $DiskReleaseMsvc = Join-Path $ReleasePathMsvc $DiskExe
 $DiskReleaseNinja = Join-Path $ReleasePathNinja $DiskExe
 
+$GpuDebugMsvc = Join-Path $DebugPathMsvc $GpuExe
+$GpuDebugNinja = Join-Path $DebugPathNinja $GpuExe
+$GpuReleaseMsvc = Join-Path $ReleasePathMsvc $GpuExe
+$GpuReleaseNinja = Join-Path $ReleasePathNinja $GpuExe
+
 $MemoryDebugMsvc = Join-Path $DebugPathMsvc $MemoryExe
 $MemoryDebugNinja = Join-Path $DebugPathNinja $MemoryExe
 $MemoryReleaseMsvc = Join-Path $ReleasePathMsvc $MemoryExe
@@ -61,31 +68,37 @@ if ($Debug) {
     if ($Msvc) {
         if ($Cpu) {
             if (!(Test-Path $CpuDebugMsvc)) {
-                Write-Error "Count not find CpuTest.exe"
+                Write-Error "Could not find CpuTest.exe"
             }
             & $CpuDebugMsvc
         }
         elseif ($Disk) {
             if (!(Test-Path $DiskDebugMsvc)) {
-                Write-Error "Count not find DiskTest.exe"
+                Write-Error "Could not find DiskTest.exe"
             }
             & $DiskDebugMsvc
         }
+        elseif ($Gpu) {
+            if (!(Test-Path $GpuDebugMsvc)) {
+                Write-Error "Could not find GpuTest.exe"
+            }
+            & $GpuDebugMsvc
+        }
         elseif ($Memory) {
             if (!(Test-Path $MemoryDebugMsvc)) {
-                Write-Error "Count not find MemoryTest.exe"
+                Write-Error "Could not find MemoryTest.exe"
             }
             & $MemoryDebugMsvc
         }
         elseif ($Network) {
             if (!(Test-Path $NetworkDebugMsvc)) {
-                Write-Error "Count not find NetworkTest.exe"
+                Write-Error "Could not find NetworkTest.exe"
             }
             & $NetworkDebugMsvc 
         }
         elseif ($Process) {
             if (!(Test-Path $ProcessDebugMsvc)) {
-                Write-Error "Count not find ProcessTest.exe"
+                Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessDebugMsvc 
         }
@@ -96,31 +109,37 @@ if ($Debug) {
     elseif ($Ninja) {
         if ($Cpu) {
             if (!(Test-Path $CpuDebugNinja)) {
-                Write-Error "Count not find CpuTest.exe"
+                Write-Error "Could not find CpuTest.exe"
             }
             & $CpuDebugNinja 
         }
         elseif ($Disk) {
             if (!(Test-Path $DiskDebugNinja)) {
-                Write-Error "Count not find DiskTest.exe"
+                Write-Error "Could not find DiskTest.exe"
             }
             & $DiskDebugNinja 
         }
+        elseif ($Gpu) {
+            if (!(Test-Path $GpuDebugNinja)) {
+                Write-Error "Could not find GpuTest.exe"
+            }
+            & $GpuDebugNinja
+        }
         elseif ($Memory) {
             if (!(Test-Path $MemoryDebugNinja)) {
-                Write-Error "Count not find MemoryTest.exe"
+                Write-Error "Could not find MemoryTest.exe"
             }
             & $MemoryDebugNinja 
         }
         elseif ($Network) {
             if (!(Test-Path $NetworkDebugNinja)) {
-                Write-Error "Count not find NetworkTest.exe"
+                Write-Error "Could not find NetworkTest.exe"
             }
             & $NetworkDebugNinja 
         }
         elseif ($Process) {
             if (!(Test-Path $ProcessDebugNinja)) {
-                Write-Error "Count not find ProcessTest.exe"
+                Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessDebugNinja 
         }
@@ -136,31 +155,37 @@ elseif ($Release) {
     if ($Msvc) {
         if ($Cpu) {
             if (!(Test-Path $CpuReleaseMsvc)) {
-                Write-Error "Count not find CpuTest.exe"
+                Write-Error "Could not find CpuTest.exe"
             }
             & $CpuReleaseMsvc 
         }
         elseif ($Disk) {
             if (!(Test-Path $DiskReleaseMsvc)) {
-                Write-Error "Count not find DiskTest.exe"
+                Write-Error "Could not find DiskTest.exe"
             }
             & $DiskReleaseMsvc 
         }
+        elseif ($Gpu) {
+            if (!(Test-Path $GpuReleaseMsvc)) {
+                Write-Error "Could not find GpuTest.exe"
+            }
+            & $GpuReleaseMsvc
+        }
         elseif ($Memory) {
             if (!(Test-Path $MemoryReleaseMsvc)) {
-                Write-Error "Count not find MemoryTest.exe"
+                Write-Error "Could not find MemoryTest.exe"
             }
             & $MemoryReleaseMsvc 
         }
         elseif ($Network) {
             if (!(Test-Path $NetworkReleaseMsvc)) {
-                Write-Error "Count not find NetworkTest.exe"
+                Write-Error "Could not find NetworkTest.exe"
             }
             & $NetworkReleaseMsvc 
         }
         elseif ($Process) {
             if (!(Test-Path $ProcessReleaseMsvc)) {
-                Write-Error "Count not find ProcessTest.exe"
+                Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessReleaseMsvc 
         }
@@ -171,31 +196,37 @@ elseif ($Release) {
     elseif ($Ninja) {
         if ($Cpu) {
             if (!(Test-Path $CpuReleaseNinja)) {
-                Write-Error "Count not find CpuTest.exe"
+                Write-Error "Could not find CpuTest.exe"
             }
             & $CpuReleaseNinja 
         }
         elseif ($Disk) {
             if (!(Test-Path $DiskReleaseNinja)) {
-                Write-Error "Count not find DiskTest.exe"
+                Write-Error "Could not find DiskTest.exe"
             }
             & $DiskReleaseNinja
         }
+        elseif ($Gpu) {
+            if (!(Test-Path $GpuReleaseNinja)) {
+                Write-Error "Could not find GpuTest.exe"
+            }
+            & $GpuReleaseNinja 
+        }
         elseif ($Memory) {
             if (!(Test-Path $MemoryReleaseNinja)) {
-                Write-Error "Count not find MemoryTest.exe"
+                Write-Error "Could not find MemoryTest.exe"
             }
             & $MemoryReleaseNinja 
         }
         elseif ($Network) {
             if (!(Test-Path $NetworkReleaseNinja)) {
-                Write-Error "Count not find NetworkTest.exe"
+                Write-Error "Could not find NetworkTest.exe"
             }
             & $NetworkReleaseNinja 
         }
         elseif ($Process) {
             if (!(Test-Path $ProcessReleaseNinja)) {
-                Write-Error "Count not find ProcessTest.exe"
+                Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessReleaseNinja 
         }
