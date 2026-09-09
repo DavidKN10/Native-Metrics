@@ -96,7 +96,6 @@ u32 getPhysicalDiskNumber(DiskInfo& disk) {
         );
 
     if (diskHandle == INVALID_HANDLE_VALUE) {
-        std::wcout << L"ERROR: " <<  GetLastError() << std::endl;
         return 0; 
     }
 

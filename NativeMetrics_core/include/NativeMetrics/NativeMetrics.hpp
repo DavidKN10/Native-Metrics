@@ -28,6 +28,7 @@
 // Native Metrics library  
 #include <NativeMetrics/Cpu.hpp>
 #include <NativeMetrics/Disk.hpp>
+#include <NativeMetrics/Gpu.hpp>
 #include <NativeMetrics/Memory.hpp>
 #include <NativeMetrics/Network.hpp>
 #include <NativeMetrics/Process.hpp>
@@ -35,6 +36,7 @@
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/CpuInfo.hpp>
 #include <NativeMetrics/Models/DiskInfo.hpp>
+#include <NativeMetrics/Models/GpuInfo.hpp>
 #include <NativeMetrics/Models/MemoryInfo.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
@@ -49,6 +51,8 @@ extern "C" {
 	NATIVEMETRICS_API bool getCpuInfo(CpuInfo* buffer, i32 bufferSize);
 	
     NATIVEMETRICS_API bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten);
+	
+	NATIVEMETRICS_API bool getGpuInfo(GpuInfo* buffer, i32 bufferSize, i32* adaptersWritten);
 	
 	NATIVEMETRICS_API bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize);
 

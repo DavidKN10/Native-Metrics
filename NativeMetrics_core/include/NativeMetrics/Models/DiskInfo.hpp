@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <unordered_map>
 
-
 #include <NativeMetrics/Types.hpp>
 
 constexpr int DRIVE_LETTER_LENGTH = 4; 

@@ -9,6 +9,7 @@ set(SOURCE_FILES
 	"src/NativeMetrics.cpp"
 	"src/NativeMetrics/Cpu.cpp"
 	"src/NativeMetrics/Disk.cpp"
+	"src/NativeMetrics/Gpu.cpp"
 	"src/NativeMetrics/Memory.cpp"
 	"src/NativeMetrics/Network.cpp"
 	"src/NativeMetrics/Process.cpp"
@@ -23,6 +24,7 @@ target_link_libraries(NativeMetrics_core PRIVATE
 	Iphlpapi
 	Ws2_32
 	Psapi
+	dxgi
 )
 
 target_include_directories(NativeMetrics_core PUBLIC
@@ -69,5 +71,12 @@ target_link_libraries(NetworkTest PRIVATE
 	NativeMetrics_core
 )
 
+add_executable(GpuTest
+	"tests/GpuTest.cpp"
+)
+
+target_link_libraries(GpuTest PRIVATE
+	NativeMetrics_core
+)
 
 target_compile_definitions(NativeMetrics_core PRIVATE NATIVEMETRICS_EXPORTS)
