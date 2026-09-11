@@ -10,8 +10,11 @@ struct GpuInfo {
     wchar_t description[DESCRIPTION_SIZE] {};
     
     u64 luid{};
-    u64 dedicatedVideoMemoryBytes{};
-    u64 dedicatedSystemMemoryBytes{};
-    u64 sharedSystemMemoryBytes{};
 
+    f64 dedicatedVideoMemoryBytes{};
+    f64 localCurrentMemoryBytes{};
+    f64 currentUsagePercent{};
+
+    f64 sharedSystemMemoryBytes{};
+    f64 nonLocalCurrentMemoryBytes{};
 };
