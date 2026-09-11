@@ -14,9 +14,10 @@ void testProcesses() {
         for (i32 i = 0; i < processesWritten; i++) {
             ProcessInfo& process = processList[i];
             std::wcout << L"Process: " << process.processName << std::endl;
-            std::wcout << L"PID: " << process.processId << std::endl;
-            std::wcout << L"Threads: " << process.threadsCount << std::endl;
-            std::wcout << L"Memory Usage: " << process.memoryUsage << " MB" << std::endl;
+            std::cout << "PID: " << process.processId << std::endl;
+            std::cout << "Threads: " << process.threadsCount << std::endl;
+            std::cout << "Memory Usage: " << process.memoryUsage << " MB" << std::endl;
+            std::cout << "Priority: " << process.priorityClass << std::endl;
             if (process.processPath) {
                 std::wcout << L"Exe path: " << process.processPath << std::endl; 
             }

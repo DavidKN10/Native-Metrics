@@ -55,6 +55,9 @@ std::vector<ProcessInfo> collectProcesses() {
             continue;
         }
 
+        // get process priority
+        currentProcess.priorityClass = GetPriorityClass(hProcess);
+
         // get process exe path if available
         wchar_t exePath[PROCESS_PATH_LENGTH];
         DWORD bufferSize = PROCESS_PATH_LENGTH;
