@@ -8,6 +8,8 @@ void getAdapterDesc(GpuInfo& adapter, DXGI_ADAPTER_DESC2& desc) {
     li.HighPart = desc.AdapterLuid.HighPart;
     adapter.luid = li.QuadPart;
 
+    adapter.vendorId = desc.VendorId;
+
     adapter.dedicatedVideoMemoryBytes = static_cast<f64>(desc.DedicatedVideoMemory);
     adapter.sharedSystemMemoryBytes = static_cast<f64>(desc.SharedSystemMemory);
 }
@@ -36,6 +38,7 @@ void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
         DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, 
         IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND) 
     {
+        
         GpuInfo currentAdapter{};
 
         DXGI_ADAPTER_DESC2 desc{};

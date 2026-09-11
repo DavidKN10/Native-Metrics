@@ -14,6 +14,7 @@ void testGpu() {
 		for (i32 i = 0; i < adaptersWritten - 1; i++) {
 			GpuInfo& gpu = gpuList[i];
 			std::cout << "LUID: " << gpu.luid << std::endl;
+            std::cout << "Vendor ID: " << gpu.vendorId << std::endl;
 			std::wcout << L"Description: " << gpu.description << std::endl;
 			std::cout << "Usage: " << gpu.currentUsagePercent << "%" << std::endl;
 			std::cout << "Dedicated Memory: " << gpu.localCurrentMemoryBytes / (1024 * 1024 * 1024) << "/" << gpu.dedicatedVideoMemoryBytes / (1024 * 1024 * 1024) << " B" << std::endl;
