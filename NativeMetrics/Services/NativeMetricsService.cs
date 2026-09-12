@@ -28,12 +28,12 @@ public static class NativeMetricsService
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
     public static extern bool getMemoryInfo([Out] MemoryInfo buffer, int bufferSize);
+    
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [return: MarshalAs(UnmanagedType.I1)]
+    public static extern bool getProcessList([Out] ProcessInfo[] buffer, int bufferSize, out int processesWritten);  
    
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
     public static extern bool getNetworkAdapterInfo([Out] NetworkAdapterInfo[] buffer, int bufferSize, out int adaptersWritten);
-
-    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    [return: MarshalAs(UnmanagedType.I1)]
-    public static extern bool getProcessList([Out] ProcessInfo[] buffer, int bufferSize, out int processesWritten);
 }

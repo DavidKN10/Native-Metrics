@@ -13,10 +13,10 @@ public class PerformanceManager
     
     public async Task RefreshAsync()
     {
-        ulong totalMemory = NativeMetricsService.getTotalMemory();
-        ulong availableMemory = NativeMetricsService.getAvailableMemory();
-        ulong approxMemPercent = NativeMetricsService.getApproxPercentInUse();
-        double cpuUsage = NativeMetricsService.getCpuUsage();
+        ulong totalMemory = 1;
+        ulong availableMemory = 2;
+        ulong approxMemPercent = 3;
+        double cpuUsage = 4;
 
         Synchronize(totalMemory, availableMemory, approxMemPercent, cpuUsage);
     }

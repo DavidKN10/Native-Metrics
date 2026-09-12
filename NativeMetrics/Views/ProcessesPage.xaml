@@ -46,7 +46,8 @@
                 <tv:TableViewTextColumn Header="ID" Binding="{Binding ProcessId}" Width="80" />
                 <tv:TableViewTextColumn Header="Threads" Binding="{Binding ThreadsCount}" Width="90" />
                 <tv:TableViewTextColumn Header="Parent ID" Binding="{Binding ParentProcessId}" Width="95" />
-                
+                <tv:TableViewTextColumn Header="Priority Class" Binding="{Binding PriorityClassStr}" Width="100" />
+
                 <tv:TableViewTemplateColumn Header="Usage" Width="100" CanSort="True" SortMemberPath="MemoryUsage" CanFilter="True">
                     <tv:TableViewTemplateColumn.HeaderStyle>
                         <Style TargetType="tv:TableViewColumnHeader">

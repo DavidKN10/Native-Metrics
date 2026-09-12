@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Media.Imaging;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using NativeMetrics.Services;
 using NativeMetrics.Services.Models;
 using System;
@@ -19,6 +20,7 @@ public class ProcessesViewModel : INotifyPropertyChanged
     private uint _parentProcessId;
     private int _priorityClassBase;
     private uint _priorityClass;
+    private string? _priorityClassStr;
     private double _commitSize;
     private double _memoryUsage;
     private uint _threadsCount;
@@ -32,6 +34,11 @@ public class ProcessesViewModel : INotifyPropertyChanged
     public int PriorityClassBase { get { return _priorityClassBase; } }
     public uint PriorityClass { get { return _priorityClass; } }
     public double CommitSize { get { return _commitSize; } }
+
+    public string? PriorityClassStr { 
+        get { return _priorityClassStr; } 
+        set { _priorityClassStr = value; OnPropertyChanged(); }
+    }
 
     public double MemoryUsage { 
         get {  return _memoryUsage; } 
@@ -66,12 +73,48 @@ public class ProcessesViewModel : INotifyPropertyChanged
         _commitSize = process.commitSize;
         _privateMemory = process.privateMemory;
     }
+   
+    public void SetPriorityClassStr()
+    {
+        switch(PriorityClass)
+        {
+            case 32768:
+                PriorityClassStr = "Above normal";
+                break;
+            case 16384:
+                PriorityClassStr = "Below normal";
+                break;
+            case 128:
+                PriorityClassStr = "High";
+                break;
+            case 64:
+                PriorityClassStr = "Idle";
+                break;
+            case 32:
+                PriorityClassStr = "Normal";
+                break;
+            case 1048576:
+                PriorityClassStr = "Process mode background begin";
+                break;
+            case 2097152:
+                PriorityClassStr = "Process mode background end";
+                break;
+            case 256:
+                PriorityClassStr = "Realtime";
+                break;
+            default:
+                PriorityClassStr = "Unkown";
+                break;
+        }
+    }
+    
 
     public void Update(ProcessInfo process)
     {
         ThreadsCount = process.threadsCount;
         MemoryUsage = process.memoryUsage;
         PrivateMemory = process.privateMemory;
+        SetPriorityClassStr();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

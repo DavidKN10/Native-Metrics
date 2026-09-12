@@ -18,18 +18,18 @@ public struct NetworkAdapterInfo
 
     public ulong luid;
     public ulong type;
-
+    
+    public ulong receivedLinkSpeedBits;
+    public ulong transmitLinkSpeedBits;
+    public ulong receivedBytes;
+    public ulong sentBytes;
+   
+    public double downloadBytesPerSec;
+    public double uploadBytesPerSec;
+   
     [MarshalAs(UnmanagedType.I1)]
     public bool isConnected;
 
     [MarshalAs(UnmanagedType.I1)]
     public bool isOperational;
-
-    public ulong receivedLinkSpeedBits;
-    public ulong transmitLinkSpeedBits;
-    public ulong receivedBytes;
-    public ulong sentBytes;
-
-    public double downloadBytesPerSec;
-    public double uploadBytesPerSec;
 }

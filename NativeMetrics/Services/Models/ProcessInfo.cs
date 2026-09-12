@@ -15,14 +15,14 @@ public struct ProcessInfo
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
     public string processPath;
-
+   
+    public double memoryUsage;
+    public double commitSize;
+    public double privateMemory;
+  
     public uint processId;
     public uint threadsCount;
     public uint parentProcessId;
     public int priorityClassBase;
     public uint priorityClass;
-
-    public double memoryUsage;
-    public double commitSize;
-    public double privateMemory;
 }
