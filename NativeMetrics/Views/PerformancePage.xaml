@@ -13,10 +13,22 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-         
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{x:Bind _performanceManager.PerformanceStats.AvailableMemory , Mode=OneWay}"/>
-            <TextBlock Text=" GB"/>
-        </StackPanel>  
+       
+        <NavigationView x:Name="PerformanceNavigationView"
+                        Grid.Row="1"
+                        PaneDisplayMode="Left"
+                        IsBackButtonVisible="Collapsed"
+                        IsBackEnabled="False"
+                        SelectionChanged="PerformanceNavigationView_SelectionChanged"
+                        IsSettingsVisible="False">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Tag="CpuPage" Content="Cpu"/>
+                <NavigationViewItem Tag="MemoryPage" Content="Memory"/>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="PerformanceContentFrame"/>
+        </NavigationView>
     </Grid>
+    
 </Page>

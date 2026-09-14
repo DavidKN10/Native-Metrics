@@ -31,8 +31,12 @@ namespace NativeMetrics.Views
         public PerformancePage()
         {
             InitializeComponent();
+
             _performanceManager = new PerformanceManager();
             _updateService = new PerformanceUpdateService(_performanceManager);
+
+            // show an initial page
+            PerformanceContentFrame.Navigate(typeof(CpuPage));
 
             this.Loaded += PerformancePage_Loaded;
             this.Unloaded += PerformancePage_Unloaded;
@@ -46,6 +50,22 @@ namespace NativeMetrics.Views
         private async void PerformancePage_Unloaded(object sender, RoutedEventArgs e)
         {
             _updateService?.StopTimer(); 
+        }
+
+        private void PerformanceNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.SelectedItemContainer is NavigationViewItem item)
+            {
+                switch(item.Tag?.ToString())
+                {
+                    case "CpuPage":
+                        PerformanceContentFrame.Navigate(typeof(CpuPage));
+                        break;
+                    case "MemoryPage":
+                        PerformanceContentFrame.Navigate(typeof(MemoryPage));
+                        break;
+                }
+            }
         }
     }
 }

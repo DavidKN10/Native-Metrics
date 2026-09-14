@@ -14,6 +14,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\CpuPage.xaml" />
+    <None Remove="Views\MemoryPage.xaml" />
     <None Remove="Views\NetworkPage.xaml" />
     <None Remove="Views\PerformancePage.xaml" />
     <None Remove="Views\ProcessesPage.xaml" />
@@ -53,6 +55,16 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
     <PackageReference Include="WinUI.TableView" Version="1.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\MemoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\CpuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\SettingsPage.xaml">
