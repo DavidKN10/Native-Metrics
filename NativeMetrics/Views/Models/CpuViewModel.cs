@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NativeMetrics.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -47,7 +48,24 @@ public class CpuViewModel : INotifyPropertyChanged
         set { _cpuUsage = value; OnPropertyChanged(); }
     }
 
+    public CpuViewModel()
+    {
+        _handles = 0;
+        _processCount = 0;
+        _threadCount = 0;
+        _cpuUsage = 0.0;
+    }
+
+    public void Update(CpuInfo cpu)
+    {
+        Handles = cpu.handles;
+        ProcessCount = cpu.processCount;
+        ThreadCount = cpu.threadCount;
+        CpuUsage = cpu.cpuUsage;
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
+
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

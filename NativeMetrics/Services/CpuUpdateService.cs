@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace NativeMetrics.Services;
 
-public class PerformanceUpdateService
+public class CpuUpdateService
 {
     private readonly DispatcherTimer _updateTimer = new();
-    private readonly PerformanceManager _performanceManager;
+    private readonly CpuManager _cpuManager;
 
-    public PerformanceUpdateService(PerformanceManager performanceManager)
+    public CpuUpdateService(CpuManager cpuManager)
     {
-        _performanceManager = performanceManager;
-        InitializeTimer();        
+        _cpuManager = cpuManager;
+        InitializeTimer();
     }
 
     private void InitializeTimer()
@@ -38,6 +38,6 @@ public class PerformanceUpdateService
 
     private async void RefreshManager()
     {
-        await _performanceManager.RefreshAsync();
+        await _cpuManager.RefreshAsync();
     }
 }

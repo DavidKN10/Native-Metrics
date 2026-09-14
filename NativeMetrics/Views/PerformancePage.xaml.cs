@@ -25,15 +25,14 @@ namespace NativeMetrics.Views
     /// </summary>
     public sealed partial class PerformancePage : Page
     {
-        private PerformanceManager _performanceManager;
-        private PerformanceUpdateService _updateService;
+        private CpuManager _cpuManager;
+        private CpuUpdateService _cpuUpdateService;
 
         public PerformancePage()
         {
             InitializeComponent();
-
-            _performanceManager = new PerformanceManager();
-            _updateService = new PerformanceUpdateService(_performanceManager);
+            _cpuManager = new CpuManager();
+            _cpuUpdateService = new CpuUpdateService(_cpuManager);
 
             // show an initial page
             PerformanceContentFrame.Navigate(typeof(CpuPage));
@@ -44,12 +43,12 @@ namespace NativeMetrics.Views
 
         private async void PerformancePage_Loaded(object sender, RoutedEventArgs e)
         {
-            await _performanceManager.RefreshAsync();
+            await _cpuManager.RefreshAsync();
         }
 
         private async void PerformancePage_Unloaded(object sender, RoutedEventArgs e)
         {
-            _updateService?.StopTimer(); 
+            _cpuUpdateService?.StopTimer();
         }
 
         private void PerformanceNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
