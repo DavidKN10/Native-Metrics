@@ -34,11 +34,11 @@ public struct DiskInfo
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 50)]
     public string guidPath;
 
-    ulong totalSpaceBytes;
-    ulong availableSpaceBytes;
-    ulong freeSpaceBytes;
-    ulong bytesRead;
-    ulong bytesWritten;
-    double readSpeed;
-    double writeSpeed;
+    public ulong totalSpaceBytes;
+    public ulong availableSpaceBytes;
+    public ulong freeSpaceBytes;
+    public ulong bytesRead;
+    public ulong bytesWritten;
+    public double readSpeed;
+    public double writeSpeed;
 }

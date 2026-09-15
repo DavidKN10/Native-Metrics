@@ -13,13 +13,13 @@ public struct GpuInfo
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
     public string description;
 
-    ulong luid;
-    uint vendorId;
+    public ulong luid;
+    public uint vendorId;
 
-    double dedicatedVideoMemoryBytes;
-    double localCurrentMemoryBytes;
-    double currentUsagePercent;
+    public double dedicatedVideoMemoryBytes;
+    public double localCurrentMemoryBytes;
+    public double currentUsagePercent;
 
-    double sharedSystemMemoryBytes;
-    double nonLocalCurrentMemoryBytes;
+    public double sharedSystemMemoryBytes;
+    public double nonLocalCurrentMemoryBytes;
 }
