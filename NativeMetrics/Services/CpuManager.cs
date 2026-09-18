@@ -18,10 +18,11 @@ public class CpuManager
         CpuInfo cpuInfo = new();
         int bufferSize = Marshal.SizeOf<CpuInfo>();
 
-        bool result = NativeMetricsService.getCpuInfo(cpuInfo, bufferSize);
+        bool result = NativeMetricsService.getCpuInfo(ref cpuInfo, bufferSize);
         
         if (result)
         {
+            CpuStats.SetStats(cpuInfo);
             Synchronize(cpuInfo); 
         }
     }

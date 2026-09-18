@@ -103,7 +103,7 @@ public class ProcessesViewModel : INotifyPropertyChanged
                 PriorityClassStr = "Realtime";
                 break;
             default:
-                PriorityClassStr = "Unkown";
+                PriorityClassStr = "";
                 break;
         }
     }

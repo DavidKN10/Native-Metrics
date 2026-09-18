@@ -20,7 +20,8 @@
                         IsBackButtonVisible="Collapsed"
                         IsBackEnabled="False"
                         SelectionChanged="PerformanceNavigationView_SelectionChanged"
-                        IsSettingsVisible="False">
+                        IsSettingsVisible="False"
+                        Header="Performance">
 
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="CpuPage" Content="Cpu"/>

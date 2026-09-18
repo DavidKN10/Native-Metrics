@@ -55,7 +55,15 @@ public class CpuViewModel : INotifyPropertyChanged
         _threadCount = 0;
         _cpuUsage = 0.0;
     }
-
+    
+    public void SetStats(CpuInfo cpu)
+    {
+        _processorName = cpu.processorName;
+        _logicalProcessors = cpu.logicalProcessors;
+        _cores = cpu.cores;
+        _baseSpeed = cpu.baseSpeed;
+    }
+   
     public void Update(CpuInfo cpu)
     {
         Handles = cpu.handles;

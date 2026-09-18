@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using NativeMetrics.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,9 +24,33 @@ namespace NativeMetrics.Views
     /// </summary>
     public sealed partial class CpuPage : Page
     {
+        private CpuManager _manager;
+        private CpuUpdateService _updateService;
+
         public CpuPage()
         {
             InitializeComponent();
+
+            this.Loaded += CpuPage_Loaded;
+            this.Unloaded += CpuPage_Unloaded;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var context = (PerformanceContext)e.Parameter;
+
+            _manager = context.CpuManager;
+            _updateService = context.CpuUpdateService;
+        }
+
+        private async void CpuPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            await _manager.RefreshAsync();
+        }
+
+        private void CpuPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _updateService?.StopTimer();
         }
     }
 }

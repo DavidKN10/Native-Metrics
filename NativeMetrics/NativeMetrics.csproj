@@ -14,7 +14,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Views\CpuPage.xaml" />
     <None Remove="Views\MemoryPage.xaml" />
     <None Remove="Views\NetworkPage.xaml" />
     <None Remove="Views\PerformancePage.xaml" />
@@ -85,6 +84,9 @@
     <Page Update="Views\PerformancePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Performance\" />
   </ItemGroup>
 
   <!--
