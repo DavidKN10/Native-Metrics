@@ -22,9 +22,23 @@ public class MemoryViewModel : INotifyPropertyChanged
     private double _pagedPoolBytes;
     private double _nonPagedPoolBytes;
 
-    public double PageSizeBytes { get { return _pageSizeBytes; } }
-    public double TotalMemoryBytes {  get { return _totalMemoryBytes; } }
-    public double CommitLimitBytes { get { return _commitLimitBytes; } }
+    public double PageSizeBytes 
+    { 
+        get { return _pageSizeBytes; } 
+        set { _pageSizeBytes = value; OnPropertyChanged(); }
+    }
+   
+    public double TotalMemoryBytes 
+    {  
+        get { return _totalMemoryBytes; }
+        set { _totalMemoryBytes = value; OnPropertyChanged(); }
+    }
+   
+    public double CommitLimitBytes 
+    { 
+        get { return _commitLimitBytes; }
+        set { _commitLimitBytes = value; OnPropertyChanged(); }
+    }
 
     public double AvailableMemoryBytes
     {
@@ -63,7 +77,10 @@ public class MemoryViewModel : INotifyPropertyChanged
     }
 
     public MemoryViewModel()
-    {
+    { 
+        _pageSizeBytes = 0.0;
+        TotalMemoryBytes = 0.0;
+        CommitLimitBytes = 0.0;
         _availableMemoryBytes = 0.0;
         _memoryUsePercent = 0.0;
         _commitCurrentBytes = 0.0;
@@ -74,6 +91,9 @@ public class MemoryViewModel : INotifyPropertyChanged
 
     public void Update(MemoryInfo memory)
     {
+        PageSizeBytes = memory.pageSizeBytes;
+        TotalMemoryBytes = memory.totalMemoryBytes;
+        CommitLimitBytes = memory.commitLimitBytes;
         AvailableMemoryBytes = memory.availableMemoryBytes;
         MemoryUsePercent = memory.memoryUsePercent;
         CommitCurrentBytes = memory.commitCurrentBytes;
