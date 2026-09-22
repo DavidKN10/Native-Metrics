@@ -8,10 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <StackPanel Spacing="20">
-        
-        <TextBlock Text="{x:Bind _manager.CpuStats.ProcessorName, Mode=OneWay}"
+        <TextBlock Text="CPU"
                    FontSize="24"
                    FontWeight="Bold"/>
+
+        <TextBlock Text="{x:Bind _manager.CpuStats.ProcessorName, Mode=OneWay}"
+                   FontSize="18"
+                   FontWeight="Normal"/>
 
         <Grid
             ColumnSpacing="20"
