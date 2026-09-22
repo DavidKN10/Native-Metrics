@@ -27,7 +27,7 @@ public static class NativeMetricsService
 
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
-    public static extern bool getMemoryInfo([In, Out] MemoryInfo buffer, int bufferSize);
+    public static extern bool getMemoryInfo([In, Out] ref MemoryInfo buffer, int bufferSize);
     
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]

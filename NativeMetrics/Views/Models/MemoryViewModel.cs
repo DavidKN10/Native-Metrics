@@ -12,65 +12,65 @@ namespace NativeMetrics.Views.Models;
 
 public class MemoryViewModel : INotifyPropertyChanged
 {
-    private double _pageSizeBytes;
-    private double _totalMemoryBytes;
-    private double _availableMemoryBytes;
-    private double _memoryUsePercent;
-    private double _commitCurrentBytes;
-    private double _commitLimitBytes;
-    private double _commitPeakBytes;
-    private double _pagedPoolBytes;
-    private double _nonPagedPoolBytes;
+    private ulong _pageSizeBytes;
+    private ulong _totalMemoryBytes;
+    private ulong _availableMemoryBytes;
+    private ulong _memoryUsePercent;
+    private ulong _commitCurrentBytes;
+    private ulong _commitLimitBytes;
+    private ulong _commitPeakBytes;
+    private ulong _pagedPoolBytes;
+    private ulong _nonPagedPoolBytes;
 
-    public double PageSizeBytes 
+    public ulong PageSizeBytes 
     { 
         get { return _pageSizeBytes; } 
         set { _pageSizeBytes = value; OnPropertyChanged(); }
     }
    
-    public double TotalMemoryBytes 
+    public ulong TotalMemoryBytes 
     {  
         get { return _totalMemoryBytes; }
         set { _totalMemoryBytes = value; OnPropertyChanged(); }
     }
    
-    public double CommitLimitBytes 
+    public ulong CommitLimitBytes 
     { 
         get { return _commitLimitBytes; }
         set { _commitLimitBytes = value; OnPropertyChanged(); }
     }
 
-    public double AvailableMemoryBytes
+    public ulong AvailableMemoryBytes
     {
         get { return _availableMemoryBytes; }
         set { _availableMemoryBytes = value; OnPropertyChanged(); }
     }
 
-    public double MemoryUsePercent
+    public ulong MemoryUsePercent
     {
         get { return _memoryUsePercent; }
         set { _memoryUsePercent = value; OnPropertyChanged(); }
     }
 
-    public double CommitCurrentBytes
+    public ulong CommitCurrentBytes
     {
         get { return _commitCurrentBytes; }
         set { _commitCurrentBytes = value; OnPropertyChanged(); }
     }
 
-    public double CommitPeakBytes
+    public ulong CommitPeakBytes
     {
         get { return _commitPeakBytes; }
         set { _commitPeakBytes = value; OnPropertyChanged(); }
     }
 
-    public double PagedPoolBytes
+    public ulong PagedPoolBytes
     {
         get { return _pagedPoolBytes; }
         set { _pagedPoolBytes = value; OnPropertyChanged(); }
     }
 
-    public double NonPagedPoolBytes
+    public ulong NonPagedPoolBytes
     {
         get { return _nonPagedPoolBytes; }
         set { _nonPagedPoolBytes = value; OnPropertyChanged(); }
@@ -78,15 +78,15 @@ public class MemoryViewModel : INotifyPropertyChanged
 
     public MemoryViewModel()
     { 
-        _pageSizeBytes = 0.0;
-        TotalMemoryBytes = 0.0;
-        CommitLimitBytes = 0.0;
-        _availableMemoryBytes = 0.0;
-        _memoryUsePercent = 0.0;
-        _commitCurrentBytes = 0.0;
-        _commitPeakBytes = 0.0;
-        _pagedPoolBytes = 0.0;
-        _nonPagedPoolBytes = 0.0;
+        _pageSizeBytes = 0;
+        TotalMemoryBytes = 0;
+        CommitLimitBytes = 0;
+        _availableMemoryBytes = 0;
+        _memoryUsePercent = 0;
+        _commitCurrentBytes = 0;
+        _commitPeakBytes = 0;
+        _pagedPoolBytes = 0;
+        _nonPagedPoolBytes = 0;
     }
 
     public void Update(MemoryInfo memory)

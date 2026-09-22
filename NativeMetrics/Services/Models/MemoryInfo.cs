@@ -10,13 +10,13 @@ namespace NativeMetrics.Services.Models;
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct MemoryInfo
 {
-    public double pageSizeBytes;
-    public double totalMemoryBytes;
-    public double availableMemoryBytes;
-    public double memoryUsePercent;
-    public double commitCurrentBytes;
-    public double commitLimitBytes;
-    public double commitPeakBytes;
-    public double pagedPoolBytes;
-    public double nonPagedPoolBytes;
+    public ulong pageSizeBytes;
+    public ulong totalMemoryBytes;
+    public ulong availableMemoryBytes;
+    public ulong memoryUsePercent;
+    public ulong commitCurrentBytes;
+    public ulong commitLimitBytes;
+    public ulong commitPeakBytes;
+    public ulong pagedPoolBytes;
+    public ulong nonPagedPoolBytes;
 }

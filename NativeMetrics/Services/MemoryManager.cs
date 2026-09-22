@@ -19,7 +19,7 @@ public class MemoryManager
         MemoryInfo memoryInfo = new();
         int bufferSize = Marshal.SizeOf(memoryInfo);
 
-        bool result = NativeMetricsService.getMemoryInfo(memoryInfo, bufferSize);
+        bool result = NativeMetricsService.getMemoryInfo(ref memoryInfo, bufferSize);
         if (result)
         {
             Synchronize(memoryInfo);

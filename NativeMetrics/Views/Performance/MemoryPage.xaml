@@ -7,8 +7,107 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+   
+    <StackPanel Spacing="20">
+        <TextBlock Text="Memory"
+                   FontSize="24"
+                   FontWeight="Bold"/>
 
-    <Grid>
-        <TextBlock Text="Memory page"/>
-    </Grid>
+        <Grid 
+            ColumnSpacing="20"
+            RowSpacing="8">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- First Column-->
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Text="Percent Use:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       Text="{x:Bind _manager.MemoryStats.MemoryUsePercent, Mode=OneWay}"/>
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Text="Total:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       Text="{x:Bind _manager.MemoryStats.TotalMemoryBytes, Mode=OneWay}"/>
+           
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Text="Available:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="1"
+                       Text="{x:Bind _manager.MemoryStats.AvailableMemoryBytes, Mode=OneWay}"/>
+           
+            <!-- Second Column-->
+            <TextBlock Grid.Row="0"
+                       Grid.Column="2"
+                       Text="Commit current:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="3"
+                       Text="{x:Bind _manager.MemoryStats.CommitCurrentBytes, Mode=OneWay}"/>
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="2"
+                       Text="Commit limit:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="1"
+                       Grid.Column="3"
+                       Text="{x:Bind _manager.MemoryStats.CommitLimitBytes, Mode=OneWay}"/>
+           
+            <TextBlock Grid.Row="2"
+                       Grid.Column="2"
+                       Text="Commit peak:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="3"
+                       Text="{x:Bind _manager.MemoryStats.CommitPeakBytes, Mode=OneWay}"/>           
+            
+            <!-- Third Column-->
+            <TextBlock Grid.Row="0"
+                       Grid.Column="4"
+                       Text="Page size:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="5"
+                       Text="{x:Bind _manager.MemoryStats.PageSizeBytes, Mode=OneWay}"/>
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="4"
+                       Text="Paged pool:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="1"
+                       Grid.Column="5"
+                       Text="{x:Bind _manager.MemoryStats.PagedPoolBytes, Mode=OneWay}"/>
+           
+            <TextBlock Grid.Row="2"
+                       Grid.Column="4"
+                       Text="Non-Paged pool:"
+                       FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="5"
+                       Text="{x:Bind _manager.MemoryStats.NonPagedPoolBytes, Mode=OneWay}"/>          
+        </Grid>
+        
+    </StackPanel>
+    
 </Page>

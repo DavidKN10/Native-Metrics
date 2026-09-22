@@ -11,7 +11,7 @@ namespace NativeMetrics.Services;
 public class MemoryUpdateService
 {
     private readonly DispatcherTimer _updateTimer = new();
-    private readonly MemoryManager _memoryManger = new();
+    private readonly MemoryManager _memoryManger;
 
     public MemoryUpdateService(MemoryManager memoryManager)
     {
@@ -29,6 +29,12 @@ public class MemoryUpdateService
     private void OnTimerTick(object? senfer, object e)
     {
         RefreshManager();
+    }
+    
+    public void StartTimer()
+    {
+        _updateTimer.Tick += OnTimerTick;
+        _updateTimer.Start();
     }
     
     public void StopTimer()

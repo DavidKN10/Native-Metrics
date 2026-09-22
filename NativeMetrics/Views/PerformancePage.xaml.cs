@@ -43,11 +43,13 @@ namespace NativeMetrics.Views
         private async void PerformancePage_Loaded(object sender, RoutedEventArgs e)
         {
             await _performanceContext.CpuManager.RefreshAsync();
+            await _performanceContext.MemoryManager.RefreshAsync();
         }
 
         private async void PerformancePage_Unloaded(object sender, RoutedEventArgs e)
         {
             _performanceContext.CpuUpdateService.StopTimer();
+            _performanceContext.MemoryUpdateService.StopTimer();
         }
 
         private void PerformanceNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -60,7 +62,7 @@ namespace NativeMetrics.Views
                         PerformanceContentFrame.Navigate(typeof(CpuPage), _performanceContext); 
                         break;
                     case "MemoryPage":
-                        PerformanceContentFrame.Navigate(typeof(MemoryPage));
+                        PerformanceContentFrame.Navigate(typeof(MemoryPage), _performanceContext);
                         break;
                 }
             }

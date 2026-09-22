@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using NativeMetrics.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,9 +24,35 @@ namespace NativeMetrics.Views
     /// </summary>
     public sealed partial class MemoryPage : Page
     {
+        private MemoryManager _manager;
+        private MemoryUpdateService _updateService;
+
         public MemoryPage()
         {
             InitializeComponent();
+
+            this.Loaded += MemoryPage_Loaded;
+            this.Unloaded += MemoryPage_Unloaded;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var context = (PerformanceContext)e.Parameter;
+
+            _manager = context.MemoryManager;
+            _updateService = context.MemoryUpdateService;
+        }
+
+        private async void MemoryPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            _updateService?.StartTimer();
+            await _manager.RefreshAsync();
+
+        }
+
+        private void MemoryPage_Unloaded(object sendder, RoutedEventArgs e)
+        {
+            _updateService?.StopTimer();
         }
     }
 }
