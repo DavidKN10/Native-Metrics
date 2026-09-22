@@ -22,7 +22,6 @@ public class CpuManager
         
         if (result)
         {
-            CpuStats.SetStats(cpuInfo);
             Synchronize(cpuInfo); 
         }
     }

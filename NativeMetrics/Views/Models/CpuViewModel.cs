@@ -20,10 +20,29 @@ public class CpuViewModel : INotifyPropertyChanged
     private uint _threadCount;
     private double _cpuUsage;
 
-    public string? ProcessorName { get { return _processorName; } }
-    public uint LogicalProcessors { get { return _logicalProcessors; } }
-    public uint Cores { get { return _cores; } }
-    public uint BaseSpeed { get { return _baseSpeed; } }
+    public string? ProcessorName 
+    { 
+        get { return _processorName; } 
+        set { _processorName = value; OnPropertyChanged(); }
+    }
+
+    public uint LogicalProcessors 
+    { 
+        get { return _logicalProcessors; } 
+        set { _logicalProcessors = value; OnPropertyChanged(); }
+    }
+
+    public uint Cores 
+    { 
+        get { return _cores; } 
+        set { _cores = value; OnPropertyChanged(); }
+    }
+
+    public uint BaseSpeed 
+    { 
+        get { return _baseSpeed; } 
+        set { _baseSpeed = value; OnPropertyChanged(); }
+    }
 
     public uint Handles
     {
@@ -50,22 +69,22 @@ public class CpuViewModel : INotifyPropertyChanged
 
     public CpuViewModel()
     {
+        _processorName = string.Empty;
+        _logicalProcessors = 0;
+        _cores = 0;
+        _baseSpeed = 0;
         _handles = 0;
         _processCount = 0;
         _threadCount = 0;
         _cpuUsage = 0.0;
     }
-    
-    public void SetStats(CpuInfo cpu)
-    {
-        _processorName = cpu.processorName;
-        _logicalProcessors = cpu.logicalProcessors;
-        _cores = cpu.cores;
-        _baseSpeed = cpu.baseSpeed;
-    }
    
     public void Update(CpuInfo cpu)
     {
+        ProcessorName = cpu.processorName;
+        LogicalProcessors = cpu.logicalProcessors;
+        Cores = cpu.cores;
+        BaseSpeed = cpu.baseSpeed;
         Handles = cpu.handles;
         ProcessCount = cpu.processCount;
         ThreadCount = cpu.threadCount;

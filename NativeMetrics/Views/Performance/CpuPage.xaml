@@ -7,81 +7,87 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <StackPanel Spacing="20">
+        
+        <TextBlock Text="{x:Bind _manager.CpuStats.ProcessorName, Mode=OneWay}"
+                   FontSize="24"
+                   FontWeight="Bold"/>
 
-    <Grid
-        ColumnSpacing="20"
-        RowSpacing="8">
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions> 
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Left column-->
-        <TextBlock Grid.Row="0"
+        <Grid
+            ColumnSpacing="20"
+            RowSpacing="8">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Left column-->
+            <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="CPU Usage:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="0"
+            <TextBlock Grid.Row="0"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.CpuUsage, Mode=OneWay}"/>
 
-        <TextBlock Grid.Row="1"
+            <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    Text="Handles:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="1"
+            <TextBlock Grid.Row="1"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.Handles, Mode=OneWay}"/>
 
-        <TextBlock Grid.Row="2"
+            <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Text="Processes:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="2"
+            <TextBlock Grid.Row="2"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.ProcessCount, Mode=OneWay}"/>
 
-        <TextBlock Grid.Row="3"
+            <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    Text="Threads:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="3"
+            <TextBlock Grid.Row="3"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.ThreadCount, Mode=OneWay}"/>
 
-        <!-- Right column -->
-        <TextBlock Grid.Row="0"
+            <!-- Right column -->
+            <TextBlock Grid.Row="0"
                    Grid.Column="2"
                    Text="Logical processors:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="0"
+            <TextBlock Grid.Row="0"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.LogicalProcessors, Mode=OneWay}"/>
 
-        <TextBlock Grid.Row="1"
+            <TextBlock Grid.Row="1"
                    Grid.Column="2"
                    Text="Cores:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="1"
+            <TextBlock Grid.Row="1"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.Cores, Mode=OneWay}"/>
-       
-        <TextBlock Grid.Row="2"
+
+            <TextBlock Grid.Row="2"
                    Grid.Column="2"
                    Text="Base speed:"
                    FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="2"
+            <TextBlock Grid.Row="2"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.BaseSpeed, Mode=OneWay}"/>
-    </Grid>
+        </Grid>
+    </StackPanel>
 </Page>

@@ -29,6 +29,11 @@ public class CpuUpdateService
     {
         RefreshManager();
     }
+    public void StartTimer()
+    {
+        _updateTimer.Tick += OnTimerTick;
+        _updateTimer.Start();
+    }
 
     public void StopTimer()
     {

@@ -45,6 +45,7 @@ namespace NativeMetrics.Views
 
         private async void CpuPage_Loaded(object sender, RoutedEventArgs e)
         {
+            _updateService?.StartTimer();
             await _manager.RefreshAsync();
         }
 
