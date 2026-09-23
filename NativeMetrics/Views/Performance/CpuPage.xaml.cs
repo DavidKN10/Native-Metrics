@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using NativeMetrics.Services;
+using NativeMetrics.Services.Performance;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -19,7 +19,7 @@ public static class NativeMetricsService
 
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
-    public static extern bool getDiskInfo([In, Out] DiskInfo buffer, int bufferSize, out int disksWritten);
+    public static extern bool getDiskInfo([In, Out] ref DiskInfo[] buffer, int bufferSize, out int disksWritten);
 
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]

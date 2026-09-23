@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NativeMetrics.Services;
+namespace NativeMetrics.Services.Performance;
 
 public class CpuManager
 {

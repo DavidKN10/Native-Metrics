@@ -4,18 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.VoiceCommands;
 
-namespace NativeMetrics.Services;
+namespace NativeMetrics.Services.Performance;
 
-public class MemoryUpdateService
+public class CpuUpdateService
 {
     private readonly DispatcherTimer _updateTimer = new();
-    private readonly MemoryManager _memoryManger;
+    private readonly CpuManager _cpuManager;
 
-    public MemoryUpdateService(MemoryManager memoryManager)
+    public CpuUpdateService(CpuManager cpuManager)
     {
-        _memoryManger = memoryManager;
+        _cpuManager = cpuManager;
         InitializeTimer();
     }
 
@@ -26,17 +25,16 @@ public class MemoryUpdateService
         _updateTimer.Start();
     }
 
-    private void OnTimerTick(object? senfer, object e)
+    private void OnTimerTick(object? sender, object e)
     {
         RefreshManager();
     }
-    
     public void StartTimer()
     {
         _updateTimer.Tick += OnTimerTick;
         _updateTimer.Start();
     }
-    
+
     public void StopTimer()
     {
         _updateTimer.Stop();
@@ -45,6 +43,6 @@ public class MemoryUpdateService
 
     private async void RefreshManager()
     {
-        await _memoryManger.RefreshAsync();
+        await _cpuManager.RefreshAsync();
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography.Core;
 
-namespace NativeMetrics.Services;
+namespace NativeMetrics.Services.Performance;
 
 public class MemoryManager
 {
