@@ -20,6 +20,7 @@ public class DiskViewModel : INotifyPropertyChanged
     private string? _vendor;
     private string? _model;
     private string? _guidPath;
+    private string? _guid;
     public ulong _totalSpaceBytes;
     public ulong _availableSpaceBytes;
     public ulong _freeSpaceBytes;
@@ -76,6 +77,12 @@ public class DiskViewModel : INotifyPropertyChanged
         set { _guidPath = value; OnPropertyChanged(); }
     }
 
+    public string? Guid
+    {
+        get { return _guid; }
+        set { _guid = value; OnPropertyChanged(); }
+    }
+
     public ulong TotalSpaceBytes
     {
         get { return _totalSpaceBytes; }
@@ -128,6 +135,7 @@ public class DiskViewModel : INotifyPropertyChanged
         _vendor = string.Empty;
         _model = string.Empty;
         _guidPath = string.Empty;
+        _guid = string.Empty;
         _totalSpaceBytes = 0;
         _availableSpaceBytes = 0;
         _freeSpaceBytes = 0;
@@ -135,6 +143,29 @@ public class DiskViewModel : INotifyPropertyChanged
         _bytesWritten = 0;
         _readSpeed = 0.0;
         _writeSpeed = 0.0;
+    }
+
+    public void Update(DiskInfo disk)
+    {
+        DriveLetter = disk.driveLetter;
+        DriveType = disk.driveType;
+        VolumeName = disk.volumeName;
+        FileSystemName = disk.fileSystemName;
+        BusType = disk.busType;
+        Vendor = disk.vendor;
+        Model = disk.model;
+        GuidPath = disk.guidPath;
+        TotalSpaceBytes = disk.totalSpaceBytes;
+        AvailableSpaceBytes = disk.availableSpaceBytes;
+        FreeSpaceBytes = disk.freeSpaceBytes;
+        BytesRead = disk.bytesRead;
+        BytesWritten = disk.bytesWritten;
+        ReadSpeed = disk.readSpeed;
+        WriteSpeed = disk.writeSpeed;
+        
+        // Extract GUID from the GUID path.
+        // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
+        Guid = GuidPath?.Substring(11, 36);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
