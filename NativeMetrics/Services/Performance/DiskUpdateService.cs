@@ -7,27 +7,22 @@ using System.Threading.Tasks;
 
 namespace NativeMetrics.Services.Performance;
 
-public class CpuUpdateService
+public class DiskUpdateService
 {
     private readonly DispatcherTimer _updateTimer = new();
-    private readonly CpuManager _cpuManager;
+    private readonly DiskManager _diskManager;
 
-    public CpuUpdateService(CpuManager cpuManager)
+    public DiskUpdateService(DiskManager diskManager)
     {
-        _cpuManager = cpuManager;
+        _diskManager = diskManager;
         InitializeTimer();
     }
-
+    
     private void InitializeTimer()
     {
         _updateTimer.Interval = TimeSpan.FromSeconds(1);
         _updateTimer.Tick += OnTimerTick;
         _updateTimer.Start();
-    }
-
-    private void OnTimerTick(object? sender, object e)
-    {
-        RefreshManager();
     }
 
     public void StartTimer()
@@ -42,8 +37,13 @@ public class CpuUpdateService
         _updateTimer.Tick -= OnTimerTick;
     }
 
+    private void OnTimerTick(object? sender, object e)
+    {
+        RefreshManager();
+    }
+
     private async void RefreshManager()
     {
-        await _cpuManager.RefreshAsync();
+        await _diskManager.RefreshAsync();
     }
 }

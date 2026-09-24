@@ -13,6 +13,7 @@ public class PerformanceContext
     public CpuUpdateService CpuUpdateService { get; }
     public MemoryManager MemoryManager { get; }
     public MemoryUpdateService MemoryUpdateService { get; }
+    public DiskManager DiskManager { get; }
     
     public PerformanceContext()
     {
@@ -21,5 +22,7 @@ public class PerformanceContext
 
         MemoryManager = new MemoryManager();
         MemoryUpdateService = new MemoryUpdateService(MemoryManager);
+
+        DiskManager = new DiskManager();
     }
 }
