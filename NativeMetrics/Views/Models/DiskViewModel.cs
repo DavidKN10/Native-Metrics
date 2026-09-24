@@ -145,6 +145,29 @@ public class DiskViewModel : INotifyPropertyChanged
         _writeSpeed = 0.0;
     }
 
+    public DiskViewModel(DiskInfo disk)
+    {
+        DriveLetter = disk.driveLetter;
+        DriveType = disk.driveType;
+        VolumeName = disk.volumeName;
+        FileSystemName = disk.fileSystemName;
+        BusType = disk.busType;
+        Vendor = disk.vendor;
+        Model = disk.model;
+        GuidPath = disk.guidPath;
+        TotalSpaceBytes = disk.totalSpaceBytes;
+        AvailableSpaceBytes = disk.availableSpaceBytes;
+        FreeSpaceBytes = disk.freeSpaceBytes;
+        BytesRead = disk.bytesRead;
+        BytesWritten = disk.bytesWritten;
+        ReadSpeed = disk.readSpeed;
+        WriteSpeed = disk.writeSpeed;
+
+        // Extract GUID from the GUID path.
+        // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
+        Guid = GuidPath?.Substring(11, 36);
+    }
+
     public void Update(DiskInfo disk)
     {
         DriveLetter = disk.driveLetter;
