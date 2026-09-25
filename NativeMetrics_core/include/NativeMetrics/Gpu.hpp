@@ -17,7 +17,7 @@
 #include <fileapi.h>
 
 // DXGI
-#include <dxgi1_7.h>
+#include <dxgi1_6.h>
 
 // DirectX
 #include <d3d12.h>
