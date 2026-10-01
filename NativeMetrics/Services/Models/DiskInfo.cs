@@ -26,9 +26,6 @@ public struct DiskInfo
     public string busType;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-    public string vendor;
-
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
     public string model;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 50)]

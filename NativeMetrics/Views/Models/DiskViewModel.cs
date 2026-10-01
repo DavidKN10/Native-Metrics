@@ -17,7 +17,6 @@ public class DiskViewModel : INotifyPropertyChanged
     private string? _volumeName;
     private string? _fileSystemName;
     private string? _busType;
-    private string? _vendor;
     private string? _model;
     private string? _guidPath;
     private string? _guid;
@@ -57,12 +56,6 @@ public class DiskViewModel : INotifyPropertyChanged
     {
         get { return _busType; }
         set { _busType = value; OnPropertyChanged(); }
-    }
-
-    public string? Vendor
-    {
-        get { return _vendor; }
-        set { _vendor = value; OnPropertyChanged(); }
     }
 
     public string? Model
@@ -132,7 +125,6 @@ public class DiskViewModel : INotifyPropertyChanged
         _volumeName = string.Empty; 
         _fileSystemName = string.Empty;
         _busType = string.Empty;
-        _vendor = string.Empty;
         _model = string.Empty;
         _guidPath = string.Empty;
         _guid = string.Empty;
@@ -152,7 +144,6 @@ public class DiskViewModel : INotifyPropertyChanged
         VolumeName = disk.volumeName;
         FileSystemName = disk.fileSystemName;
         BusType = disk.busType;
-        Vendor = disk.vendor;
         Model = disk.model;
         GuidPath = disk.guidPath;
         TotalSpaceBytes = disk.totalSpaceBytes;
@@ -175,7 +166,6 @@ public class DiskViewModel : INotifyPropertyChanged
         VolumeName = disk.volumeName;
         FileSystemName = disk.fileSystemName;
         BusType = disk.busType;
-        Vendor = disk.vendor;
         Model = disk.model;
         GuidPath = disk.guidPath;
         TotalSpaceBytes = disk.totalSpaceBytes;

@@ -7,8 +7,11 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using NativeMetrics.Services;
 using NativeMetrics.Views.Models;
+using NativeMetrics.Views.Performance;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -32,6 +35,7 @@ namespace NativeMetrics.Views
             InitializeComponent();
 
             _performanceContext = new();
+            _performanceContext.DiskManager.Disks.CollectionChanged += Disks_CollectionChanged;
 
             // show an initial page
             PerformanceContentFrame.Navigate(typeof(CpuPage), _performanceContext);
@@ -44,18 +48,27 @@ namespace NativeMetrics.Views
         {
             await _performanceContext.CpuManager.RefreshAsync();
             await _performanceContext.MemoryManager.RefreshAsync();
+            await _performanceContext.DiskManager.RefreshAsync();
+            SynchronizeDiskNavigationItems();
         }
 
         private async void PerformancePage_Unloaded(object sender, RoutedEventArgs e)
         {
             _performanceContext.CpuUpdateService.StopTimer();
             _performanceContext.MemoryUpdateService.StopTimer();
+            _performanceContext.DiskUpdateService.StopTimer();
         }
 
         private void PerformanceNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItemContainer is NavigationViewItem item)
             {
+                if (item.Tag is DiskViewModel disk)
+                {
+                    PerformanceContentFrame.Navigate(typeof(DiskPage), disk);
+                    return;
+                }
+
                 switch(item.Tag?.ToString())
                 {
                     case "CpuPage":
@@ -65,6 +78,44 @@ namespace NativeMetrics.Views
                         PerformanceContentFrame.Navigate(typeof(MemoryPage), _performanceContext);
                         break;
                 }
+            }
+        }
+
+        private void Disks_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            SynchronizeDiskNavigationItems();
+        }
+
+        private void SynchronizeDiskNavigationItems()
+        {
+            var disks = _performanceContext.DiskManager.Disks;
+            var diskItems = PerformanceNavigationView.MenuItems
+                .OfType<NavigationViewItem>()
+                .Where(item => item.Tag is DiskViewModel)
+                .ToList();
+
+            foreach (NavigationViewItem item in diskItems)
+            {
+                if (!disks.Contains((DiskViewModel)item.Tag))
+                {
+                    PerformanceNavigationView.MenuItems.Remove(item);
+                }
+            }
+
+            foreach (DiskViewModel disk in disks)
+            {
+                if (diskItems.Any(item => ReferenceEquals(item.Tag, disk)))
+                {
+                    continue;
+                }
+
+                string label = string.Join(" ", new[] { disk.DriveLetter, disk.VolumeName }
+                    .Where(value => !string.IsNullOrWhiteSpace(value)));
+                PerformanceNavigationView.MenuItems.Add(new NavigationViewItem
+                {
+                    Content = string.IsNullOrWhiteSpace(label) ? "Disk" : label,
+                    Tag = disk
+                });
             }
         }
     }

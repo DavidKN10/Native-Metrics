@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NativeMetrics.Views.Performance.DiskPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NativeMetrics.Views.Performance"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel Spacing="12">
+            <TextBlock
+                Text="{Binding DriveLetter}"
+                FontSize="28"
+                FontWeight="SemiBold"/>
+
+            <TextBlock Text="{Binding DriveType}"/>
+            <TextBlock Text="{Binding VolumeName}"/>
+            <TextBlock Text="{Binding FileSystemName}"/>
+            
+            <TextBlock Text="{Binding BusType}"/>
+            <TextBlock Text="{Binding Model}"/>
+            
+            <TextBlock Text="{Binding Guid}"/>
+            <TextBlock Text="{Binding TotalSpaceBytes}"/>
+            <TextBlock Text="{Binding AvailableSpaceBytes}"/>
+            <TextBlock Text="{Binding FreeSpaceBytes}"/>
+            <TextBlock Text="{Binding BytesRead}"/>
+            <TextBlock Text="{Binding BytesWritten}"/>
+            <TextBlock Text="{Binding ReadSpeed}"/>
+            <TextBlock Text="{Binding WriteSpeed}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

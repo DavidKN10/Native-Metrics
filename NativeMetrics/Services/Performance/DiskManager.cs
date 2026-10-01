@@ -4,7 +4,9 @@ using NativeMetrics.Views.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,8 +14,8 @@ namespace NativeMetrics.Services.Performance;
 
 public class DiskManager
 {
-    public ObservableCollection<DiskViewModel> Disks { get; } = [];
-    private readonly Dictionary<string, DiskViewModel> diskLookup = [];
+    public ObservableCollection<DiskViewModel> Disks { get; } = new ObservableCollection<DiskViewModel>();
+    private readonly Dictionary<string, DiskViewModel> diskLookup = new Dictionary<string, DiskViewModel>();
 
     public async Task RefreshAsync()
     {
@@ -26,8 +28,7 @@ public class DiskManager
     private DiskInfo[] RetrieveDisks()
     {
         DiskInfo[] diskList = new DiskInfo[128];
-
-        if (!NativeMetricsService.getDiskInfo(ref diskList, diskList.Length, out int disksWritten))
+        if (!NativeMetricsService.getDiskInfo(diskList, diskList.Length, out int disksWritten))
         {
             return Array.Empty<DiskInfo>();
         }
@@ -63,14 +64,15 @@ public class DiskManager
         }
 
         // remove disconnected disks in Dictionary and ObservableCollection
-        foreach(var (guid, disk) in diskLookup)
+        foreach (var kvp in diskLookup.ToList())
         {
+            var guid = kvp.Key;
             if (!guidPaths.Contains(guid))
             {
                 diskLookup.Remove(guid);
 
                 DiskViewModel? diskToRemove = Disks.FirstOrDefault(x => x.GuidPath == guid);
-                if (diskToRemove != null) 
+                if (diskToRemove != null)
                 {
                     Disks.Remove(diskToRemove);
                 }
