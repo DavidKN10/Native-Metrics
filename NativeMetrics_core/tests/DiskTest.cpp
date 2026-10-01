@@ -15,7 +15,7 @@ void testDisks() {
             DiskInfo& disk = diskList[i];
             std::wcout << L"Drive: " << disk.driveLetter << std::endl; 
             std::wcout << L"Guid: " << disk.guidPath << std::endl;
-            std::wcout << L"Disk: "  << disk.vendor << L" " << disk.model << std::endl;
+            std::wcout << L"Disk: " << disk.model << std::endl;
             std::wcout << L"Bus: " << disk.busType << std::endl;
             std::wcout << L"Type: " << disk.driveType << std::endl;
             std::wcout << L"Label: " << disk.volumeName << std::endl;

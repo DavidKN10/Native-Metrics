@@ -25,7 +25,6 @@ struct DiskInfo {
     wchar_t volumeName[BUFFER_SIZE] {};
     wchar_t fileSystemName[BUFFER_SIZE] {};
     wchar_t busType[BUFFER_SIZE] {};
-    wchar_t vendor[BUFFER_SIZE] {};
     wchar_t model[BUFFER_SIZE] {};
     wchar_t guidPath[GUID_SIZE] {};
 

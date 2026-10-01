@@ -15,13 +15,15 @@ bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten) {
     if (!buffer || !disksWritten || bufferSize <= 0) {
         return false;
     }
-
+     
     auto disks = collectDiskInfo();
     i32 count = static_cast<i32>(disks.size());
     i32 toCopy = std::min<i32>(count, bufferSize);
 
     for (int i = 0; i < toCopy; i++) {
         buffer[i] = disks[i];
+
+        std::cout << std::endl;
     }
     *disksWritten = toCopy;
     return true;

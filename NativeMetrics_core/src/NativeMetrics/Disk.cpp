@@ -87,7 +87,7 @@ u32 getPhysicalDiskNumber(DiskInfo& disk) {
     HANDLE diskHandle =
         CreateFileW(
             devicePath.c_str(), 
-            GENERIC_READ, 
+            0, 
             FILE_SHARE_READ | FILE_SHARE_WRITE, 
             nullptr, 
             OPEN_EXISTING, 
@@ -218,12 +218,6 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk) {
     STORAGE_DEVICE_DESCRIPTOR* descriptor = reinterpret_cast<STORAGE_DEVICE_DESCRIPTOR*>(buffer.data());
     getBusType(disk, descriptor->BusType); 
 
-    if (descriptor->VendorIdOffset != 0) {
-        const char* vendorId = reinterpret_cast<const char*>(buffer.data() + descriptor->VendorIdOffset);
-        std::wstring vendorIdW = AsciiToWide(vendorId); 
-        wcsncpy_s(disk.vendor, vendorIdW.c_str(), _TRUNCATE);
-    }
-
     if (descriptor->ProductIdOffset != 0) {
         const char* productId = reinterpret_cast<const char*>(buffer.data() + descriptor->ProductIdOffset);
         std::wstring productIdW = AsciiToWide(productId); 
@@ -324,6 +318,7 @@ std::vector<DiskInfo> collectDiskInfo() {
 
         updateReadWriteSpeed(disk);
     }
+    std::cout << std::endl;
 
     return disks;
 }
