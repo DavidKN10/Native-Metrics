@@ -7,30 +7,127 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <StackPanel Spacing="20">
 
-    <Grid>
-        <StackPanel Spacing="12">
+        <StackPanel 
+                Spacing="15" 
+                Orientation="Horizontal">
             <TextBlock
-                Text="{Binding DriveLetter}"
-                FontSize="28"
-                FontWeight="SemiBold"/>
+                    Text="{Binding DriveLetter}"
+                    FontSize="28"
+                    FontWeight="SemiBold"/>
 
-            <TextBlock Text="{Binding DriveType}"/>
-            <TextBlock Text="{Binding VolumeName}"/>
-            <TextBlock Text="{Binding FileSystemName}"/>
-            
-            <TextBlock Text="{Binding BusType}"/>
-            <TextBlock Text="{Binding Model}"/>
-            
-            <TextBlock Text="{Binding Guid}"/>
-            <TextBlock Text="{Binding TotalSpaceBytes}"/>
-            <TextBlock Text="{Binding AvailableSpaceBytes}"/>
-            <TextBlock Text="{Binding FreeSpaceBytes}"/>
-            <TextBlock Text="{Binding BytesRead}"/>
-            <TextBlock Text="{Binding BytesWritten}"/>
-            <TextBlock Text="{Binding ReadSpeed}"/>
-            <TextBlock Text="{Binding WriteSpeed}"/>
+            <TextBlock 
+                    Text="{Binding VolumeName}"
+                    FontSize="28"
+                    FontWeight="SemiBold"/>
         </StackPanel>
 
-    </Grid>
+        <TextBlock 
+                Text="{Binding Model}"
+                FontSize="18"
+                FontWeight="SemiBold"/>
+
+        <StackPanel Spacing="15" Orientation="Horizontal">
+            <TextBlock
+                    Text="GUID:"
+                    FontSize="15"
+                    FontWeight="SemiBold"/>
+            <TextBlock 
+                    Text="{Binding Guid}"
+                    FontSize="15"/>
+        </StackPanel>
+
+        <TextBlock Text="{Binding BusType}"/>
+        <TextBlock Text="{Binding FileSystemName}"/>
+        <TextBlock Text="{Binding DriveType}"/>
+       
+        <Grid
+            ColumnSpacing="20"
+            RowSpacing="8">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Total:"
+                FontWeight="SemiBold"/>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding TotalSpaceBytes}"/>
+            
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="Available:"/>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="3"
+                Text="{Binding AvailableSpaceBytes}"/>
+        
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="4"
+                Text="Free:"/>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="5"
+                Text="{Binding FreeSpaceBytes}"/>
+         
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Read:"
+                FontWeight="SemiBold"/>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding BytesRead}"/>
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="Written:"/>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="3"
+                Text="{Binding BytesWritten}"/>
+            
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="Read Speed:"
+                FontWeight="SemiBold"/>
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding ReadSpeed}"/>
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="Write Speed:"/>
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="3"
+                Text="{Binding WriteSpeed}"/>
+        </Grid>
+
+    </StackPanel>
 </Page>

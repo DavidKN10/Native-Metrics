@@ -318,7 +318,6 @@ std::vector<DiskInfo> collectDiskInfo() {
 
         updateReadWriteSpeed(disk);
     }
-    std::cout << std::endl;
 
     return disks;
 }
