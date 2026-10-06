@@ -28,47 +28,45 @@ void updateSharedMemoryUsage(GpuInfo& adapter, DXGI_QUERY_VIDEO_MEMORY_INFO& non
 
 void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
     IDXGIFactory6* factory = nullptr; 
-    CreateDXGIFactory2(0, IID_PPV_ARGS(&factory)); 
-    
-    IDXGIAdapter3* adapter = nullptr;
-    u32 index = 0;
-    
-    while (factory->EnumAdapterByGpuPreference(
-        index, 
-        DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, 
-        IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND) 
-    {
-        
-        GpuInfo currentAdapter{};
+    if (FAILED(CreateDXGIFactory2(0, IID_PPV_ARGS(&factory)))) {
+        return;
+    }
+   
+    for (u32 index = 0;; ++index) {
+        IDXGIAdapter3* adapter = nullptr;
+       
+        HRESULT result = factory->EnumAdapterByGpuPreference(index, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter));
+        if (FAILED(result)) {
+            break;
+        }
 
         DXGI_ADAPTER_DESC2 desc{};
-        adapter->GetDesc2(&desc);
-        
         // skip software adapters
-        if (!(desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)) {
-            getAdapterDesc(currentAdapter, desc);
-        }
+        if (FAILED(adapter->GetDesc2(&desc)) || (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)) {
+            adapter->Release(); 
+            continue;
+        } 
+        
+        GpuInfo currentAdapter{};
+        getAdapterDesc(currentAdapter, desc);
 
         // creating a D3D12 device for QueryVideoMemoryInfo()
         ID3D12Device* device = nullptr;
         D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));        
         
         DXGI_QUERY_VIDEO_MEMORY_INFO localMemoryInfo{};
-        HRESULT localQueryResult = adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &localMemoryInfo);
-        if (localQueryResult == S_OK) {
+        if (SUCCEEDED(adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &localMemoryInfo))) {
             udpateDedicatedMemoryUsage(currentAdapter, localMemoryInfo); 
         }
 
         DXGI_QUERY_VIDEO_MEMORY_INFO nonLocalMemoryInfo{};
-        HRESULT nonLocalQueryResult = adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonLocalMemoryInfo);
-        if (nonLocalQueryResult == S_OK) {
+        if (SUCCEEDED(adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonLocalMemoryInfo))) {
             updateSharedMemoryUsage(currentAdapter, nonLocalMemoryInfo);
         }
         
         gpuList.push_back(currentAdapter);
         device->Release();
         adapter->Release();
-        index++;
     }
     
     factory->Release();

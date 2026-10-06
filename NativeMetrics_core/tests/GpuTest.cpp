@@ -11,7 +11,7 @@ void testGpu() {
 	i32 adaptersWritten = 0;
 
 	if (getGpuInfo(gpuList.data(), 1024, &adaptersWritten)) {
-		for (i32 i = 0; i < adaptersWritten - 1; i++) {
+		for (i32 i = 0; i < adaptersWritten; i++) {
 			GpuInfo& gpu = gpuList[i];
 			std::cout << "LUID: " << gpu.luid << std::endl;
             std::cout << "Vendor ID: " << gpu.vendorId << std::endl;
