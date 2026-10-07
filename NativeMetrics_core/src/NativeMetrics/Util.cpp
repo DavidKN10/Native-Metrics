@@ -39,6 +39,14 @@ u64 fileTimeToU64(const FILETIME& ft) {
     return result;
 }
 
+u64 luidToU64(LUID& luid) {
+    LARGE_INTEGER li{};
+    li.HighPart = luid.HighPart;
+    li.LowPart = luid.LowPart;
+
+    return li.QuadPart;
+}
+
 std::wstring AsciiToWide(const char* narrowStr) {
     if (!narrowStr || *narrowStr == '\0') {
         return L"";
@@ -55,4 +63,17 @@ std::wstring AsciiToWide(const char* narrowStr) {
     MultiByteToWideChar(CP_ACP, 0, narrowStr, -1, &wideStr[0], sizeNeeded);
 
     return wideStr;
+}
+
+std::wstring convertStringToWstring(const std::string& str) {
+    if (str.empty()) {
+        return L"";
+    }
+
+    i32 size = MultiByteToWideChar(CP_UTF8, 0, &str[0], static_cast<int>(str.size()), nullptr, 0);
+
+    std::wstring wstr(size, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &str[0], static_cast<int>(str.size()), &wstr[0], size);
+
+    return wstr;
 }

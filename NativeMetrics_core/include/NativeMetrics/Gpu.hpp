@@ -3,6 +3,7 @@
 // C++ standard library
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 // Windows API
 #include <WS2tcpip.h>
@@ -32,7 +33,7 @@
 
 bool sameLuid(LUID& hardwareLuid, LUID& softwareLuid);
 
-// Note: I am using DXGI for GPU metrics but it has limitations. 
+// Note: I am using DXGI for GPU memory usage metrics but it has limitations. 
 void getAdapterDesc(GpuInfo& adapter, DXGI_ADAPTER_DESC2& desc);
 
 void udpateDedicatedMemoryUsage(GpuInfo& adapter, DXGI_QUERY_VIDEO_MEMORY_INFO& localMemoryInfo);

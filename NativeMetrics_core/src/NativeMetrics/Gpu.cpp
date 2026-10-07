@@ -6,13 +6,6 @@ bool sameLuid(LUID& hardwareLuid, LUID& softwareLuid) {
 }
 
 void getAdapterDesc(GpuInfo& adapter, DXGI_ADAPTER_DESC2& desc) {
-    wcsncpy_s(adapter.description, desc.Description, _TRUNCATE);
-
-    LARGE_INTEGER li{};
-    li.LowPart = desc.AdapterLuid.LowPart;
-    li.HighPart = desc.AdapterLuid.HighPart;
-    adapter.luid = li.QuadPart;
-
     adapter.vendorId = desc.VendorId;
 
     adapter.dedicatedVideoMemoryBytes = static_cast<f64>(desc.DedicatedVideoMemory);
@@ -32,6 +25,10 @@ void updateSharedMemoryUsage(GpuInfo& adapter, DXGI_QUERY_VIDEO_MEMORY_INFO& non
 }
 
 void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
+    /*
+        Get hardware adapters first. 
+    */
+
     IDXCoreAdapterFactory* dxCoreFactory = nullptr;
     if (FAILED(DXCoreCreateAdapterFactory(&dxCoreFactory))) {
         return;
@@ -66,23 +63,32 @@ void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
             }
         }
     }
-
-    std::cout << "Hardware adapters found: " << hardwareAdapters.size() << std::endl;
+    
     for (size_t i = 0; i < hardwareAdapters.size(); ++i) {
+        GpuInfo currentAdapter{};
+        
         size_t descSize{};
         if (SUCCEEDED(hardwareAdapters[i]->GetPropertySize(DXCoreAdapterProperty::DriverDescription, &descSize))) {
             std::vector<char> description(descSize);
             hardwareAdapters[i]->GetProperty(DXCoreAdapterProperty::DriverDescription, descSize, description.data());
-            std::cout << "Hardware device [" << i << "] " << description.data() << std::endl;
+            std::string descriptionStr(description.begin(), description.end());    
+
+            std::wstring descriptionStrW = convertStringToWstring(descriptionStr);
+            wcsncpy_s(currentAdapter.description, descriptionStrW.c_str(), _TRUNCATE);
         }
 
         size_t luidSize{};
         if (SUCCEEDED(hardwareAdapters[i]->GetPropertySize(DXCoreAdapterProperty::InstanceLuid, &luidSize))) {
             LUID luid{};
             hardwareAdapters[i]->GetProperty(DXCoreAdapterProperty::InstanceLuid, luidSize, &luid);
-            std::cout << "LUID: " << luid.HighPart << ", " << luid.LowPart << std::endl;
+            currentAdapter.luid = luidToU64(luid);
         }
+        gpuList.push_back(currentAdapter);
     }
+
+    /*
+        Get software adapter that corresponds with the hardware adapter.
+    */
 
     IDXGIFactory6* dxgiFactory = nullptr; 
     if (FAILED(CreateDXGIFactory2(0, IID_PPV_ARGS(&dxgiFactory)))) {
@@ -103,10 +109,21 @@ void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
             adapter->Release(); 
             continue;
         } 
-        
-        GpuInfo currentAdapter{};
 
-        getAdapterDesc(currentAdapter, desc);
+        u64 adapterLuid = luidToU64(desc.AdapterLuid);
+
+        // find hardware adapter from gpuList.
+        auto it = std::find_if(gpuList.begin(), gpuList.end(), [adapterLuid](const GpuInfo& gpu) { 
+            return gpu.luid == adapterLuid;
+        });
+        
+        if (it == gpuList.end()) {
+            adapter->Release();
+            continue; 
+        }
+        
+        GpuInfo& foundGpu = *it;
+        getAdapterDesc(foundGpu, desc);
 
         // creating a D3D12 device for QueryVideoMemoryInfo()
         ID3D12Device* device = nullptr;
@@ -114,15 +131,14 @@ void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
         
         DXGI_QUERY_VIDEO_MEMORY_INFO localMemoryInfo{};
         if (SUCCEEDED(adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &localMemoryInfo))) {
-            udpateDedicatedMemoryUsage(currentAdapter, localMemoryInfo); 
+            udpateDedicatedMemoryUsage(foundGpu, localMemoryInfo); 
         }
 
         DXGI_QUERY_VIDEO_MEMORY_INFO nonLocalMemoryInfo{};
         if (SUCCEEDED(adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonLocalMemoryInfo))) {
-            updateSharedMemoryUsage(currentAdapter, nonLocalMemoryInfo);
+            updateSharedMemoryUsage(foundGpu, nonLocalMemoryInfo);
         }
         
-        gpuList.push_back(currentAdapter);
         device->Release();
         adapter->Release();
     }
