@@ -2,6 +2,7 @@
 
 // C++ standard library
 #include <vector>
+#include <iostream>
 
 // Windows API
 #include <WS2tcpip.h>
@@ -15,6 +16,8 @@
 #include <iphlpapi.h>
 #include <sysinfoapi.h>
 #include <fileapi.h>
+#include <dxcore.h>
+#include <dxcore_interface.h>
 
 // DXGI
 #include <dxgi1_6.h>
@@ -27,8 +30,9 @@
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/GpuInfo.hpp>
 
-// Note: I am using DXGI for GPU metrics but it has limitations. I will implement vendor specific 
-// libraries for GPU metrics in the future.
+bool sameLuid(LUID& hardwareLuid, LUID& softwareLuid);
+
+// Note: I am using DXGI for GPU metrics but it has limitations. 
 void getAdapterDesc(GpuInfo& adapter, DXGI_ADAPTER_DESC2& desc);
 
 void udpateDedicatedMemoryUsage(GpuInfo& adapter, DXGI_QUERY_VIDEO_MEMORY_INFO& localMemoryInfo);

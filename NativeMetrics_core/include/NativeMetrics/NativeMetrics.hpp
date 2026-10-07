@@ -24,6 +24,7 @@
 #include <iphlpapi.h>
 #include <sysinfoapi.h>
 #include <fileapi.h>
+#include <SetupAPI.h>
 
 // Native Metrics library  
 #include <NativeMetrics/Cpu.hpp>

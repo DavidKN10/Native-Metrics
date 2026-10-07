@@ -26,6 +26,8 @@ target_link_libraries(NativeMetrics_core PRIVATE
 	Psapi
 	dxgi
 	d3d12
+	dxcore
+	dxguid
 )
 
 target_include_directories(NativeMetrics_core PUBLIC
