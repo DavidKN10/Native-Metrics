@@ -23,7 +23,7 @@ public static class NativeMetricsService
 
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
-    public static extern bool getGpuInfo([In, Out] GpuInfo buffer, int bufferSize, out int adaptersWritten);
+    public static extern bool getGpuInfo([Out] GpuInfo[] buffer, int bufferSize, out int adaptersWritten);
 
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
