@@ -15,6 +15,8 @@ public class PerformanceContext
     public MemoryUpdateService MemoryUpdateService { get; }
     public DiskManager DiskManager { get; }
     public DiskUpdateService DiskUpdateService { get; }
+    public GpuManager GpuManager { get; }
+    public GpuUpdateService GpuUpdateService { get; }
     
     public PerformanceContext()
     {
@@ -26,5 +28,8 @@ public class PerformanceContext
 
         DiskManager = new DiskManager();
         DiskUpdateService= new DiskUpdateService(DiskManager);
+
+        GpuManager = new GpuManager();
+        GpuUpdateService = new GpuUpdateService(GpuManager);
     }
 }
