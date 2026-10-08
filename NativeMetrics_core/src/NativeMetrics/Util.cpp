@@ -70,10 +70,10 @@ std::wstring convertStringToWstring(const std::string& str) {
         return L"";
     }
 
-    i32 size = MultiByteToWideChar(CP_UTF8, 0, &str[0], static_cast<int>(str.size()), nullptr, 0);
+    i32 size = MultiByteToWideChar(CP_UTF8, 0, &str[0], static_cast<i32>(str.size()), nullptr, 0);
 
     std::wstring wstr(size, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &str[0], static_cast<int>(str.size()), &wstr[0], size);
+    MultiByteToWideChar(CP_UTF8, 0, &str[0], static_cast<i32>(str.size()), &wstr[0], size);
 
     return wstr;
 }

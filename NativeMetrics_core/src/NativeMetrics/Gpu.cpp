@@ -28,7 +28,6 @@ void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
     /*
         Get hardware adapters first. 
     */
-
     IDXCoreAdapterFactory* dxCoreFactory = nullptr;
     if (FAILED(DXCoreCreateAdapterFactory(&dxCoreFactory))) {
         return;
@@ -89,7 +88,6 @@ void getGraphicsAdapters(std::vector<GpuInfo>& gpuList) {
     /*
         Get software adapter that corresponds with the hardware adapter.
     */
-
     IDXGIFactory6* dxgiFactory = nullptr; 
     if (FAILED(CreateDXGIFactory2(0, IID_PPV_ARGS(&dxgiFactory)))) {
         return;
