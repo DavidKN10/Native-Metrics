@@ -17,6 +17,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using System.Runtime.CompilerServices;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,6 +37,7 @@ namespace NativeMetrics.Views
 
             _performanceContext = new();
             _performanceContext.DiskManager.Disks.CollectionChanged += Disks_CollectionChanged;
+            _performanceContext.GpuManager.GPUs.CollectionChanged += Gpu_CollectionChanged;
 
             // show an initial page
             PerformanceContentFrame.Navigate(typeof(CpuPage), _performanceContext);
@@ -49,7 +51,9 @@ namespace NativeMetrics.Views
             await _performanceContext.CpuManager.RefreshAsync();
             await _performanceContext.MemoryManager.RefreshAsync();
             await _performanceContext.DiskManager.RefreshAsync();
+            await _performanceContext.GpuManager.RefreshAsync();
             SynchronizeDiskNavigationItems();
+            SynchronizeGpuNavigationItems();
         }
 
         private async void PerformancePage_Unloaded(object sender, RoutedEventArgs e)
@@ -57,6 +61,7 @@ namespace NativeMetrics.Views
             _performanceContext.CpuUpdateService.StopTimer();
             _performanceContext.MemoryUpdateService.StopTimer();
             _performanceContext.DiskUpdateService.StopTimer();
+            _performanceContext.GpuUpdateService.StopTimer();
         }
 
         private void PerformanceNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -68,7 +73,12 @@ namespace NativeMetrics.Views
                     PerformanceContentFrame.Navigate(typeof(DiskPage), disk);
                     return;
                 }
-
+                else if (item.Tag is GpuViewModel gpu)
+                {
+                    PerformanceContentFrame.Navigate(typeof(GpuPage), gpu);
+                    return;
+                }
+                
                 switch(item.Tag?.ToString())
                 {
                     case "CpuPage":
@@ -116,6 +126,46 @@ namespace NativeMetrics.Views
                     Content = string.IsNullOrWhiteSpace(label) ? "Disk" : label,
                     Tag = disk
                 });
+            }
+        }
+
+        private void Gpu_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            SynchronizeGpuNavigationItems();
+        }
+
+        private void SynchronizeGpuNavigationItems()
+        {
+            var gpus = _performanceContext.GpuManager.GPUs;
+            var gpuItems = PerformanceNavigationView.MenuItems
+                .OfType<NavigationViewItem>()
+                .Where(item => item.Tag is GpuViewModel)
+                .ToList();
+
+            foreach (NavigationViewItem item in gpuItems)
+            {
+                if (!gpus.Contains((GpuViewModel)item.Tag))
+                {
+                    PerformanceNavigationView.MenuItems.Remove(item);
+                }
+            }
+
+            int gpuIndex = 0;
+            foreach (GpuViewModel gpu in gpus)
+            {
+                if (gpuItems.Any(item => ReferenceEquals(item.Tag, gpu)))
+                {
+                    continue;
+                }
+
+                string label = $"GPU {gpuIndex}";
+                PerformanceNavigationView.MenuItems.Add(new NavigationViewItem
+                {
+                    Content = string.IsNullOrWhiteSpace(label) ? "GPU" : label,
+                    Tag = gpu
+                });
+
+                gpuIndex++;
             }
         }
     }
