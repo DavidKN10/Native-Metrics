@@ -119,8 +119,8 @@ namespace NativeMetrics.Views
                     continue;
                 }
 
-                string label = string.Join(" ", new[] { disk.DriveLetter, disk.VolumeName }
-                    .Where(value => !string.IsNullOrWhiteSpace(value)));
+                string? driveLetter = disk.DriveLetter?.Substring(0,1);
+                string label = $"Disk ({driveLetter})";
                 PerformanceNavigationView.MenuItems.Add(new NavigationViewItem
                 {
                     Content = string.IsNullOrWhiteSpace(label) ? "Disk" : label,
@@ -150,7 +150,6 @@ namespace NativeMetrics.Views
                 }
             }
 
-            int gpuIndex = 0;
             foreach (GpuViewModel gpu in gpus)
             {
                 if (gpuItems.Any(item => ReferenceEquals(item.Tag, gpu)))
@@ -158,14 +157,12 @@ namespace NativeMetrics.Views
                     continue;
                 }
 
-                string label = $"GPU {gpuIndex}";
+                string label = $"GPU ({gpu.Description})";
                 PerformanceNavigationView.MenuItems.Add(new NavigationViewItem
                 {
                     Content = string.IsNullOrWhiteSpace(label) ? "GPU" : label,
                     Tag = gpu
                 });
-
-                gpuIndex++;
             }
         }
     }

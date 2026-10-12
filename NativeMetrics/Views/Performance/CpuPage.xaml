@@ -90,7 +90,7 @@
                    FontWeight="SemiBold"/>
             <TextBlock Grid.Row="2"
                    Grid.Column="3"
-                   Text="{x:Bind _manager.CpuStats.BaseSpeed, Mode=OneWay}"/>
+                   Text="{x:Bind _manager.CpuStats.BaseSpeedFormatted.ValueString, Mode=OneWay}"/>
         </Grid>
     </StackPanel>
 </Page>

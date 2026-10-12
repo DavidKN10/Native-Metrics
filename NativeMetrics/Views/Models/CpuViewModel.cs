@@ -1,4 +1,5 @@
-﻿using NativeMetrics.Services.Models;
+﻿using NativeMetrics.Services;
+using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,8 @@ public class CpuViewModel : INotifyPropertyChanged
     private uint _processCount;
     private uint _threadCount;
     private double _cpuUsage;
+
+    private FormattedValue _baseSpeedFormatted;
 
     public string? ProcessorName 
     { 
@@ -67,6 +70,12 @@ public class CpuViewModel : INotifyPropertyChanged
         set { _cpuUsage = value; OnPropertyChanged(); }
     }
 
+    public FormattedValue BaseSpeedFormatted 
+    {
+        get { return _baseSpeedFormatted; }
+        set { _baseSpeedFormatted = value; OnPropertyChanged(); }
+    }
+
     public CpuViewModel()
     {
         _processorName = string.Empty;
@@ -77,6 +86,8 @@ public class CpuViewModel : INotifyPropertyChanged
         _processCount = 0;
         _threadCount = 0;
         _cpuUsage = 0.0;
+
+        _baseSpeedFormatted = new();
     }
    
     public void Update(CpuInfo cpu)
@@ -89,6 +100,8 @@ public class CpuViewModel : INotifyPropertyChanged
         ProcessCount = cpu.processCount;
         ThreadCount = cpu.threadCount;
         CpuUsage = cpu.cpuUsage;
+
+        BaseSpeedFormatted = Formatter.MillihertzString(BaseSpeed);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
