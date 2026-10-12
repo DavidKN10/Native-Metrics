@@ -21,8 +21,6 @@ public class CpuViewModel : INotifyPropertyChanged
     private uint _threadCount;
     private double _cpuUsage;
 
-    private FormattedValue _baseSpeedFormatted;
-
     public string? ProcessorName 
     { 
         get { return _processorName; } 
@@ -70,10 +68,18 @@ public class CpuViewModel : INotifyPropertyChanged
         set { _cpuUsage = value; OnPropertyChanged(); }
     }
 
+    private FormattedValue _baseSpeedFormatted;
     public FormattedValue BaseSpeedFormatted 
     {
         get { return _baseSpeedFormatted; }
         set { _baseSpeedFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _cpuUsageFormatted;
+    public FormattedValue CpuUsageFormatted
+    {
+        get { return _cpuUsageFormatted; }
+        set { _cpuUsageFormatted = value; OnPropertyChanged(); }
     }
 
     public CpuViewModel()
@@ -88,6 +94,7 @@ public class CpuViewModel : INotifyPropertyChanged
         _cpuUsage = 0.0;
 
         _baseSpeedFormatted = new();
+        _cpuUsageFormatted= new();
     }
    
     public void Update(CpuInfo cpu)
@@ -100,8 +107,9 @@ public class CpuViewModel : INotifyPropertyChanged
         ProcessCount = cpu.processCount;
         ThreadCount = cpu.threadCount;
         CpuUsage = cpu.cpuUsage;
-
+        
         BaseSpeedFormatted = Formatter.MillihertzString(BaseSpeed);
+        CpuUsageFormatted = Formatter.PercentString(CpuUsage);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -41,7 +41,7 @@
                    FontWeight="SemiBold"/>
             <TextBlock Grid.Row="0"
                    Grid.Column="1"
-                   Text="{x:Bind _manager.CpuStats.CpuUsage, Mode=OneWay}"/>
+                   Text="{x:Bind _manager.CpuStats.CpuUsageFormatted.ValueString, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="1"
                    Grid.Column="0"

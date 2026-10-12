@@ -11,7 +11,7 @@ public struct FormattedValue
     public string Number = string.Empty;
     public string Unit = string.Empty;
 
-    public string ValueString => $"{Number} {Unit}";
+    public string ValueString => $"{Number}{Unit}";
 
     public FormattedValue(string value, string unit)
     {
@@ -23,12 +23,18 @@ public struct FormattedValue
 public static class Formatter
 {
     private const int DIV = 1024;
+    
+
+    public static FormattedValue PercentString(double value)
+    {
+        string stringValue = $"{value:F1}";
+        return new FormattedValue(stringValue, "%");
+    }
 
     public static FormattedValue MillihertzString(uint value)
     {
         string stringValue = $"{value}";
-        FormattedValue formattedValue = new FormattedValue(stringValue, "MHz");
+        FormattedValue formattedValue = new FormattedValue(stringValue, " MHz");
         return formattedValue;
     }
-
 }
