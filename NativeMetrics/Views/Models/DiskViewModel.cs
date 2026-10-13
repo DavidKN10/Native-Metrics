@@ -1,4 +1,5 @@
 ﻿using Microsoft.Web.WebView2.Core;
+using NativeMetrics.Services;
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -118,6 +119,41 @@ public class DiskViewModel : INotifyPropertyChanged
         set { _writeSpeed = value; OnPropertyChanged(); }
     }
 
+    private FormattedValue _totalSpaceFormatted;
+    public FormattedValue TotalSpaceFormatted
+    {
+        get { return _totalSpaceFormatted; }
+        set { _totalSpaceFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _availableSpaceFormatted;
+    public FormattedValue AvailableSpaceFormatted
+    {
+        get { return _availableSpaceFormatted; }
+        set { _availableSpaceFormatted = value; OnPropertyChanged();}
+    }
+
+    private FormattedValue _freeSpaceFormatted;
+    public FormattedValue FreeSpaceFormatted
+    {
+        get { return _freeSpaceFormatted; }
+        set { _freeSpaceFormatted = value; OnPropertyChanged();}
+    }
+
+    private FormattedValue _bytesReadFormatted;
+    public FormattedValue BytesReadFormatted
+    {
+        get { return _bytesReadFormatted; }
+        set { _bytesReadFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _bytesWrittenFormatted;
+    public FormattedValue BytesWrittenFormatted
+    {
+        get { return _bytesWrittenFormatted; }
+        set { _bytesWrittenFormatted = value; OnPropertyChanged(); }
+    }
+
     public DiskViewModel() 
     {
         _driveLetter = string.Empty; 
@@ -135,6 +171,12 @@ public class DiskViewModel : INotifyPropertyChanged
         _bytesWritten = 0;
         _readSpeed = 0.0;
         _writeSpeed = 0.0;
+
+        TotalSpaceFormatted = new();
+        AvailableSpaceFormatted = new();
+        FreeSpaceFormatted = new();
+        BytesReadFormatted = new();
+        BytesWrittenFormatted = new();
     }
 
     public DiskViewModel(DiskInfo disk)
@@ -157,6 +199,12 @@ public class DiskViewModel : INotifyPropertyChanged
         // Extract GUID from the GUID path.
         // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
         Guid = GuidPath?.Substring(11, 36);
+
+        TotalSpaceFormatted = Formatter.DiskMetricString(TotalSpaceBytes);
+        AvailableSpaceFormatted = Formatter.DiskMetricString(AvailableSpaceBytes);
+        FreeSpaceFormatted = Formatter.DiskMetricString(FreeSpaceBytes);
+        BytesReadFormatted = Formatter.DiskMetricString(BytesRead);
+        BytesWrittenFormatted = Formatter.DiskMetricString(BytesWritten);
     }
 
     public void Update(DiskInfo disk)
@@ -179,6 +227,12 @@ public class DiskViewModel : INotifyPropertyChanged
         // Extract GUID from the GUID path.
         // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
         Guid = GuidPath?.Substring(11, 36);
+
+        TotalSpaceFormatted = Formatter.DiskMetricString(TotalSpaceBytes);
+        AvailableSpaceFormatted = Formatter.DiskMetricString(AvailableSpaceBytes);
+        FreeSpaceFormatted = Formatter.DiskMetricString(FreeSpaceBytes);
+        BytesReadFormatted = Formatter.DiskMetricString(BytesRead);
+        BytesWrittenFormatted = Formatter.DiskMetricString(BytesWritten);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

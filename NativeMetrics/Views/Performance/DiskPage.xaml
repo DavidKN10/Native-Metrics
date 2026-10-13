@@ -70,25 +70,27 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-                Text="{Binding TotalSpaceBytes}"/>
+                Text="{Binding TotalSpaceFormatted.ValueString}"/>
             
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
-                Text="Available:"/>
+                Text="Available:"
+                FontWeight="SemiBold"/>
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="3"
-                Text="{Binding AvailableSpaceBytes}"/>
+                Text="{Binding AvailableSpaceFormatted.ValueString}"/>
         
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="4"
-                Text="Free:"/>
+                Text="Free:"
+                FontWeight="SemiBold"/>
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="5"
-                Text="{Binding FreeSpaceBytes}"/>
+                Text="{Binding FreeSpaceFormatted.ValueString}"/>
          
             <TextBlock
                 Grid.Row="1"
@@ -98,16 +100,17 @@
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="{Binding BytesRead}"/>
+                Text="{Binding BytesReadFormatted.ValueString}"/>
 
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="2"
-                Text="Written:"/>
+                Text="Written:"
+                FontWeight="SemiBold"/>
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="3"
-                Text="{Binding BytesWritten}"/>
+                Text="{Binding BytesWrittenFormatted.ValueString}"/>
             
             <TextBlock
                 Grid.Row="2"
@@ -122,7 +125,8 @@
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="2"
-                Text="Write Speed:"/>
+                Text="Write Speed:"
+                FontWeight="SemiBold"/>
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="3"
