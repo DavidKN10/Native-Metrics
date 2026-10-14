@@ -120,7 +120,7 @@
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="1"
-                Text="{Binding ReadSpeed}"/>
+                Text="{Binding ReadSpeedFormatted.ValueString}"/>
 
             <TextBlock
                 Grid.Row="2"
@@ -130,7 +130,7 @@
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="3"
-                Text="{Binding WriteSpeed}"/>
+                Text="{Binding WriteSpeedFormatted.ValueString}"/>
         </Grid>
 
     </StackPanel>

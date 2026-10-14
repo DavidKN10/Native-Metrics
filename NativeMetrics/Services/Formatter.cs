@@ -47,30 +47,51 @@ public static class Formatter
 
     public static FormattedValue DiskMetricString(ulong value)
     {
-        if (value >= 1_099_511_627_776UL)    // 1024^4
+        double valueDouble = value;
+
+        if (value >= 1_099_511_627_776UL)    // 1024^4 bytes
         {
-            double valueDouble = value;
             return new FormattedValue($"{BytesToTB(valueDouble):F2}", " TB");
         }
-        else if (value >= 1_073_741_824UL)  // 1024^3
+        else if (value >= 1_073_741_824UL)  // 1024^3 bytes
         {
-            double valueDouble = value;
             return new FormattedValue($"{BytesToGB(valueDouble):F2}", " GB");
         }
         else if (value >= 1_048_576UL)  // 1024^2 bytes
         {
-            double valueDouble = value;
             return new FormattedValue($"{BytesToMB(valueDouble):F2}", " MB");
         }
         else if (value >= 1_024UL)  // 1024 bytes
         {
-            double valueDouble = value;
             return new FormattedValue($"{BytesToKB(valueDouble):F2}", " KB");
         }
         else
         {
-            double valueDouble = value;
             return new FormattedValue($"{valueDouble:F2}", " B");
+        }
+    }
+
+    public static FormattedValue DiskSpeedString(double value)
+    {
+        if (value >= 1_099_511_627_776UL)    // 1024^4 bytes
+        {
+            return new FormattedValue($"{BytesToTB(value):F2}", " TB/s");
+        }
+        else if (value >= 1_073_741_824UL)  // 1024^3 bytes
+        {
+            return new FormattedValue($"{BytesToGB(value):F2}", " GB/s");
+        }
+        else if (value >= 1_048_576UL)  // 1024^2 bytes
+        {
+            return new FormattedValue($"{BytesToMB(value):F2}", " MB/s");
+        }
+        else if (value >= 1_024UL)  // 1024 bytes
+        {
+            return new FormattedValue($"{BytesToKB(value):F2}", " KB/s");
+        }
+        else
+        {
+            return new FormattedValue($"{value:F2}", " B/s");
         }
     }
 

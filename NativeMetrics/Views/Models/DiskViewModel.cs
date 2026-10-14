@@ -154,6 +154,20 @@ public class DiskViewModel : INotifyPropertyChanged
         set { _bytesWrittenFormatted = value; OnPropertyChanged(); }
     }
 
+    private FormattedValue _readSpeedFormatted;
+    public FormattedValue ReadSpeedFormatted
+    {
+        get { return _readSpeedFormatted; }
+        set { _readSpeedFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _writeSpeedFormatted;
+    public FormattedValue WriteSpeedFormatted
+    {
+        get { return _writeSpeedFormatted; }
+        set { _writeSpeedFormatted = value; OnPropertyChanged(); }
+    }
+
     public DiskViewModel() 
     {
         _driveLetter = string.Empty; 
@@ -177,6 +191,8 @@ public class DiskViewModel : INotifyPropertyChanged
         FreeSpaceFormatted = new();
         BytesReadFormatted = new();
         BytesWrittenFormatted = new();
+        ReadSpeedFormatted = new();
+        WriteSpeedFormatted = new();
     }
 
     public DiskViewModel(DiskInfo disk)
@@ -205,6 +221,8 @@ public class DiskViewModel : INotifyPropertyChanged
         FreeSpaceFormatted = Formatter.DiskMetricString(FreeSpaceBytes);
         BytesReadFormatted = Formatter.DiskMetricString(BytesRead);
         BytesWrittenFormatted = Formatter.DiskMetricString(BytesWritten);
+        ReadSpeedFormatted = Formatter.DiskSpeedString(ReadSpeed);
+        WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
     }
 
     public void Update(DiskInfo disk)
@@ -233,6 +251,8 @@ public class DiskViewModel : INotifyPropertyChanged
         FreeSpaceFormatted = Formatter.DiskMetricString(FreeSpaceBytes);
         BytesReadFormatted = Formatter.DiskMetricString(BytesRead);
         BytesWrittenFormatted = Formatter.DiskMetricString(BytesWritten);
+        ReadSpeedFormatted = Formatter.DiskSpeedString(ReadSpeed);
+        WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
