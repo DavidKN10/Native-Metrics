@@ -216,11 +216,11 @@ public class DiskViewModel : INotifyPropertyChanged
         // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
         Guid = GuidPath?.Substring(11, 36);
 
-        TotalSpaceFormatted = Formatter.DiskMetricString(TotalSpaceBytes);
-        AvailableSpaceFormatted = Formatter.DiskMetricString(AvailableSpaceBytes);
-        FreeSpaceFormatted = Formatter.DiskMetricString(FreeSpaceBytes);
-        BytesReadFormatted = Formatter.DiskMetricString(BytesRead);
-        BytesWrittenFormatted = Formatter.DiskMetricString(BytesWritten);
+        TotalSpaceFormatted = Formatter.ByteMetricString(TotalSpaceBytes);
+        AvailableSpaceFormatted = Formatter.ByteMetricString(AvailableSpaceBytes);
+        FreeSpaceFormatted = Formatter.ByteMetricString(FreeSpaceBytes);
+        BytesReadFormatted = Formatter.ByteMetricString(BytesRead);
+        BytesWrittenFormatted = Formatter.ByteMetricString(BytesWritten);
         ReadSpeedFormatted = Formatter.DiskSpeedString(ReadSpeed);
         WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
     }
@@ -246,11 +246,11 @@ public class DiskViewModel : INotifyPropertyChanged
         // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
         Guid = GuidPath?.Substring(11, 36);
 
-        TotalSpaceFormatted = Formatter.DiskMetricString(TotalSpaceBytes);
-        AvailableSpaceFormatted = Formatter.DiskMetricString(AvailableSpaceBytes);
-        FreeSpaceFormatted = Formatter.DiskMetricString(FreeSpaceBytes);
-        BytesReadFormatted = Formatter.DiskMetricString(BytesRead);
-        BytesWrittenFormatted = Formatter.DiskMetricString(BytesWritten);
+        TotalSpaceFormatted = Formatter.ByteMetricString(TotalSpaceBytes);
+        AvailableSpaceFormatted = Formatter.ByteMetricString(AvailableSpaceBytes);
+        FreeSpaceFormatted = Formatter.ByteMetricString(FreeSpaceBytes);
+        BytesReadFormatted = Formatter.ByteMetricString(BytesRead);
+        BytesWrittenFormatted = Formatter.ByteMetricString(BytesWritten);
         ReadSpeedFormatted = Formatter.DiskSpeedString(ReadSpeed);
         WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
     }

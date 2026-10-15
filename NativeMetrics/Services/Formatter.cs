@@ -45,7 +45,7 @@ public static class Formatter
         return BytesToGB(value) / (DIV);
     }
 
-    public static FormattedValue DiskMetricString(ulong value)
+    public static FormattedValue ByteMetricString(ulong value)
     {
         double valueDouble = value;
 
@@ -68,6 +68,30 @@ public static class Formatter
         else
         {
             return new FormattedValue($"{valueDouble:F2}", " B");
+        }
+    }
+
+    public static FormattedValue ByteMetricStringF(double value)
+    {
+        if (value >= 1_099_511_627_776UL)    // 1024^4 bytes
+        {
+            return new FormattedValue($"{BytesToTB(value):F2}", " TB");
+        }
+        else if (value >= 1_073_741_824UL)  // 1024^3 bytes
+        {
+            return new FormattedValue($"{BytesToGB(value):F2}", " GB");
+        }
+        else if (value >= 1_048_576UL)  // 1024^2 bytes
+        {
+            return new FormattedValue($"{BytesToMB(value):F2}", " MB");
+        }
+        else if (value >= 1_024UL)  // 1024 bytes
+        {
+            return new FormattedValue($"{BytesToKB(value):F2}", " KB");
+        }
+        else
+        {
+            return new FormattedValue($"{value:F2}", " B");
         }
     }
 

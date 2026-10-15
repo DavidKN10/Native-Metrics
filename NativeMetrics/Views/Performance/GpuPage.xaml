@@ -65,7 +65,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-                Text="{Binding DedicatedVideoMemoryBytes}"/>
+                Text="{Binding DedicatedVideoMemoryFormatted.ValueString}"/>
             
             <TextBlock
                 Grid.Row="0"
@@ -75,7 +75,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="3"
-                Text="{Binding LocalCurrentMemoryBytes}"/>
+                Text="{Binding LocalCurrentMemoryFormatted.ValueString}"/>
             
             <TextBlock
                 Grid.Row="1"
@@ -85,7 +85,7 @@
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="{Binding SharedSystemMemoryBytes}"/>
+                Text="{Binding SharedSystemMemoryFormatted.ValueString}"/>
             
             <TextBlock
                 Grid.Row="1"
@@ -95,7 +95,7 @@
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="3"
-                Text="{Binding NonLocalCurrentMemoryBytes}"/>
+                Text="{Binding NonLocalCurrentMemoryFormatted.ValueString}"/>
             
             <TextBlock
                 Grid.Row="2"
@@ -105,7 +105,7 @@
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="1"
-                Text="{Binding CurrentUsagePercent}"/>
+                Text="{Binding CurrentUsagePercentFormatted.ValueString}"/>
 
         </Grid>
         

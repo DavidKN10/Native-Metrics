@@ -1,4 +1,5 @@
 ﻿using Microsoft.Web.WebView2.Core;
+using NativeMetrics.Services;
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,41 @@ public class GpuViewModel : INotifyPropertyChanged
         set { _nonLocalCurrentMemoryBytes = value; OnPropertyChanged(); }
     }
 
+    private FormattedValue _dedicatedVideoMemoryFormatted;
+    public FormattedValue DedicatedVideoMemoryFormatted
+    {
+        get { return _dedicatedVideoMemoryFormatted; }
+        set { _dedicatedVideoMemoryFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _localCurrentMemoryFormatted;
+    public FormattedValue LocalCurrentMemoryFormatted
+    {
+        get { return _localCurrentMemoryFormatted; }
+        set { _localCurrentMemoryFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _currentUsagePercentFormatted;
+    public FormattedValue CurrentUsagePercentFormatted
+    {
+        get { return _currentUsagePercentFormatted; }
+        set { _currentUsagePercentFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _sharedSystemMemoryFormatted;
+    public FormattedValue SharedSystemMemoryFormatted
+    {
+        get { return _sharedSystemMemoryFormatted; }
+        set { _sharedSystemMemoryFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _nonLocalCurrentMemoryFormatted;
+    public FormattedValue NonLocalCurrentMemoryFormatted
+    {
+        get { return _nonLocalCurrentMemoryFormatted; }
+        set { _nonLocalCurrentMemoryFormatted = value; OnPropertyChanged(); }
+    }
+
     public GpuViewModel()
     {
         _description = string.Empty;
@@ -79,6 +115,12 @@ public class GpuViewModel : INotifyPropertyChanged
         _currentUsagePercent = 0.0;
         _sharedSystemMemoryBytes = 0.0;
         _nonLocalCurrentMemoryBytes= 0.0;
+
+        DedicatedVideoMemoryFormatted = new();
+        LocalCurrentMemoryFormatted = new();
+        CurrentUsagePercentFormatted = new();
+        SharedSystemMemoryFormatted = new();
+        NonLocalCurrentMemoryFormatted= new();
     }
 
     public GpuViewModel(GpuInfo gpu)
@@ -86,11 +128,17 @@ public class GpuViewModel : INotifyPropertyChanged
         Description = gpu.description;
         Luid = gpu.luid;
         VendorId = gpu.vendorId;
-        DedicatedVideoMemoryBytes= gpu.dedicatedVideoMemoryBytes;
+        DedicatedVideoMemoryBytes = gpu.dedicatedVideoMemoryBytes;
         LocalCurrentMemoryBytes = gpu.localCurrentMemoryBytes;
         CurrentUsagePercent = gpu.currentUsagePercent;
         SharedSystemMemoryBytes = gpu.sharedSystemMemoryBytes;
         NonLocalCurrentMemoryBytes = gpu.nonLocalCurrentMemoryBytes;
+
+        DedicatedVideoMemoryFormatted = Formatter.ByteMetricStringF(DedicatedVideoMemoryBytes);
+        LocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(LocalCurrentMemoryBytes);
+        CurrentUsagePercentFormatted = Formatter.PercentString(CurrentUsagePercent);
+        SharedSystemMemoryFormatted = Formatter.ByteMetricStringF(SharedSystemMemoryBytes);
+        NonLocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(NonLocalCurrentMemoryBytes);
     }
 
     public void Update(GpuInfo gpu)
@@ -103,6 +151,12 @@ public class GpuViewModel : INotifyPropertyChanged
         CurrentUsagePercent = gpu.currentUsagePercent;
         SharedSystemMemoryBytes = gpu.sharedSystemMemoryBytes;
         NonLocalCurrentMemoryBytes = gpu.nonLocalCurrentMemoryBytes;
+
+        DedicatedVideoMemoryFormatted = Formatter.ByteMetricStringF(DedicatedVideoMemoryBytes);
+        LocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(LocalCurrentMemoryBytes);
+        CurrentUsagePercentFormatted = Formatter.PercentString(CurrentUsagePercent);
+        SharedSystemMemoryFormatted = Formatter.ByteMetricStringF(SharedSystemMemoryBytes);
+        NonLocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(NonLocalCurrentMemoryBytes);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
