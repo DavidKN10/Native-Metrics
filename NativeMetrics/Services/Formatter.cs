@@ -118,11 +118,15 @@ public static class Formatter
             return new FormattedValue($"{value:F2}", " B/s");
         }
     }
-
-    public static FormattedValue PercentString(double value)
+    public static FormattedValue PercentString(ulong value)
     {
-        string stringValue = $"{value:F1}";
-        return new FormattedValue(stringValue, "%");
+        double doubleValue = value;
+        return new FormattedValue($"{doubleValue:F1}", "%");
+    }
+
+    public static FormattedValue PercentStringF(double value)
+    {
+        return new FormattedValue($"{value:F1}", "%");
     }
 
     public static FormattedValue MillihertzString(uint value)

@@ -109,7 +109,7 @@ public class CpuViewModel : INotifyPropertyChanged
         CpuUsage = cpu.cpuUsage;
         
         BaseSpeedFormatted = Formatter.MillihertzString(BaseSpeed);
-        CpuUsageFormatted = Formatter.PercentString(CpuUsage);
+        CpuUsageFormatted = Formatter.PercentStringF(CpuUsage);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

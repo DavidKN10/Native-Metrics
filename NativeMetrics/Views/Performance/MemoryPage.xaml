@@ -39,7 +39,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="0"
                        Grid.Column="1"
-                       Text="{x:Bind _manager.MemoryStats.MemoryUsePercent, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.MemoryUsePercentFormatted.ValueString, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
@@ -47,7 +47,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="1"
                        Grid.Column="1"
-                       Text="{x:Bind _manager.MemoryStats.TotalMemoryBytes, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.TotalMemoryFormatted.ValueString, Mode=OneWay}"/>
            
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
@@ -55,7 +55,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="2"
                        Grid.Column="1"
-                       Text="{x:Bind _manager.MemoryStats.AvailableMemoryBytes, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.AvailableMemoryFormatted.ValueString, Mode=OneWay}"/>
            
             <!-- Second Column-->
             <TextBlock Grid.Row="0"
@@ -64,7 +64,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="0"
                        Grid.Column="3"
-                       Text="{x:Bind _manager.MemoryStats.CommitCurrentBytes, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.CommitCurrentFormatted.ValueString, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="1"
                        Grid.Column="2"
@@ -72,7 +72,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="1"
                        Grid.Column="3"
-                       Text="{x:Bind _manager.MemoryStats.CommitLimitBytes, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.CommitLimitFormatted.ValueString, Mode=OneWay}"/>
            
             <TextBlock Grid.Row="2"
                        Grid.Column="2"
@@ -80,7 +80,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="2"
                        Grid.Column="3"
-                       Text="{x:Bind _manager.MemoryStats.CommitPeakBytes, Mode=OneWay}"/>           
+                       Text="{x:Bind _manager.MemoryStats.CommitPeakFormatted.ValueString, Mode=OneWay}"/>           
             
             <!-- Third Column-->
             <TextBlock Grid.Row="0"
@@ -89,7 +89,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="0"
                        Grid.Column="5"
-                       Text="{x:Bind _manager.MemoryStats.PageSizeBytes, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.PageSizeFormatted.ValueString, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="1"
                        Grid.Column="4"
@@ -97,7 +97,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="1"
                        Grid.Column="5"
-                       Text="{x:Bind _manager.MemoryStats.PagedPoolBytes, Mode=OneWay}"/>
+                       Text="{x:Bind _manager.MemoryStats.PagedPoolFormatted.ValueString, Mode=OneWay}"/>
            
             <TextBlock Grid.Row="2"
                        Grid.Column="4"
@@ -105,7 +105,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Grid.Row="2"
                        Grid.Column="5"
-                       Text="{x:Bind _manager.MemoryStats.NonPagedPoolBytes, Mode=OneWay}"/>          
+                       Text="{x:Bind _manager.MemoryStats.NonPagedPoolFormatted.ValueString, Mode=OneWay}"/>          
         </Grid>
         
     </StackPanel>

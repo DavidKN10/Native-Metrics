@@ -136,7 +136,7 @@ public class GpuViewModel : INotifyPropertyChanged
 
         DedicatedVideoMemoryFormatted = Formatter.ByteMetricStringF(DedicatedVideoMemoryBytes);
         LocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(LocalCurrentMemoryBytes);
-        CurrentUsagePercentFormatted = Formatter.PercentString(CurrentUsagePercent);
+        CurrentUsagePercentFormatted = Formatter.PercentStringF(CurrentUsagePercent);
         SharedSystemMemoryFormatted = Formatter.ByteMetricStringF(SharedSystemMemoryBytes);
         NonLocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(NonLocalCurrentMemoryBytes);
     }
@@ -154,7 +154,7 @@ public class GpuViewModel : INotifyPropertyChanged
 
         DedicatedVideoMemoryFormatted = Formatter.ByteMetricStringF(DedicatedVideoMemoryBytes);
         LocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(LocalCurrentMemoryBytes);
-        CurrentUsagePercentFormatted = Formatter.PercentString(CurrentUsagePercent);
+        CurrentUsagePercentFormatted = Formatter.PercentStringF(CurrentUsagePercent);
         SharedSystemMemoryFormatted = Formatter.ByteMetricStringF(SharedSystemMemoryBytes);
         NonLocalCurrentMemoryFormatted = Formatter.ByteMetricStringF(NonLocalCurrentMemoryBytes);
     }

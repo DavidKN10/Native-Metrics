@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Media.Animation;
+using NativeMetrics.Services;
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -76,17 +77,90 @@ public class MemoryViewModel : INotifyPropertyChanged
         set { _nonPagedPoolBytes = value; OnPropertyChanged(); }
     }
 
+    private FormattedValue _pageSizeFormatted;
+    public FormattedValue PageSizeFormatted
+    {
+        get { return _pageSizeFormatted; }
+        set { _pageSizeFormatted = value; OnPropertyChanged(); }
+    }    
+
+    private FormattedValue _totalMemoryFormatted;
+    public FormattedValue TotalMemoryFormatted
+    {
+        get { return _totalMemoryFormatted; }
+        set { _totalMemoryFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _availableMemoryFormatted;
+    public FormattedValue AvailableMemoryFormatted
+    {
+        get { return _availableMemoryFormatted; }
+        set { _availableMemoryFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _memoryUsePercentFormatted;
+    public FormattedValue MemoryUsePercentFormatted
+    {
+        get { return _memoryUsePercentFormatted; }
+        set { _memoryUsePercentFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _commitCurrentFormatted;
+    public FormattedValue CommitCurrentFormatted
+    {
+        get { return _commitCurrentFormatted; }
+        set { _commitCurrentFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _commitLimitFormatted;
+    public FormattedValue CommitLimitFormatted
+    {
+        get { return _commitLimitFormatted; }
+        set { _commitLimitFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _commitPeakFormatted;
+    public FormattedValue CommitPeakFormatted
+    {
+        get { return _commitPeakFormatted; }
+        set { _commitPeakFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _pagedPoolFormatted;
+    public FormattedValue PagedPoolFormatted
+    {
+        get { return _pagedPoolFormatted; }
+        set { _pagedPoolFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _nonPagedPoolFormatted;
+    public FormattedValue NonPagedPoolFormatted
+    {
+        get { return _nonPagedPoolFormatted; }
+        set { _nonPagedPoolFormatted = value; OnPropertyChanged(); }
+    }
+
     public MemoryViewModel()
     { 
         _pageSizeBytes = 0;
         TotalMemoryBytes = 0;
-        CommitLimitBytes = 0;
+        _commitLimitBytes = 0;
         _availableMemoryBytes = 0;
         _memoryUsePercent = 0;
         _commitCurrentBytes = 0;
         _commitPeakBytes = 0;
         _pagedPoolBytes = 0;
         _nonPagedPoolBytes = 0;
+
+        PageSizeFormatted = new();
+        TotalMemoryFormatted = new();
+        CommitLimitFormatted = new();
+        AvailableMemoryFormatted = new();
+        MemoryUsePercent = new();
+        CommitCurrentFormatted = new();
+        CommitPeakFormatted = new();
+        PagedPoolFormatted = new();
+        NonPagedPoolFormatted = new();
     }
 
     public void Update(MemoryInfo memory)
@@ -100,6 +174,16 @@ public class MemoryViewModel : INotifyPropertyChanged
         CommitPeakBytes = memory.commitPeakBytes;
         PagedPoolBytes = memory.pagedPoolBytes;
         NonPagedPoolBytes = memory.nonPagedPoolBytes;
+
+        PageSizeFormatted = Formatter.ByteMetricString(PageSizeBytes);
+        TotalMemoryFormatted = Formatter.ByteMetricString(TotalMemoryBytes);
+        CommitLimitFormatted = Formatter.ByteMetricString(CommitLimitBytes);
+        AvailableMemoryFormatted = Formatter.ByteMetricString(AvailableMemoryBytes);
+        MemoryUsePercentFormatted = Formatter.PercentString(MemoryUsePercent);
+        CommitCurrentFormatted = Formatter.ByteMetricString(CommitCurrentBytes);
+        CommitPeakFormatted = Formatter.ByteMetricString(CommitPeakBytes);
+        PagedPoolFormatted = Formatter.ByteMetricString(PagedPoolBytes);
+        NonPagedPoolFormatted = Formatter.ByteMetricString(NonPagedPoolBytes);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
