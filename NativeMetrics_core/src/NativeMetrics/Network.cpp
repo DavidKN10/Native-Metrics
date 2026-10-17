@@ -9,10 +9,30 @@ bool isDisplayAdapter(const MIB_IF_ROW2& row) {
         return false;
     }
 
+    if (row.InterfaceAndOperStatusFlags.FilterInterface) {
+        return false;
+    }
+
+    if (row.InterfaceAndOperStatusFlags.EndPointInterface) {
+        return false;
+    }
+    
+    if (!row.InterfaceAndOperStatusFlags.HardwareInterface) {
+        return false; 
+    }
+
+    if (!row.InterfaceAndOperStatusFlags.ConnectorPresent) {
+        return false;
+    }
+
     switch (row.Type) {
         case IF_TYPE_ETHERNET_CSMACD:
             return true;
         case IF_TYPE_IEEE80211:
+            return true;
+        case IF_TYPE_WWANPP:
+            return true;
+        case IF_TYPE_WWANPP2:
             return true;
         default:
             return false;
