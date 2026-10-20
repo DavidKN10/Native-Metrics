@@ -33,14 +33,12 @@ public class MemoryUpdateService
     
     public void StartTimer()
     {
-        _updateTimer.Tick += OnTimerTick;
         _updateTimer.Start();
     }
     
     public void StopTimer()
     {
         _updateTimer.Stop();
-        _updateTimer.Tick -= OnTimerTick;
     }
 
     private async void RefreshManager()

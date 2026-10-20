@@ -99,7 +99,7 @@ public class CpuViewModel : INotifyPropertyChanged
         _cpuUsageFormatted= new();
         CpuUsageHistory = new();
     }
-   
+
     public void Update(CpuInfo cpu)
     {
         ProcessorName = cpu.processorName;

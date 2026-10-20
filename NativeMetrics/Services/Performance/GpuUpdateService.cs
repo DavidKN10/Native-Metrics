@@ -27,14 +27,12 @@ public class GpuUpdateService
 
     public void StartTimer()
     {
-        _updateTimer.Tick += OnTimerTick;
         _updateTimer.Start();
     }
 
     public void StopTimer()
     {
         _updateTimer.Stop();
-        _updateTimer.Tick -= OnTimerTick;
     }
     
     private void OnTimerTick(object? sender, object e)
