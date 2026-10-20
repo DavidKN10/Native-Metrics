@@ -16,6 +16,7 @@ public class MemoryViewModel : INotifyPropertyChanged
     private ulong _pageSizeBytes;
     private ulong _totalMemoryBytes;
     private ulong _availableMemoryBytes;
+    private ulong _memoryUseBytes;
     private ulong _memoryUsePercent;
     private ulong _commitCurrentBytes;
     private ulong _commitLimitBytes;
@@ -47,6 +48,8 @@ public class MemoryViewModel : INotifyPropertyChanged
         set { _availableMemoryBytes = value; OnPropertyChanged(); }
     }
 
+    public ulong MemoryUseBytes => _totalMemoryBytes - _availableMemoryBytes;
+    
     public ulong MemoryUsePercent
     {
         get { return _memoryUsePercent; }
@@ -140,6 +143,8 @@ public class MemoryViewModel : INotifyPropertyChanged
         set { _nonPagedPoolFormatted = value; OnPropertyChanged(); }
     }
 
+    public HistoryBuffer<ulong> MemoryUseHistory;
+
     public MemoryViewModel()
     { 
         _pageSizeBytes = 0;
@@ -161,6 +166,7 @@ public class MemoryViewModel : INotifyPropertyChanged
         CommitPeakFormatted = new();
         PagedPoolFormatted = new();
         NonPagedPoolFormatted = new();
+        MemoryUseHistory = new();
     }
 
     public void Update(MemoryInfo memory)
@@ -184,6 +190,7 @@ public class MemoryViewModel : INotifyPropertyChanged
         CommitPeakFormatted = Formatter.ByteMetricString(CommitPeakBytes);
         PagedPoolFormatted = Formatter.ByteMetricString(PagedPoolBytes);
         NonPagedPoolFormatted = Formatter.ByteMetricString(NonPagedPoolBytes);
+        MemoryUseHistory.Add(MemoryUseBytes);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

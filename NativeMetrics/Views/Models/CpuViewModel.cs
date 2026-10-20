@@ -82,6 +82,8 @@ public class CpuViewModel : INotifyPropertyChanged
         set { _cpuUsageFormatted = value; OnPropertyChanged(); }
     }
 
+    public HistoryBuffer<double> CpuUsageHistory;
+
     public CpuViewModel()
     {
         _processorName = string.Empty;
@@ -95,6 +97,7 @@ public class CpuViewModel : INotifyPropertyChanged
 
         _baseSpeedFormatted = new();
         _cpuUsageFormatted= new();
+        CpuUsageHistory = new();
     }
    
     public void Update(CpuInfo cpu)
@@ -110,6 +113,7 @@ public class CpuViewModel : INotifyPropertyChanged
         
         BaseSpeedFormatted = Formatter.MillihertzString(BaseSpeed);
         CpuUsageFormatted = Formatter.PercentStringF(CpuUsage);
+        CpuUsageHistory.Add(CpuUsage);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
