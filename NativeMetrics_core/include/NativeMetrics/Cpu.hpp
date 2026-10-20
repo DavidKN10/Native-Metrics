@@ -32,6 +32,8 @@
 
 const u32 ONE_SEC = 1000;
 
+inline PreviousSystemTimeSample previousTime{};
+
 std::wstring getProcessorName();
 
 u32 getLogicalProcessors();

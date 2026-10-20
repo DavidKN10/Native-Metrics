@@ -86,32 +86,25 @@ u32 getBaseSpeedMHz() {
 }
 
 f64 getCpuUsage() {
-    FILETIME idle1, kernel1, user1;
-    FILETIME idle2, kernel2, user2;
+    FILETIME idle, kernel, user;
+    GetSystemTimes(&idle, &kernel, &user);
 
-    // capture initial values
-    GetSystemTimes(&idle1, &kernel1, &user1);
+    u64 currentIdleTime = fileTimeToU64(idle);
+    u64 currentKernelTime = fileTimeToU64(kernel);
+    u64 currentUserTime = fileTimeToU64(user);
 
-    Sleep(ONE_SEC);
+    u64 idleDelta = currentIdleTime - previousTime.idleTime;
+    u64 kernelDelta = currentKernelTime - previousTime.kernelTime;
+    u64 userDelta = currentUserTime - previousTime.userTime;
 
-    // capture second values
-    GetSystemTimes(&idle2, &kernel2, &user2);
-
-    u64 idleTime1 = fileTimeToU64(idle1);
-    u64 kernelTime1 = fileTimeToU64(kernel1);
-    u64 userTime1 = fileTimeToU64(user1);
-
-    u64 idleTime2 = fileTimeToU64(idle2);
-    u64 kernelTime2 = fileTimeToU64(kernel2);
-    u64 userTime2 = fileTimeToU64(user2);
-
-    u64 idleDelta = idleTime2 - idleTime1;
-    u64 kernelDelta = kernelTime2 - kernelTime1;
-    u64 userDelta = userTime2 - userTime1;
-
-    u64 totalDelta = kernelDelta + userDelta; // kernel time already contains idle time
+    u64 totalDelta = kernelDelta + userDelta;   // kernel time already contains idle time
 
     f64 cpuUsage = (1.0 - (static_cast<f64>(idleDelta)) / (static_cast<f64>(totalDelta))) * 100.0;
+    
+    previousTime.idleTime = currentIdleTime;
+    previousTime.kernelTime = currentKernelTime;
+    previousTime.userTime = currentUserTime;
+    
     return cpuUsage;
 }
 
