@@ -277,6 +277,8 @@ public class DiskViewModel : INotifyPropertyChanged
         BytesWritten = disk.bytesWritten;
         ReadSpeed = disk.readSpeed;
         WriteSpeed = disk.writeSpeed;
+        ActiveTimePercent = disk.activeTimePercent;
+        TransferRate = disk.transferRate;
         
         // Extract GUID from the GUID path.
         // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
@@ -289,6 +291,8 @@ public class DiskViewModel : INotifyPropertyChanged
         BytesWrittenFormatted = Formatter.ByteMetricString(BytesWritten);
         ReadSpeedFormatted = Formatter.DiskSpeedString(ReadSpeed);
         WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
+        ActiveTimeFormatted = Formatter.PercentStringF(ActiveTimePercent);
+        TransferRateFormatted = Formatter.DiskSpeedString(TransferRate);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

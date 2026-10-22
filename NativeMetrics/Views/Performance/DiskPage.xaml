@@ -60,6 +60,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock
@@ -131,6 +132,26 @@
                 Grid.Row="2"
                 Grid.Column="3"
                 Text="{Binding WriteSpeedFormatted.ValueString}"/>
+
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="Active time:"
+                FontWeight="SemiBold"/>
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="{Binding ActiveTimeFormatted.ValueString}"/>
+            
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="Transfer rate:"
+                FontWeight="SemiBold"/>
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="3"
+                Text="{Binding TransferRateFormatted.ValueString}"/>
         </Grid>
 
     </StackPanel>
