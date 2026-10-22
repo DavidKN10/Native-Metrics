@@ -28,6 +28,8 @@ public class DiskViewModel : INotifyPropertyChanged
     public ulong _bytesWritten;
     public double _readSpeed;
     public double _writeSpeed;
+    public double _activeTimePercent;
+    public double _transferRate;
 
     public string? DriveLetter
     {
@@ -118,6 +120,18 @@ public class DiskViewModel : INotifyPropertyChanged
         get { return _writeSpeed; }
         set { _writeSpeed = value; OnPropertyChanged(); }
     }
+    
+    public double ActiveTimePercent
+    {
+        get { return _activeTimePercent; }
+        set { _activeTimePercent = value; OnPropertyChanged();}
+    }
+
+    public double TransferRate
+    {
+        get { return _transferRate; }
+        set { _transferRate = value; OnPropertyChanged(); }
+    }
 
     private FormattedValue _totalSpaceFormatted;
     public FormattedValue TotalSpaceFormatted
@@ -168,6 +182,20 @@ public class DiskViewModel : INotifyPropertyChanged
         set { _writeSpeedFormatted = value; OnPropertyChanged(); }
     }
 
+    private FormattedValue _activeTimeFormatted;
+    public FormattedValue ActiveTimeFormatted
+    {
+        get { return _activeTimeFormatted; }
+        set { _activeTimeFormatted = value; OnPropertyChanged(); }
+    }
+
+    private FormattedValue _transferRateFormatted;
+    public FormattedValue TransferRateFormatted
+    {
+        get { return _transferRateFormatted; }
+        set { _transferRateFormatted = value; OnPropertyChanged(); }
+    }
+
     public DiskViewModel() 
     {
         _driveLetter = string.Empty; 
@@ -185,6 +213,8 @@ public class DiskViewModel : INotifyPropertyChanged
         _bytesWritten = 0;
         _readSpeed = 0.0;
         _writeSpeed = 0.0;
+        _activeTimePercent = 0.0;
+        _transferRate = 0.0;
 
         TotalSpaceFormatted = new();
         AvailableSpaceFormatted = new();
@@ -193,6 +223,8 @@ public class DiskViewModel : INotifyPropertyChanged
         BytesWrittenFormatted = new();
         ReadSpeedFormatted = new();
         WriteSpeedFormatted = new();
+        ActiveTimeFormatted = new();
+        TransferRateFormatted = new();
     }
 
     public DiskViewModel(DiskInfo disk)
@@ -211,6 +243,8 @@ public class DiskViewModel : INotifyPropertyChanged
         BytesWritten = disk.bytesWritten;
         ReadSpeed = disk.readSpeed;
         WriteSpeed = disk.writeSpeed;
+        ActiveTimePercent = disk.activeTimePercent;
+        TransferRate = disk.transferRate;
 
         // Extract GUID from the GUID path.
         // \\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\
@@ -223,6 +257,8 @@ public class DiskViewModel : INotifyPropertyChanged
         BytesWrittenFormatted = Formatter.ByteMetricString(BytesWritten);
         ReadSpeedFormatted = Formatter.DiskSpeedString(ReadSpeed);
         WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
+        ActiveTimeFormatted = Formatter.PercentStringF(ActiveTimePercent);
+        TransferRateFormatted = Formatter.DiskSpeedString(TransferRate);
     }
 
     public void Update(DiskInfo disk)
