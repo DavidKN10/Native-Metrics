@@ -269,6 +269,10 @@ void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance) {
         disk.writeSpeed = 0.0;
     }
 
+    // update transfer rate
+    f64 bytesTransferred = static_cast<f64>((disk.bytesRead - previous.bytesRead) + (disk.bytesWritten - previous.bytesWritten));
+    disk.transferRate = bytesTransferred / elapsedSeconds;
+
     // update active time
     u64 currentReadTime = static_cast<u64>(diskPerformance.ReadTime.QuadPart);
     u64 currentWriteTime = static_cast<u64>(diskPerformance.WriteTime.QuadPart);
@@ -285,6 +289,7 @@ void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance) {
         disk.activeTimePercent = 0.0;
     }
 
+    // Turn this sample into the previous sample so we can use it in the next sample.
     previous = {
         disk.bytesRead, disk.bytesWritten, 
         currentReadTime, currentWriteTime, currentIdleTime, currentQueryTime, 

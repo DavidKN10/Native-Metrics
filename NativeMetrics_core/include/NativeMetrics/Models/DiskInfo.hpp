@@ -38,4 +38,5 @@ struct DiskInfo {
     f64 readSpeed{};
     f64 writeSpeed{};
     f64 activeTimePercent{};
+    f64 transferRate{};
 };
