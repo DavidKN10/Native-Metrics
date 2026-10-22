@@ -228,6 +228,70 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk) {
     return true;
 }
 
+void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance) {
+    auto it = diskMetricHistory.find(std::wstring(disk.guidPath));
+    auto now = std::chrono::steady_clock::now();
+
+    // first sample 
+    if (it == diskMetricHistory.end()) {
+        diskMetricHistory[std::wstring(disk.guidPath)] = {
+            disk.bytesRead,
+            disk.bytesWritten, 
+            static_cast<u64>(diskPerformance.ReadTime.QuadPart),
+            static_cast<u64>(diskPerformance.WriteTime.QuadPart),
+            static_cast<u64>(diskPerformance.IdleTime.QuadPart),
+            static_cast<u64>(diskPerformance.QueryTime.QuadPart),
+            now
+        };
+
+        disk.readSpeed = 0.0;
+        disk.writeSpeed = 0.0;
+        disk.activeTimePercent = 0.0;
+        return;
+    } 
+    
+    auto& previous = it->second;
+    f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
+    
+    if (elapsedSeconds > 0.0 && disk.bytesRead >= previous.bytesRead) {
+        // update read speed
+        f64 readBytesDelta = static_cast<f64>(disk.bytesRead - previous.bytesRead);
+        disk.readSpeed = readBytesDelta / elapsedSeconds;
+    } else {
+        disk.readSpeed = 0.0; 
+    }
+
+    if (elapsedSeconds > 0.0 && disk.bytesWritten >= previous.bytesWritten) {
+        // update write speed
+        f64 writeBytesDelta = static_cast<f64>(disk.bytesWritten - previous.bytesWritten);
+        disk.writeSpeed = writeBytesDelta / elapsedSeconds;
+    } else {
+        disk.writeSpeed = 0.0;
+    }
+
+    // update active time
+    u64 currentReadTime = static_cast<u64>(diskPerformance.ReadTime.QuadPart);
+    u64 currentWriteTime = static_cast<u64>(diskPerformance.WriteTime.QuadPart);
+    u64 currentIdleTime = static_cast<u64>(diskPerformance.IdleTime.QuadPart);
+    u64 currentQueryTime = static_cast<u64>(diskPerformance.QueryTime.QuadPart);
+
+    if (currentQueryTime > previous.queryTime && currentIdleTime >= previous.idleTime) {
+        u64 elapsed = currentQueryTime - previous.queryTime;
+        u64 idle = currentIdleTime - previous.idleTime;
+
+        // clamp the value to 0-100%
+        disk.activeTimePercent = std::clamp(100.0 * (1.0 - static_cast<f64>(idle) / static_cast<f64>(elapsed)), 0.0, 100.0);
+    } else {
+        disk.activeTimePercent = 0.0;
+    }
+
+    previous = {
+        disk.bytesRead, disk.bytesWritten, 
+        currentReadTime, currentWriteTime, currentIdleTime, currentQueryTime, 
+        now
+    };
+}
+
 bool getDiskPerformance(u32 diskNumber, DiskInfo& disk) {
     std::wstring diskName = L"\\\\.\\PhysicalDrive";
     diskName += std::to_wstring(diskNumber);
@@ -264,36 +328,11 @@ bool getDiskPerformance(u32 diskNumber, DiskInfo& disk) {
     
     disk.bytesRead = buffer.BytesRead.QuadPart;
     disk.bytesWritten = buffer.BytesWritten.QuadPart;
+
+    updateSpeedAndTime(disk, buffer);
     
     CloseHandle(diskHandle);
     return true;
-}
-
-void updateReadWriteSpeed(DiskInfo& disk) {
-    auto it = diskMetricHistory.find(std::wstring(disk.guidPath));
-    if (it == diskMetricHistory.end()) {
-        diskMetricHistory[std::wstring(disk.guidPath)] = {
-            disk.bytesRead, 
-            disk.bytesWritten,
-            std::chrono::steady_clock::now() 
-        };
-
-        disk.readSpeed = 0.0;
-        disk.writeSpeed = 0.0;
-    } else {
-        auto& previous = it->second;
-        f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
-
-        u64 readBytesDelta = disk.bytesRead - previous.bytesRead;
-        u64 writeBytesDelta = disk.bytesWritten - previous.bytesWritten;
-
-        disk.readSpeed = readBytesDelta / elapsedSeconds;
-        disk.writeSpeed = writeBytesDelta / elapsedSeconds;
-
-        previous.bytesRead = disk.bytesRead;
-        previous.bytesWritten = disk.bytesWritten;
-        previous.timestamp = std::chrono::steady_clock::now();
-    }
 }
 
 std::vector<DiskInfo> collectDiskInfo() {
@@ -315,8 +354,6 @@ std::vector<DiskInfo> collectDiskInfo() {
         if (!getDiskPerformance(diskNumber, disk)) {
             continue;
         }
-
-        updateReadWriteSpeed(disk);
     }
 
     return disks;

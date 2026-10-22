@@ -14,10 +14,12 @@ constexpr int GUID_SIZE = 50;
 struct PreviousDiskSample {
     u64 bytesRead{};
     u64 bytesWritten{};
+    u64 readTime{};
+    u64 writeTime{};
+    u64 idleTime{};
+    u64 queryTime{};
     std::chrono::steady_clock::time_point timestamp{};
 };
-
-inline std::unordered_map<std::wstring, PreviousDiskSample> diskMetricHistory{};
 
 struct DiskInfo {
     wchar_t driveLetter[DRIVE_LETTER_LENGTH] {};
@@ -35,4 +37,5 @@ struct DiskInfo {
     u64 bytesWritten{};
     f64 readSpeed{};
     f64 writeSpeed{};
+    f64 activeTimePercent{};
 };

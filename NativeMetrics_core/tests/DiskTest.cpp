@@ -26,7 +26,8 @@ void testDisks() {
             std::cout << "Read: " << disk.bytesRead << " B" << std::endl;
             std::cout << "Write: " << disk.bytesWritten << " B" << std::endl;
             std::cout << "Read speed: " << disk.readSpeed << " MB/s" << std::endl;
-            std::cout << "Write speed: " << disk.writeSpeed << " MB/s" << std::endl << std::endl;
+            std::cout << "Write speed: " << disk.writeSpeed << " MB/s" << std::endl;
+            std::cout << "Active time: " << disk.activeTimePercent << " %" << std::endl << std::endl;
         }
         std::cout << std::endl;
     } else {

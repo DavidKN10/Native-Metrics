@@ -3,6 +3,7 @@
 // C++ standard library
 #include <set>
 #include <algorithm>
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <cwchar>
@@ -31,6 +32,8 @@
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/DiskInfo.hpp>
 
+inline std::unordered_map<std::wstring, PreviousDiskSample> diskMetricHistory{};
+
 void getDriveString(std::vector<DiskInfo>& diskList);
 
 void getDriveGuid(DiskInfo& disk);
@@ -47,7 +50,7 @@ void getBusType(DiskInfo& disk, STORAGE_BUS_TYPE& type);
 
 bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk);
 
-void updateReadWriteSpeed(DiskInfo& disk);
+void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance);
 
 bool getDiskPerformance(u32 diskNumber, DiskInfo& disk);
 
