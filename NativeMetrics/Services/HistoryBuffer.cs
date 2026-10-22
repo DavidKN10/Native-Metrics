@@ -68,7 +68,6 @@ public class HistoryBuffer<T> : IEnumerable<T>
         for (int i = 0; i < _count; i++)
         {
             yield return this[i];
-
         }
     }
     

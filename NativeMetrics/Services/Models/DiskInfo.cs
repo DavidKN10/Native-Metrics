@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Web.AtomPub;
 
 namespace NativeMetrics.Services.Models;
 
@@ -38,4 +39,6 @@ public struct DiskInfo
     public ulong bytesWritten;
     public double readSpeed;
     public double writeSpeed;
+    public double activeTimePercent;
+    public double transferRate;
 }
