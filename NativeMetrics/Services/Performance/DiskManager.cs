@@ -46,13 +46,6 @@ public class DiskManager
             if (diskLookup.ContainsKey(disk.guidPath))
             {
                 diskLookup[disk.guidPath].Update(disk);
-
-                DiskViewModel? diskToUpdate = Disks.FirstOrDefault(x => x.GuidPath == disk.guidPath);
-                if (diskToUpdate != null) 
-                {
-                    diskToUpdate.Update(disk);
-                }
-            
             }
             // add new disk to Dictionary and ObservableCollection
             else

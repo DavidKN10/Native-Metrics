@@ -96,7 +96,8 @@ public class CpuViewModel : INotifyPropertyChanged
         _cpuUsage = 0.0;
 
         _baseSpeedFormatted = new();
-        _cpuUsageFormatted= new();
+        _cpuUsageFormatted = new();
+
         CpuUsageHistory = new();
     }
 

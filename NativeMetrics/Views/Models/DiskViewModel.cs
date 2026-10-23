@@ -196,6 +196,9 @@ public class DiskViewModel : INotifyPropertyChanged
         set { _transferRateFormatted = value; OnPropertyChanged(); }
     }
 
+    public HistoryBuffer<double> ActiveTimeHistory;
+    public HistoryBuffer<double> TransferRateHistory;
+
     public DiskViewModel() 
     {
         _driveLetter = string.Empty; 
@@ -225,6 +228,9 @@ public class DiskViewModel : INotifyPropertyChanged
         WriteSpeedFormatted = new();
         ActiveTimeFormatted = new();
         TransferRateFormatted = new();
+
+        ActiveTimeHistory = new();
+        TransferRateHistory = new();
     }
 
     public DiskViewModel(DiskInfo disk)
@@ -259,6 +265,9 @@ public class DiskViewModel : INotifyPropertyChanged
         WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
         ActiveTimeFormatted = Formatter.PercentStringF(ActiveTimePercent);
         TransferRateFormatted = Formatter.DiskSpeedString(TransferRate);
+
+        ActiveTimeHistory = new();
+        TransferRateHistory = new();
     }
 
     public void Update(DiskInfo disk)
@@ -293,6 +302,9 @@ public class DiskViewModel : INotifyPropertyChanged
         WriteSpeedFormatted = Formatter.DiskSpeedString(WriteSpeed);
         ActiveTimeFormatted = Formatter.PercentStringF(ActiveTimePercent);
         TransferRateFormatted = Formatter.DiskSpeedString(TransferRate);
+
+        ActiveTimeHistory.Add(ActiveTimePercent);
+        TransferRateHistory.Add(TransferRate);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

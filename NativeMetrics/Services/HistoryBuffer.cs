@@ -63,6 +63,16 @@ public class HistoryBuffer<T> : IEnumerable<T>
         _count = 0;
     }
 
+    // for testing
+    public void PrintHistory()
+    {
+        foreach (var item in _items)
+        {
+            Console.Write($"{item:F2} ");
+        }
+        Console.WriteLine("");
+    }
+
     public IEnumerator<T> GetEnumerator()
     {
         for (int i = 0; i < _count; i++)
