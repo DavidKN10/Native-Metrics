@@ -14,7 +14,9 @@ public class HistoryBuffer<T> : IEnumerable<T>
     private int _head;
     private int _tail;
     private int _count;
-    private const int MAX_HISTORY = 60;
+    
+    // we are using 61 because we need to account zero + 60 seconds
+    private const int MAX_HISTORY = 61; 
 
     public int Count => _count;
     public bool isFull => _count == MAX_HISTORY;

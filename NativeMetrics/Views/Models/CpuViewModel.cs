@@ -2,6 +2,7 @@
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -83,7 +84,6 @@ public class CpuViewModel : INotifyPropertyChanged
     }
 
     public HistoryBuffer<double> CpuUsageHistory;
-
     public CpuViewModel()
     {
         _processorName = string.Empty;
@@ -101,6 +101,7 @@ public class CpuViewModel : INotifyPropertyChanged
         CpuUsageHistory = new();
     }
 
+    public ObservableCollection<double> CpuUsageObservable { get; } = new();
     public void Update(CpuInfo cpu)
     {
         ProcessorName = cpu.processorName;
@@ -115,6 +116,12 @@ public class CpuViewModel : INotifyPropertyChanged
         BaseSpeedFormatted = Formatter.MillihertzString(BaseSpeed);
         CpuUsageFormatted = Formatter.PercentStringF(CpuUsage);
         CpuUsageHistory.Add(CpuUsage);
+
+        if (CpuUsageObservable.Count >= 61)
+        {
+            CpuUsageObservable.RemoveAt(0);
+        }
+        CpuUsageObservable.Add(CpuUsage);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

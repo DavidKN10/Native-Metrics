@@ -6,6 +6,7 @@
     xmlns:local="using:NativeMetrics.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
     <StackPanel Spacing="20">
         <TextBlock Text="CPU"
@@ -91,6 +92,33 @@
             <TextBlock Grid.Row="2"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.BaseSpeedFormatted.ValueString, Mode=OneWay}"/>
+        
         </Grid>
+
+        <TextBlock
+            Text="Utilization %"
+            FontWeight="SemiBold"
+            Margin="0,15,0,0"/>
+        <lvc:CartesianChart
+            x:Name="CpuUsageChart"
+            LegendPosition="Hidden"
+            Height="300"
+            Width="1000">
+
+            <lvc:CartesianChart.Series>
+                <lvc:SeriesCollection>
+                    <lvc:XamlLineSeries
+                        GeometrySize="0"
+                        LineSmoothness="0"
+                        SeriesName="CPU Usage"
+                        GeometryFill="{x:Null}"
+                        GeometryStroke="{x:Null}"
+                        Stroke="{lvc:SolidColorPaint Color='#0aa5f2', StrokeWidth=2}"
+                        Values="{x:Bind _manager.CpuStats.CpuUsageObservable, Mode=OneWay}"/>
+                </lvc:SeriesCollection>
+            </lvc:CartesianChart.Series>
+
+        </lvc:CartesianChart>
+        
     </StackPanel>
 </Page>
