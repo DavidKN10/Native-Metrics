@@ -3,6 +3,7 @@ using NativeMetrics.Services;
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -198,6 +199,7 @@ public class DiskViewModel : INotifyPropertyChanged
 
     public HistoryBuffer<double> ActiveTimeHistory;
     public HistoryBuffer<double> TransferRateHistory;
+    public ObservableCollection<double> ActiveTimeObservable { get; } = new();
 
     public DiskViewModel() 
     {
@@ -305,6 +307,12 @@ public class DiskViewModel : INotifyPropertyChanged
 
         ActiveTimeHistory.Add(ActiveTimePercent);
         TransferRateHistory.Add(TransferRate);
+
+        if (ActiveTimeObservable.Count >= 61)
+        {
+            ActiveTimeObservable.RemoveAt(0);
+        }
+        ActiveTimeObservable.Add(ActiveTimePercent);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

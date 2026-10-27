@@ -16,6 +16,31 @@
         <TextBlock Text="{x:Bind _manager.CpuStats.ProcessorName, Mode=OneWay}"
                    FontSize="18"
                    FontWeight="Normal"/>
+        <TextBlock
+            Text="Utilization %"
+            FontWeight="SemiBold"
+            Margin="0,15,0,0"/>
+        
+        <lvc:CartesianChart
+            x:Name="CpuUsageChart"
+            LegendPosition="Hidden"
+            Height="300"
+            Width="1000">
+
+            <lvc:CartesianChart.Series>
+                <lvc:SeriesCollection>
+                    <lvc:XamlLineSeries
+                        GeometrySize="0"
+                        LineSmoothness="0"
+                        SeriesName="CPU Usage"
+                        GeometryFill="{x:Null}"
+                        GeometryStroke="{x:Null}"
+                        Stroke="{lvc:SolidColorPaint Color='#0aa5f2', StrokeWidth=2}"
+                        Values="{x:Bind _manager.CpuStats.CpuUsageObservable, Mode=OneWay}"/>
+                </lvc:SeriesCollection>
+            </lvc:CartesianChart.Series>
+
+        </lvc:CartesianChart>
 
         <Grid
             ColumnSpacing="20"
@@ -95,30 +120,7 @@
         
         </Grid>
 
-        <TextBlock
-            Text="Utilization %"
-            FontWeight="SemiBold"
-            Margin="0,15,0,0"/>
-        <lvc:CartesianChart
-            x:Name="CpuUsageChart"
-            LegendPosition="Hidden"
-            Height="300"
-            Width="1000">
 
-            <lvc:CartesianChart.Series>
-                <lvc:SeriesCollection>
-                    <lvc:XamlLineSeries
-                        GeometrySize="0"
-                        LineSmoothness="0"
-                        SeriesName="CPU Usage"
-                        GeometryFill="{x:Null}"
-                        GeometryStroke="{x:Null}"
-                        Stroke="{lvc:SolidColorPaint Color='#0aa5f2', StrokeWidth=2}"
-                        Values="{x:Bind _manager.CpuStats.CpuUsageObservable, Mode=OneWay}"/>
-                </lvc:SeriesCollection>
-            </lvc:CartesianChart.Series>
-
-        </lvc:CartesianChart>
         
     </StackPanel>
 </Page>

@@ -84,6 +84,8 @@ public class CpuViewModel : INotifyPropertyChanged
     }
 
     public HistoryBuffer<double> CpuUsageHistory;
+    public ObservableCollection<double> CpuUsageObservable { get; } = new();
+    
     public CpuViewModel()
     {
         _processorName = string.Empty;
@@ -101,7 +103,6 @@ public class CpuViewModel : INotifyPropertyChanged
         CpuUsageHistory = new();
     }
 
-    public ObservableCollection<double> CpuUsageObservable { get; } = new();
     public void Update(CpuInfo cpu)
     {
         ProcessorName = cpu.processorName;

@@ -6,153 +6,185 @@
     xmlns:local="using:NativeMetrics.Views.Performance"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
-    <StackPanel Spacing="20">
 
-        <StackPanel 
+    <ScrollViewer>
+        <StackPanel Spacing="20">
+
+            <StackPanel 
                 Spacing="15" 
                 Orientation="Horizontal">
-            <TextBlock
+                <TextBlock
                     Text="{Binding DriveLetter}"
                     FontSize="28"
                     FontWeight="SemiBold"/>
 
-            <TextBlock 
+                <TextBlock 
                     Text="{Binding VolumeName}"
                     FontSize="28"
                     FontWeight="SemiBold"/>
-        </StackPanel>
+            </StackPanel>
 
-        <TextBlock 
+            <TextBlock 
                 Text="{Binding Model}"
                 FontSize="18"
                 FontWeight="SemiBold"/>
 
-        <StackPanel Spacing="15" Orientation="Horizontal">
-            <TextBlock
+            <StackPanel Spacing="15" Orientation="Horizontal">
+                <TextBlock
                     Text="GUID:"
                     FontSize="15"
                     FontWeight="SemiBold"/>
-            <TextBlock 
+                <TextBlock 
                     Text="{Binding Guid}"
                     FontSize="15"/>
+            </StackPanel>
+
+            <StackPanel Spacing="30" Orientation="Horizontal">
+                <TextBlock Text="{Binding BusType}"/>
+                <TextBlock Text="{Binding FileSystemName}"/>
+                <TextBlock Text="{Binding DriveType}"/>     
+            </StackPanel>
+
+            <TextBlock
+                Text="Active time"
+                FontWeight="SemiBold"
+                Margin="0,15,0,0"/>
+            <lvc:CartesianChart
+                x:Name="ActiveTimeChart"
+                LegendPosition="Hidden"
+                Height="300"
+                Width="1000">
+
+                <lvc:CartesianChart.Series>
+                    <lvc:SeriesCollection>
+                        <lvc:XamlLineSeries
+                        GeometrySize="0"
+                        LineSmoothness="0"
+                        SeriesName="Active Time"
+                        GeometryFill="{x:Null}"
+                        GeometryStroke="{x:Null}"
+                        Stroke="{lvc:SolidColorPaint Color='#66d971', StrokeWidth=2}"
+                        Values="{Binding ActiveTimeObservable, Mode=OneWay}"/>
+                    </lvc:SeriesCollection>
+                </lvc:CartesianChart.Series>
+            </lvc:CartesianChart>
+
+            <Grid
+                ColumnSpacing="20"
+                RowSpacing="8">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Total:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding TotalSpaceFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Text="Available:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Text="{Binding AvailableSpaceFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="4" 
+                    Text="Free:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    Text="{Binding FreeSpaceFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Read:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding BytesReadFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="Written:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Text="{Binding BytesWrittenFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Read Speed:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding ReadSpeedFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Text="Write Speed:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Text="{Binding WriteSpeedFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="Active time:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="{Binding ActiveTimeFormatted.ValueString}"/>
+
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Text="Transfer rate:"
+                    FontWeight="SemiBold"/>
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Text="{Binding TransferRateFormatted.ValueString}"/>
+            </Grid>
+
         </StackPanel>
-
-        <TextBlock Text="{Binding BusType}"/>
-        <TextBlock Text="{Binding FileSystemName}"/>
-        <TextBlock Text="{Binding DriveType}"/>
-       
-        <Grid
-            ColumnSpacing="20"
-            RowSpacing="8">
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Text="Total:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="1"
-                Text="{Binding TotalSpaceFormatted.ValueString}"/>
-            
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="2"
-                Text="Available:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="3"
-                Text="{Binding AvailableSpaceFormatted.ValueString}"/>
         
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="4"
-                Text="Free:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="5"
-                Text="{Binding FreeSpaceFormatted.ValueString}"/>
-         
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="0"
-                Text="Read:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="1"
-                Text="{Binding BytesReadFormatted.ValueString}"/>
-
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="2"
-                Text="Written:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="3"
-                Text="{Binding BytesWrittenFormatted.ValueString}"/>
-            
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="0"
-                Text="Read Speed:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="1"
-                Text="{Binding ReadSpeedFormatted.ValueString}"/>
-
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="2"
-                Text="Write Speed:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="3"
-                Text="{Binding WriteSpeedFormatted.ValueString}"/>
-
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="0"
-                Text="Active time:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="1"
-                Text="{Binding ActiveTimeFormatted.ValueString}"/>
-            
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="2"
-                Text="Transfer rate:"
-                FontWeight="SemiBold"/>
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="3"
-                Text="{Binding TransferRateFormatted.ValueString}"/>
-        </Grid>
-
-    </StackPanel>
+    </ScrollViewer>
+    
 </Page>

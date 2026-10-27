@@ -13,6 +13,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using LiveChartsCore.SkiaSharpView;
+using Microsoft.Web.WebView2.Core;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,6 +30,59 @@ namespace NativeMetrics.Views.Performance
         public DiskPage()
         {
             InitializeComponent();
+
+            // modify chart
+            ActiveTimeChart.XAxes = new[]
+            {
+                new Axis
+                {
+                    MinLimit = 0,
+                    MaxLimit = 60,
+                    Labeler = value =>
+                    {
+                        if (value == 0)
+                        {
+                            return "0";
+                        }
+                        if (value == 60)
+                        {
+                            return "60 seconds";
+                        }
+                        return "";
+                    },
+                    CustomSeparators = [0, 5, 10 , 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+                    ShowSeparatorLines = true,
+                    SeparatorsPaint  = new LiveChartsCore.SkiaSharpView.Painting.SolidColorPaint
+                    {
+                        Color = SkiaSharp.SKColors.DarkGray,
+                        StrokeThickness = 1
+                    }
+                }
+            };
+
+            ActiveTimeChart.YAxes = new[]
+            {
+                new Axis
+                {
+                    MinLimit = 0,
+                    MaxLimit = 100,
+                    Labeler = value =>
+                    {
+                        if (value == 100)
+                        {
+                            return "100%";
+                        }
+                        return "";
+                    },
+                    CustomSeparators = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                    ShowSeparatorLines = true,
+                    SeparatorsPaint = new LiveChartsCore.SkiaSharpView.Painting.SolidColorPaint
+                    {
+                        Color = SkiaSharp.SKColors.DarkGray,
+                        StrokeThickness = 1
+                    }
+                }
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
