@@ -57,6 +57,11 @@ public class HistoryBuffer<T> : IEnumerable<T>
         }
     }
 
+    public T? MaxValue()
+    {
+        return _items.Max();
+    }
+
     public void Clear()
     {
         Array.Clear(_items, 0, _items.Length);
