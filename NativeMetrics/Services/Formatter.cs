@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveChartsCore.SkiaSharpView.TypeConverters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,28 +19,44 @@ public struct FormattedValue
         Number = value;
         Unit = unit;
     }
+
+    public double toDouble()
+    {
+        return double.Parse(Number);
+    }
+
+    public void setNumberS(string value)
+    {
+        Number = value;
+    }
+
+    public void setNumberF(double value)
+    {
+        string strValue = $"{value}";
+        Number = strValue;
+    }
 }
 
 public static class Formatter
 {
     private const int DIV = 1024;
 
-    private static double BytesToKB(double value)
+    public static double BytesToKB(double value)
     {
         return value / (DIV);
     }
 
-    private static double BytesToMB(double value)
+    public static double BytesToMB(double value)
     {
         return value / (DIV * DIV);
     }
 
-    private static double BytesToGB(double value)
+    public static double BytesToGB(double value)
     {
         return value / (DIV * DIV * DIV);
     }
 
-    private static double BytesToTB(double value)
+    public static double BytesToTB(double value)
     {
         // We conver to GB first because we overflow otherwise.
         return BytesToGB(value) / (DIV);

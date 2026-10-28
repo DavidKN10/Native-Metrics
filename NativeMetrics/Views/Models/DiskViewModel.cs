@@ -198,9 +198,14 @@ public class DiskViewModel : INotifyPropertyChanged
     }
 
     public HistoryBuffer<double> ActiveTimeHistory;
-    public HistoryBuffer<double> TransferRateHistory;
+    public DynamicAxisScaler TransferRateHistory;
     public ObservableCollection<double> ActiveTimeObservable { get; } = new();
-
+    public ObservableCollection<double> TransferRateObservable { get; } = new();
+    public double TransferRateMax
+    {
+        get { return TransferRateHistory.CurrentMax; }
+    }
+   
     public DiskViewModel() 
     {
         _driveLetter = string.Empty; 
@@ -306,13 +311,20 @@ public class DiskViewModel : INotifyPropertyChanged
         TransferRateFormatted = Formatter.DiskSpeedString(TransferRate);
 
         ActiveTimeHistory.Add(ActiveTimePercent);
-        TransferRateHistory.Add(TransferRate);
+        TransferRateHistory.History.Add(TransferRate);
 
         if (ActiveTimeObservable.Count >= 61)
         {
             ActiveTimeObservable.RemoveAt(0);
         }
         ActiveTimeObservable.Add(ActiveTimePercent);
+
+        if (TransferRateObservable.Count >= 61)
+        {
+            TransferRateObservable.RemoveAt(0);
+        }
+        TransferRateHistory.Update();
+        TransferRateObservable.Add(TransferRate / TransferRateHistory.Divisor);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
