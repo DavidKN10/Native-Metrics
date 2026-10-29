@@ -6,12 +6,37 @@
     xmlns:local="using:NativeMetrics.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
    
     <StackPanel Spacing="20">
         <TextBlock Text="Memory"
                    FontSize="24"
                    FontWeight="Bold"/>
+
+        <TextBlock Text="Memory usage"
+                   FontWeight="SemiBold"
+                   Margin="0, 15, 0, 0"/>
+        <lvc:CartesianChart
+            x:Name="MemoryUseChart"
+            LegendPosition="Hidden"
+            Height="300"
+            Width="1000">
+
+            <lvc:CartesianChart.Series>
+                <lvc:SeriesCollection>
+                    <lvc:XamlLineSeries
+                        GeometrySize="0"
+                        LineSmoothness="0"
+                        SeriesName="Memory Usage"
+                        GeometryFill="{x:Null}"
+                        GeometryStroke="{x:Null}"
+                        Stroke="{lvc:SolidColorPaint Color='#0240fa', StrokeWidth=2}"
+                        Values="{x:Bind _manager.MemoryStats.MemoryUseObservable, Mode=OneWay}"/>
+                </lvc:SeriesCollection>
+            </lvc:CartesianChart.Series>
+            
+        </lvc:CartesianChart>
 
         <Grid 
             ColumnSpacing="20"

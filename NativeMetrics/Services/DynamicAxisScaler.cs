@@ -72,7 +72,6 @@ public class DynamicAxisScaler
     {
         if (value < 0.5)
         {
-            Console.WriteLine($"{0.5} {Unit}");
             return 0.5;
         } 
 
@@ -94,8 +93,6 @@ public class DynamicAxisScaler
         {
             if (value <= step)
             {
-                Console.WriteLine($"{value} {Unit}");
-                Console.WriteLine($"{step} {Unit}");
                 return step;
             }
         }

@@ -134,6 +134,10 @@ namespace NativeMetrics.Views.Performance
             yAxis.MaxLimit = viewModel?.TransferRateMax;
             yAxis.Labeler = value =>
             {
+                if (value == 0)
+                {
+                    return string.Empty;
+                }
                 return $"{value:F1} {viewModel?.TransferRateHistory.Unit}";
             };
         }
@@ -154,6 +158,10 @@ namespace NativeMetrics.Views.Performance
                     MaxLimit = viewModel?.TransferRateMax,
                     Labeler = value =>
                     {
+                        if (value == 0)
+                        {
+                            return string.Empty;
+                        }
                         return $"{value:F1} {viewModel?.TransferRateHistory.Unit}";
                     },
                     ShowSeparatorLines = true,

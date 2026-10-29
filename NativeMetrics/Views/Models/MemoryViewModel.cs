@@ -3,6 +3,7 @@ using NativeMetrics.Services;
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,7 +17,6 @@ public class MemoryViewModel : INotifyPropertyChanged
     private ulong _pageSizeBytes;
     private ulong _totalMemoryBytes;
     private ulong _availableMemoryBytes;
-    private ulong _memoryUseBytes;
     private ulong _memoryUsePercent;
     private ulong _commitCurrentBytes;
     private ulong _commitLimitBytes;
@@ -47,8 +47,6 @@ public class MemoryViewModel : INotifyPropertyChanged
         get { return _availableMemoryBytes; }
         set { _availableMemoryBytes = value; OnPropertyChanged(); }
     }
-
-    public ulong MemoryUseBytes => _totalMemoryBytes - _availableMemoryBytes;
     
     public ulong MemoryUsePercent
     {
@@ -143,7 +141,16 @@ public class MemoryViewModel : INotifyPropertyChanged
         set { _nonPagedPoolFormatted = value; OnPropertyChanged(); }
     }
 
-    public HistoryBuffer<ulong> MemoryUseHistory;
+    public double MemoryUseBytes
+    {
+        get
+        {
+            return Formatter.BytesToGB(TotalMemoryBytes - AvailableMemoryBytes);
+        }
+    }
+
+    public HistoryBuffer<double> MemoryUseHistory;
+    public ObservableCollection<double> MemoryUseObservable { get; } = new();
 
     public MemoryViewModel()
     { 
@@ -157,15 +164,16 @@ public class MemoryViewModel : INotifyPropertyChanged
         _pagedPoolBytes = 0;
         _nonPagedPoolBytes = 0;
 
-        PageSizeFormatted = new();
-        TotalMemoryFormatted = new();
-        CommitLimitFormatted = new();
-        AvailableMemoryFormatted = new();
-        MemoryUsePercent = new();
-        CommitCurrentFormatted = new();
-        CommitPeakFormatted = new();
-        PagedPoolFormatted = new();
-        NonPagedPoolFormatted = new();
+        _pageSizeFormatted = new();
+        _totalMemoryFormatted = new();
+        _commitLimitFormatted = new();
+        _availableMemoryFormatted = new();
+        _memoryUsePercent = new();
+        _commitCurrentFormatted = new();
+        _commitPeakFormatted = new();
+        _pagedPoolFormatted = new();
+        _nonPagedPoolFormatted = new();
+
         MemoryUseHistory = new();
     }
 
@@ -190,7 +198,13 @@ public class MemoryViewModel : INotifyPropertyChanged
         CommitPeakFormatted = Formatter.ByteMetricString(CommitPeakBytes);
         PagedPoolFormatted = Formatter.ByteMetricString(PagedPoolBytes);
         NonPagedPoolFormatted = Formatter.ByteMetricString(NonPagedPoolBytes);
+       
         MemoryUseHistory.Add(MemoryUseBytes);
+        if (MemoryUseObservable.Count >= 61)
+        {
+            MemoryUseObservable.RemoveAt(0);
+        }
+        MemoryUseObservable.Add(MemoryUseBytes);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
