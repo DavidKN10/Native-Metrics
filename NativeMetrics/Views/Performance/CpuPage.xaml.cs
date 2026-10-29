@@ -87,7 +87,6 @@ namespace NativeMetrics.Views
             };
 
             this.Loaded += CpuPage_Loaded;
-            this.Unloaded += CpuPage_Unloaded;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -102,11 +101,6 @@ namespace NativeMetrics.Views
         {
             _updateService?.StartTimer();
             await _manager.RefreshAsync();
-        }
-
-        private void CpuPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _updateService?.StopTimer();
         }
     }
 }
