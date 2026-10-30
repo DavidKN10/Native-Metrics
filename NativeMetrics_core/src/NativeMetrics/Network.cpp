@@ -58,24 +58,48 @@ void rowToNetworkAdapter(NetworkAdapterInfo& adapter, const MIB_IF_ROW2& row) {
 
 void updateDownloadAndNetworkSpeed(NetworkAdapterInfo& adapter) {
     auto it = networkHistory.find(adapter.luid);
+    auto now = std::chrono::steady_clock::now();
+
+    // adding a new addapter
     if (it == networkHistory.end()) {
-        networkHistory[adapter.luid] = {adapter.receivedBytes, adapter.sentBytes, std::chrono::steady_clock::now()};
+        networkHistory[adapter.luid] = {
+            adapter.receivedBytes,
+            adapter.sentBytes,
+            std::chrono::steady_clock::now()
+        };
+
         adapter.downloadBytesPerSec = 0.0;
         adapter.uploadBytesPerSec = 0.0;
-    } else {
-        auto& previous = it->second;
-        f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
-        
-        u64 bytesReceivedDelta = adapter.receivedBytes - previous.receivedBytes;
-        u64 bytesSentDelta = adapter.sentBytes - previous.sentBytes;
-
-        adapter.downloadBytesPerSec = bytesReceivedDelta / elapsedSeconds;
-        adapter.uploadBytesPerSec = bytesSentDelta / elapsedSeconds;
-
-        previous.receivedBytes = adapter.receivedBytes;
-        previous.sentBytes = adapter.sentBytes;
-        previous.timestamp = std::chrono::steady_clock::now();
+        return;
     }
+
+    auto& previous = it->second;
+    f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
+   
+    // update download speed
+    if (elapsedSeconds > 0.0 && adapter.receivedBytes >= previous.receivedBytes) {
+        u64 bytesReceivedDelta = adapter.receivedBytes - previous.receivedBytes;
+        adapter.downloadBytesPerSec = bytesReceivedDelta / elapsedSeconds;
+    } else {
+        adapter.receivedBytes = 0;
+    }
+   
+    // update upload speed
+    if (elapsedSeconds > 0.0 && adapter.sentBytes > previous.sentBytes) {
+        u64 bytesSentDelta = adapter.sentBytes - previous.sentBytes;
+        adapter.uploadBytesPerSec = bytesSentDelta / elapsedSeconds; 
+    } else {
+        adapter.sentBytes = 0;
+    }
+  
+    adapter.throughput = adapter.downloadBytesPerSec + adapter.uploadBytesPerSec;
+   
+    // Turn this sample into the previous sample so we can use it in the next sample.
+    previous = {
+        adapter.receivedBytes,
+        adapter.sentBytes, 
+        now
+    };
 }
 
 std::vector<NetworkAdapterInfo> collectNetworkAdapters() {

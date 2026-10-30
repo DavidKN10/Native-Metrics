@@ -232,7 +232,7 @@ void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance) {
     auto it = diskMetricHistory.find(std::wstring(disk.guidPath));
     auto now = std::chrono::steady_clock::now();
 
-    // first sample 
+    // Adding a new disk.
     if (it == diskMetricHistory.end()) {
         diskMetricHistory[std::wstring(disk.guidPath)] = {
             disk.bytesRead,

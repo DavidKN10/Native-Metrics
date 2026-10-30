@@ -9,8 +9,8 @@
 constexpr int CHAR_LENGTH_MAX = 260;
 
 struct PreviousNetworkSample {
-    u64 receivedBytes{};
-    u64 sentBytes{};
+    u64 receivedBytes{};    // InOctets
+    u64 sentBytes{};        // OutOctets
     std::chrono::steady_clock::time_point timestamp{};
 };
 
@@ -30,6 +30,7 @@ struct NetworkAdapterInfo {
 
     f64 downloadBytesPerSec{};
     f64 uploadBytesPerSec{};
+    f64 throughput{};
    
     bool isConnected{};
     bool isOperational{};

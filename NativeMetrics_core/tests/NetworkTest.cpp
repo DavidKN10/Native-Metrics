@@ -17,8 +17,11 @@ void testNetworkStats() {
             std::wcout << L"LUID: " << currentNetwork.luid << std::endl;
             std::wcout << L"Type: " << currentNetwork.type << std::endl;
             std::wcout << L"Description: " << currentNetwork.description << std::endl;
-            std::wcout << L"Download Speed: " << currentNetwork.downloadBytesPerSec << L" B/s" << std::endl;
-            std::wcout << L"Upload Speed: " << currentNetwork.uploadBytesPerSec << L" B/s" << std::endl << std::endl;
+            std::cout << "Download Speed: " << currentNetwork.downloadBytesPerSec << " B/s" << std::endl;
+            std::cout << "Upload Speed: " << currentNetwork.uploadBytesPerSec << " B/s" << std::endl;
+            std::cout << "Download link speed: " << currentNetwork.receiveLinkSpeedBits << " b/s" << std::endl;
+            std::cout << "Upload link speed: " << currentNetwork.transmitLinkSpeedBits << " b/s" << std::endl;
+            std::cout << "Throughput: " << currentNetwork.throughput << " B/s" << std::endl << std::endl;
         }
     }
     std::cout << std::endl;
