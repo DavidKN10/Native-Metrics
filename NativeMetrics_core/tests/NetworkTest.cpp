@@ -19,8 +19,8 @@ void testNetworkStats() {
             std::wcout << L"Description: " << currentNetwork.description << std::endl;
             std::cout << "Download Speed: " << currentNetwork.downloadBytesPerSec << " B/s" << std::endl;
             std::cout << "Upload Speed: " << currentNetwork.uploadBytesPerSec << " B/s" << std::endl;
-            std::cout << "Download link speed: " << currentNetwork.receiveLinkSpeedBits << " b/s" << std::endl;
-            std::cout << "Upload link speed: " << currentNetwork.transmitLinkSpeedBits << " b/s" << std::endl;
+            std::cout << "Download link speed: " << currentNetwork.receiveLinkSpeedBits << " bps" << std::endl;
+            std::cout << "Upload link speed: " << currentNetwork.transmitLinkSpeedBits << " bps" << std::endl;
             std::cout << "Throughput: " << currentNetwork.throughput << " B/s" << std::endl << std::endl;
         }
     }
