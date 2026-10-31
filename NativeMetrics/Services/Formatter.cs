@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,27 +40,43 @@ public struct FormattedValue
 
 public static class Formatter
 {
-    private const int DIV = 1024;
+    private const int BYTE_DIV = 1024;
+    private const int BIT_DIV = 1000;
 
     public static double BytesToKB(double value)
     {
-        return value / (DIV);
+        return value / (BYTE_DIV);
     }
 
     public static double BytesToMB(double value)
     {
-        return value / (DIV * DIV);
+        return value / (BYTE_DIV * BYTE_DIV);
     }
 
     public static double BytesToGB(double value)
     {
-        return value / (DIV * DIV * DIV);
+        return value / (BYTE_DIV * BYTE_DIV * BYTE_DIV);
     }
 
     public static double BytesToTB(double value)
     {
-        // We conver to GB first because we overflow otherwise.
-        return BytesToGB(value) / (DIV);
+        // We convert to GB first because we overflow otherwise.
+        return BytesToGB(value) / (BYTE_DIV);
+    }
+
+    public static double BitsToKb(double value)
+    {
+        return value / BIT_DIV;
+    }
+
+    public static double BitsToMb(double value)
+    {
+        return value / (BIT_DIV * BIT_DIV);
+    }
+
+    public static double BitsToGb(double value)
+    {
+        return value / (BIT_DIV * BIT_DIV * BIT_DIV);
     }
 
     public static FormattedValue ByteMetricString(ulong value)
@@ -109,6 +126,28 @@ public static class Formatter
         else
         {
             return new FormattedValue($"{value:F2}", " B");
+        }
+    }
+
+    public static FormattedValue LinkSpeedString(ulong value)
+    {
+        double valueDouble = value;
+
+        if (valueDouble >= 1_000_000_000UL)
+        {
+            return new FormattedValue($"{BitsToGb(valueDouble):F2}", " Gbps");
+        }
+        else if (valueDouble >= 1_000_000UL)
+        {
+            return new FormattedValue($"{BitsToMb(valueDouble):F2}", " Mbps");
+        }
+        else if (valueDouble >= 1_000UL)
+        {
+            return new FormattedValue($"{BitsToKb(valueDouble):F2}", " Kbps");
+        }
+        else
+        {
+            return new FormattedValue($"{valueDouble:F2}", " bps");
         }
     }
 
