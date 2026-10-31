@@ -26,6 +26,7 @@ public struct NetworkAdapterInfo
    
     public double downloadBytesPerSec;
     public double uploadBytesPerSec;
+    public double throughput;
    
     [MarshalAs(UnmanagedType.I1)]
     public bool isConnected;
