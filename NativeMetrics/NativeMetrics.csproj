@@ -15,7 +15,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\MemoryPage.xaml" />
-    <None Remove="Views\NetworkPage.xaml" />
+    <None Remove="Views\Network\NetworkAdapterPage.xaml" />
+    <None Remove="Views\Network\NetworkPage.xaml" />
     <None Remove="Views\PerformancePage.xaml" />
     <None Remove="Views\Performance\DiskPage.xaml" />
     <None Remove="Views\Performance\GpuPage.xaml" />
@@ -59,6 +60,11 @@
     <PackageReference Include="WinUI.TableView" Version="1.4.1" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Network\NetworkAdapterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\Performance\GpuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -84,17 +90,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\NetworkPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Views\ProcessesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\PerformancePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Network\NetworkPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -107,7 +107,7 @@ public class NetworkViewModel : INotifyPropertyChanged
     }
 
     private FormattedValue _receivedBFormatted;
-    public FormattedValue ReceiveBFormatted
+    public FormattedValue ReceivedBFormatted
     {
         get { return _receivedBFormatted; }
         set { _receivedBFormatted = value; OnPropertyChanged(); }
@@ -164,7 +164,7 @@ public class NetworkViewModel : INotifyPropertyChanged
 
         ReceivedLSbFormatted = new();
         TransmitLSbFormatted = new();
-        ReceiveBFormatted = new();
+        ReceivedBFormatted = new();
         SentBFormatted = new();
         DownloadBpsFormatted = new();
         UploadBpsFormatted = new();
@@ -189,7 +189,7 @@ public class NetworkViewModel : INotifyPropertyChanged
 
         ReceivedLSbFormatted = Formatter.LinkSpeedString(ReceivedLinkSpeedBits);
         TransmitLSbFormatted = Formatter.LinkSpeedString(TransmitLinkSpeedBits);
-        ReceiveBFormatted = Formatter.ByteMetricString(ReceivedBytes);
+        ReceivedBFormatted = Formatter.ByteMetricString(ReceivedBytes);
         SentBFormatted = Formatter.ByteMetricString(SentBytes);
         // we can use DiskSpeedString() to also get the download and upload speeds and throughput
         DownloadBpsFormatted = Formatter.DiskSpeedString(DownloadBytesPerSec);
@@ -215,7 +215,7 @@ public class NetworkViewModel : INotifyPropertyChanged
 
         ReceivedLSbFormatted = Formatter.LinkSpeedString(ReceivedLinkSpeedBits);
         TransmitLSbFormatted = Formatter.LinkSpeedString(TransmitLinkSpeedBits);
-        ReceiveBFormatted = Formatter.ByteMetricString(ReceivedBytes);
+        ReceivedBFormatted = Formatter.ByteMetricString(ReceivedBytes);
         SentBFormatted = Formatter.ByteMetricString(SentBytes);
         // we can use DiskSpeedString() to also get the download and upload speeds and throughput
         DownloadBpsFormatted = Formatter.DiskSpeedString(DownloadBytesPerSec);
