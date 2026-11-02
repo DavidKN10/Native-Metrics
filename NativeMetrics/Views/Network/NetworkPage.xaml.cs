@@ -37,6 +37,7 @@ namespace NativeMetrics.Views.Network
             _updateService = new(_manager);
             _manager.Networks.CollectionChanged += Network_CollectionChanged;
 
+
             this.Loaded += NetworkPage_Loaded;
             this.Unloaded += NetworkPage_Unloaded;
         }
@@ -44,6 +45,13 @@ namespace NativeMetrics.Views.Network
         private async void NetworkPage_Loaded(object sender, RoutedEventArgs e)
         {
             await _manager.RefreshAsync();
+
+            // Navigate to the first adapter to show an initial page.
+            if (_manager.Networks.Any())
+            {
+                var firstNetwork = _manager.Networks.First();
+                NetworkContentFrame.Navigate(typeof(NetworkAdapterPage), firstNetwork);
+            }
         }
 
         private async void NetworkPage_Unloaded(object sender, RoutedEventArgs e)
