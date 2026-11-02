@@ -11,6 +11,7 @@
     
     <ScrollViewer>
         <StackPanel Spacing="20">
+            
             <TextBlock Text="{Binding Alias}"
                        FontSize="28"
                        FontWeight="SemiBold"/>
@@ -29,7 +30,31 @@
                     Text="{Binding Luid}"
                     FontSize="15"/>
             </StackPanel>
-           
+
+            <TextBlock
+                Text="Throughput"
+                FontWeight="SemiBold"
+                Margin="0,15,0,0"/>
+            <lvc:CartesianChart
+                x:Name="ThroughputChart"
+                LegendPosition="Hidden"
+                Height="300"
+                Width="1000">
+
+                <lvc:CartesianChart.Series>
+                    <lvc:SeriesCollection>
+                        <lvc:XamlLineSeries
+                            GeometrySize="0"
+                            LineSmoothness="0"
+                            SeriesName="Throughput"
+                            GeometryFill="{x:Null}"
+                            GeometryStroke="{x:Null}"
+                            Stroke="{lvc:SolidColorPaint Color='#fc0398', StrokeWidth=2}"
+                            Values="{Binding ThroughputObservable, Mode=OneWay}"/>
+                    </lvc:SeriesCollection>        
+                </lvc:CartesianChart.Series>
+            </lvc:CartesianChart>
+
             <Grid
                 ColumnSpacing="20"
                 RowSpacing="8">
