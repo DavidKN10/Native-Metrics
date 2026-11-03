@@ -95,8 +95,8 @@ bool getSystemInfo(SystemInfo* buffer, i32 bufferSize) {
         return false;
     }
 
-    //SystemInfo systemInfo = collectSystemInfo();
-    //*buffer = systemInfo;
+    SystemInfo systemInfo = collectSystemInfo();
+    *buffer = systemInfo;
 
     return true;
 }

@@ -33,6 +33,7 @@
 #include <NativeMetrics/Memory.hpp>
 #include <NativeMetrics/Network.hpp>
 #include <NativeMetrics/Process.hpp>
+#include <NativeMetrics/System.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/CpuInfo.hpp>

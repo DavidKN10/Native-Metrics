@@ -13,6 +13,7 @@ set(SOURCE_FILES
 	"src/NativeMetrics/Memory.cpp"
 	"src/NativeMetrics/Network.cpp"
 	"src/NativeMetrics/Process.cpp"
+	"src/NativeMetrics/System.cpp"
 	"src/NativeMetrics/Util.cpp"
 )
 
