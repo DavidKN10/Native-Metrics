@@ -40,6 +40,7 @@
 #include <NativeMetrics/Models/GpuInfo.hpp>
 #include <NativeMetrics/Models/MemoryInfo.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
+#include <NativeMetrics/Models/SystemInfo.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
