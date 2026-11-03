@@ -34,4 +34,6 @@
 
 std::wstring getDeviceName();
 
+std::wstring getProcessorAcrhitecture();
+
 SystemInfo collectSystemInfo();
