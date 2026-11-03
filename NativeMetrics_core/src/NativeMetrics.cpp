@@ -89,3 +89,14 @@ bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adap
     *adaptersWritten = toCopy;
     return true;
 }
+
+bool getSystemInfo(SystemInfo* buffer, i32 bufferSize) {
+    if (!buffer || bufferSize <= 0) {
+        return false;
+    }
+
+    //SystemInfo systemInfo = collectSystemInfo();
+    //*buffer = systemInfo;
+
+    return true;
+}

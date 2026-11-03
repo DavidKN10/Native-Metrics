@@ -82,4 +82,12 @@ target_link_libraries(GpuTest PRIVATE
 	NativeMetrics_core
 )
 
+add_executable(SystemTest
+	"tests/SystemTest.cpp"
+)
+
+target_link_libraries(SystemTest PRIVATE
+	NativeMetrics_core
+)
+
 target_compile_definitions(NativeMetrics_core PRIVATE NATIVEMETRICS_EXPORTS)
