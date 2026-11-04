@@ -32,6 +32,7 @@
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/SystemInfo.hpp>
+#include <NativeMetrics/Cpu.hpp>
 
 extern "C" NTSYSAPI NTSTATUS NTAPI RtlGetVersion(PRTL_OSVERSIONINFOW lpVersionInformation);
 

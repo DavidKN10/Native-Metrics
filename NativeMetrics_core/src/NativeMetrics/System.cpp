@@ -113,6 +113,9 @@ SystemInfo collectSystemInfo() {
     std::wstring firmware = getFirmwareType();
     wcsncpy_s(system.firmware, firmware.c_str(), _TRUNCATE);
 
+    std::wstring processor = getProcessorName();
+    wcsncpy_s(system.processor, processor.c_str(), _TRUNCATE);
+
     getWindowsInfo(system);
 
     return system;
