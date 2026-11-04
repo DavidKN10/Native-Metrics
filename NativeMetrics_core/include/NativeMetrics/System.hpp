@@ -50,6 +50,8 @@ void getWindowsInfo(SystemInfo& systemInfo);
 
 void getStorageCapcity(SystemInfo& systemInfo);
 
+u64 getTotalMemory();
+
 std::vector<GpuSummary> getGpuAdapterNames();
 
 SystemInfo collectSystemInfo();

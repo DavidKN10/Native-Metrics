@@ -128,6 +128,14 @@ void getStorageCapcity(SystemInfo& systemInfo) {
     systemInfo.usedStorage = usedStorage;
 }
 
+u64 getTotalMemory() {
+    MEMORYSTATUSEX statex{};
+    statex.dwLength = sizeof(statex);
+    GlobalMemoryStatusEx(&statex);
+
+    return statex.ullTotalPhys;
+}
+
 std::vector<GpuSummary> getGpuAdapterNames() {
     std::vector<GpuSummary> gpuList{};
     
@@ -202,6 +210,8 @@ SystemInfo collectSystemInfo() {
 
     std::wstring processor = getProcessorName();
     wcsncpy_s(system.processor, processor.c_str(), _TRUNCATE);
+
+    system.installedRam = getTotalMemory();
 
     getWindowsInfo(system);
     getStorageCapcity(system);
