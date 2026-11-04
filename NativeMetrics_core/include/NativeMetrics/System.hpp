@@ -41,6 +41,8 @@ std::wstring getProcessorAcrhitecture();
 
 std::wstring getHostname();
 
+std::wstring getFirmwareType();
+
 void getWindowsInfo(SystemInfo& systemInfo);
 
 SystemInfo collectSystemInfo();

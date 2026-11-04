@@ -47,6 +47,24 @@ std::wstring getHostname() {
     return hostname;
 }
 
+std::wstring getFirmwareType() {
+    FIRMWARE_TYPE firmware{};
+    
+    bool result = GetFirmwareType(&firmware);
+    if (!result) {
+        return L"Unknown"; 
+    }
+
+    switch (firmware) {
+        case FirmwareTypeBios:
+            return L"BIOS";
+        case FirmwareTypeUefi:
+            return L"UEFI";
+        default:
+            return L"Unknown";
+    }
+}
+
 void getWindowsInfo(SystemInfo& systemInfo) {
     RTL_OSVERSIONINFOW version{};
     version.dwOSVersionInfoSize = sizeof(version);
@@ -91,6 +109,9 @@ SystemInfo collectSystemInfo() {
 
     std::wstring hostname = getHostname();
     wcsncpy_s(system.hostname, hostname.c_str(), _TRUNCATE);
+
+    std::wstring firmware = getFirmwareType();
+    wcsncpy_s(system.firmware, firmware.c_str(), _TRUNCATE);
 
     getWindowsInfo(system);
 
