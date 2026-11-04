@@ -14,7 +14,7 @@ public struct SystemInfo
     public string deviceName;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-    public string sytemType;
+    public string systemType;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
     public string windowsVersion;
@@ -31,10 +31,10 @@ public struct SystemInfo
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
     public string processor;
 
-    ulong buildNumber;
-    ulong installedRam;
-    ulong storageCapacity;
-    ulong usedStorage;
+    public ulong buildNumber;
+    public ulong installedRam;
+    public ulong storageCapacity;
+    public ulong usedStorage;
 }
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -35,6 +35,13 @@ public static class NativeMetricsService
     
     [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     [return: MarshalAs(UnmanagedType.I1)]
-    public static extern bool getProcessList([Out] ProcessInfo[] buffer, int bufferSize, out int processesWritten);  
+    public static extern bool getProcessList([Out] ProcessInfo[] buffer, int bufferSize, out int processesWritten);
 
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [return: MarshalAs(UnmanagedType.I1)]
+    public static extern bool getSystemInfo([In, Out] ref SystemInfo buffer, int bufferSize);
+
+    [DllImport(NATIVE_METRICS_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [return: MarshalAs(UnmanagedType.I1)]
+    public static extern bool getGpuSummary([Out] GpuSummary[] buffer, int bufferSize, out int adaptersWritten);
 }
