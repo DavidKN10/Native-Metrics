@@ -30,3 +30,5 @@ u64 luidToU64(LUID& luid);
 std::wstring AsciiToWide(const char* narrowStr);
 
 std::wstring convertStringToWstring(const std::string& str);
+
+std::wstring windowsEdition();

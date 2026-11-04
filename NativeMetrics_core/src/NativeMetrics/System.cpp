@@ -34,6 +34,39 @@ std::wstring getProcessorAcrhitecture() {
     }
 }
 
+void getWindowsInfo(SystemInfo& systemInfo) {
+    RTL_OSVERSIONINFOW version{};
+    version.dwOSVersionInfoSize = sizeof(version);
+
+    const NTSTATUS status = ::RtlGetVersion(&version);
+    if (status != 0) {
+        return;
+    }
+
+    systemInfo.buildNumber = version.dwBuildNumber;
+    u64 majorVersion = version.dwMajorVersion;
+    u64 minorVersion = version.dwMinorVersion; 
+    
+    // get windows edition
+    if (majorVersion == 10 && minorVersion == 0) {
+        if (version.dwBuildNumber >= 22000) {
+            std::wstring edition = L"Windows 11 " + windowsEdition();
+            wcsncpy_s(systemInfo.windowsEdition, edition.c_str(), _TRUNCATE); 
+        } else {
+            std::wstring edition = L"Windows 10 " + windowsEdition();
+            wcsncpy_s(systemInfo.windowsEdition, edition.c_str(), _TRUNCATE);
+        }
+    }
+
+    // map windows build number to release 
+    auto it = WindowsReleases.find(systemInfo.buildNumber);
+    if (it != WindowsReleases.end()) {
+        wcsncpy_s(systemInfo.windowsVersion, it->second.c_str(), _TRUNCATE); 
+    } else {
+        wcsncpy_s(systemInfo.windowsVersion, L"Unkown", _TRUNCATE);
+    }
+}
+
 SystemInfo collectSystemInfo() {
     SystemInfo system{};
 
@@ -42,6 +75,8 @@ SystemInfo collectSystemInfo() {
     
     std::wstring architecture = getProcessorAcrhitecture();
     wcsncpy_s(system.systemType, architecture.c_str(), _TRUNCATE);
+
+    getWindowsInfo(system);
 
     return system;
 }

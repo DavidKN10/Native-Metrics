@@ -77,3 +77,34 @@ std::wstring convertStringToWstring(const std::string& str) {
 
     return wstr;
 }
+
+std::wstring windowsEdition() {
+    DWORD editionNumber{};
+    bool result = GetProductInfo(6, 3, 0, 0, &editionNumber);
+    if (!result) {
+        return L""; 
+    }
+
+    switch (editionNumber) {
+        case (PRODUCT_CORE):
+            return L"Home";
+        case (PRODUCT_CORE_N):
+            return L"Home N";
+        case (PRODUCT_PROFESSIONAL):
+            return L"Pro";
+        case (PRODUCT_PROFESSIONAL_N):
+            return L"Pro N";
+        case (PRODUCT_ENTERPRISE):
+            return L"Enterprise";
+        case (PRODUCT_ENTERPRISE_N):
+            return L"Enterprise N";
+        case (PRODUCT_EDUCATION):
+            return L"Education";
+        case (PRODUCT_PRO_FOR_EDUCATION):
+            return L"Pro Education";
+        case (PRODUCT_PRO_WORKSTATION):
+            return L"Pro for Workstations";
+        default:
+            return L"Unkown";
+    }
+}

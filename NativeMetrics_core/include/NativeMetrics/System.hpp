@@ -25,6 +25,7 @@
 #include <sysinfoapi.h>
 #include <fileapi.h>
 #include <SetupAPI.h>
+#include <winternl.h>
 
 // Native Metrics library  
 #include <NativeMetrics/System.hpp>
@@ -32,8 +33,12 @@
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/SystemInfo.hpp>
 
+extern "C" NTSYSAPI NTSTATUS NTAPI RtlGetVersion(PRTL_OSVERSIONINFOW lpVersionInformation);
+
 std::wstring getDeviceName();
 
 std::wstring getProcessorAcrhitecture();
+
+void getWindowsInfo(SystemInfo& systemInfo);
 
 SystemInfo collectSystemInfo();
