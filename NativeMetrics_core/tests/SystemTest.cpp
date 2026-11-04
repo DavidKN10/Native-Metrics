@@ -3,6 +3,7 @@
 
 #include <NativeMetrics/NativeMetrics.hpp>
 #include <NativeMetrics/Types.hpp>
+#include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/SystemInfo.hpp>
 
 int main() {
@@ -32,6 +33,7 @@ int main() {
        
         std::wcout << "Installed RAM: " << systemInfo.installedRam << std::endl;
         std::wcout << "Storage capacity: " << systemInfo.storageCapacity << std::endl;
+        std::wcout << "Used storage: " << systemInfo.usedStorage << std::endl;
     } else {
         std::cout << "Failed to retrieve system info." << std::endl;
     }

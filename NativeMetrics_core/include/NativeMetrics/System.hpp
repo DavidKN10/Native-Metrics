@@ -29,6 +29,7 @@
 
 // Native Metrics library  
 #include <NativeMetrics/Cpu.hpp>
+#include <NativeMetrics/Disk.hpp>
 #include <NativeMetrics/Gpu.hpp>
 #include <NativeMetrics/System.hpp>
 #include <NativeMetrics/Types.hpp>
@@ -46,6 +47,8 @@ std::wstring getHostname();
 std::wstring getFirmwareType();
 
 void getWindowsInfo(SystemInfo& systemInfo);
+
+void getStorageCapcity(SystemInfo& systemInfo);
 
 std::vector<GpuSummary> getGpuAdapterNames();
 

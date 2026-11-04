@@ -98,6 +98,36 @@ void getWindowsInfo(SystemInfo& systemInfo) {
     }
 }
 
+void getStorageCapcity(SystemInfo& systemInfo) {
+    std::vector<DiskInfo> diskList{};
+
+    // Get drive strings.
+    wchar_t buffer[512]{};
+    u32 length = GetLogicalDriveStringsW(std::size(buffer), buffer);
+    if (length != 0) {
+        for (wchar_t* drive = buffer; *drive; drive += wcslen(drive) + 1) {
+            DiskInfo currentDisk{}; 
+            wcsncpy_s(currentDisk.driveLetter, drive, _TRUNCATE);
+
+            diskList.push_back(currentDisk);
+        }
+    }
+    
+    for (auto& disk : diskList) {
+        getDriveSpace(disk); 
+    }
+    
+    u64 totalStorage{};
+    u64 usedStorage{};
+    for (auto& disk : diskList) {
+        totalStorage += disk.totalSpaceBytes;
+        usedStorage += disk.totalSpaceBytes - disk.freeSpaceBytes;
+    }
+
+    systemInfo.storageCapacity = totalStorage;
+    systemInfo.usedStorage = usedStorage;
+}
+
 std::vector<GpuSummary> getGpuAdapterNames() {
     std::vector<GpuSummary> gpuList{};
     
@@ -174,6 +204,7 @@ SystemInfo collectSystemInfo() {
     wcsncpy_s(system.processor, processor.c_str(), _TRUNCATE);
 
     getWindowsInfo(system);
+    getStorageCapcity(system);
 
     return system;
 }

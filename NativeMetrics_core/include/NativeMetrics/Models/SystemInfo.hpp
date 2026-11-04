@@ -35,4 +35,5 @@ struct SystemInfo {
     u64 buildNumber{};
     u64 installedRam{};
     u64 storageCapacity{};
+    u64 usedStorage{};
 };
