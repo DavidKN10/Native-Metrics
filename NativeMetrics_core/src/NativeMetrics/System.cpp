@@ -34,6 +34,19 @@ std::wstring getProcessorAcrhitecture() {
     }
 }
 
+std::wstring getHostname() {
+    wchar_t buffer[WCHAR_LENGTH]{};
+    DWORD bufferSize = sizeof(buffer);
+
+    bool result = GetComputerNameExW(ComputerNameDnsHostname, buffer, &bufferSize);
+    if (!result) {
+        return L""; 
+    }
+
+    std::wstring hostname{buffer};
+    return hostname;
+}
+
 void getWindowsInfo(SystemInfo& systemInfo) {
     RTL_OSVERSIONINFOW version{};
     version.dwOSVersionInfoSize = sizeof(version);
@@ -75,6 +88,9 @@ SystemInfo collectSystemInfo() {
     
     std::wstring architecture = getProcessorAcrhitecture();
     wcsncpy_s(system.systemType, architecture.c_str(), _TRUNCATE);
+
+    std::wstring hostname = getHostname();
+    wcsncpy_s(system.hostname, hostname.c_str(), _TRUNCATE);
 
     getWindowsInfo(system);
 

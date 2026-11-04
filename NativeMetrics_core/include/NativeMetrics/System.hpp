@@ -39,6 +39,8 @@ std::wstring getDeviceName();
 
 std::wstring getProcessorAcrhitecture();
 
+std::wstring getHostname();
+
 void getWindowsInfo(SystemInfo& systemInfo);
 
 SystemInfo collectSystemInfo();
