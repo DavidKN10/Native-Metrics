@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include <NativeMetrics/NativeMetrics.hpp>
 #include <NativeMetrics/Types.hpp>
@@ -16,9 +17,19 @@ int main() {
         std::wcout << "Windows build number: " << systemInfo.buildNumber << std::endl;
         std::wcout << "Hostname: " << systemInfo.hostname << std::endl;
         std::wcout << "Firmware: " << systemInfo.firmware << std::endl << std::endl;
-        
         std::wcout << "Processor: " << systemInfo.processor << std::endl;
-        std::wcout << "GPU: " << systemInfo.gpu << std::endl;
+        
+        std::vector<GpuSummary> gpuList(1024);
+	    i32 adaptersWritten = 0;
+        if (getGpuSummary(gpuList.data(), 1024, &adaptersWritten)) {
+            for (auto& gpu : gpuList) {
+                if (gpu.name[0] == L'\0') {
+                    continue; 
+                }
+                std::wcout << L"Graphics: " << gpu.name << std::endl;
+            }  
+        }
+       
         std::wcout << "Installed RAM: " << systemInfo.installedRam << std::endl;
         std::wcout << "Storage capacity: " << systemInfo.storageCapacity << std::endl;
     } else {

@@ -98,6 +98,63 @@ void getWindowsInfo(SystemInfo& systemInfo) {
     }
 }
 
+std::vector<GpuSummary> getGpuAdapterNames() {
+    std::vector<GpuSummary> gpuList{};
+    
+    // Get hardware adapters first.
+    IDXCoreAdapterFactory* dxCoreFactory = nullptr;
+    if (FAILED(DXCoreCreateAdapterFactory(&dxCoreFactory))) {
+        return gpuList;
+    }
+
+    // Get graphics adapters that are D3D12 compatible.
+    const GUID filterAttributes[]{DXCORE_ADAPTER_ATTRIBUTE_D3D12_GRAPHICS};
+    IDXCoreAdapterList* dxCoreAdapterList = nullptr;
+    if (FAILED(dxCoreFactory->CreateAdapterList(_countof(filterAttributes), filterAttributes, IID_PPV_ARGS(&dxCoreAdapterList)))) {
+        return gpuList;
+    }
+
+    // Set preferences so hardware adapters are prioritized.
+    DXCoreAdapterPreference preferences[] = {DXCoreAdapterPreference::Hardware};
+    dxCoreAdapterList->Sort(_countof(preferences), preferences);
+
+    u32 totalCount = dxCoreAdapterList->GetAdapterCount();
+    std::vector<IDXCoreAdapter*> hardwareAdapters{};
+    for (u32 i = 0; i < totalCount; ++i) {
+        IDXCoreAdapter* adapter = nullptr;
+
+        // Get only hardware adapters.
+        if (SUCCEEDED(dxCoreAdapterList->GetAdapter(i, IID_PPV_ARGS(&adapter)))) {
+            bool isHardware{};
+            if (SUCCEEDED(adapter->GetProperty(DXCoreAdapterProperty::IsHardware, &isHardware))) {
+                if (!isHardware) {
+                    break;
+                }
+
+                hardwareAdapters.push_back(adapter);
+            }
+        }
+    }
+
+    for (size_t i = 0; i < hardwareAdapters.size(); ++i) {
+        GpuSummary currentAdapter{};
+        size_t descriptionSize{};
+
+        if (SUCCEEDED(hardwareAdapters[i]->GetPropertySize(DXCoreAdapterProperty::DriverDescription, &descriptionSize))) {
+            std::vector<char> description(descriptionSize);
+            hardwareAdapters[i]->GetProperty(DXCoreAdapterProperty::DriverDescription, descriptionSize, description.data());
+            std::string descriptionStr(description.begin(), description.end());
+
+            std::wstring descriptionStrW = convertStringToWstring(descriptionStr);
+            wcsncpy_s(currentAdapter.name, descriptionStrW.c_str(), _TRUNCATE);
+        }
+        gpuList.push_back(currentAdapter);
+    }
+
+    dxCoreFactory->Release();
+    return gpuList;
+}
+
 SystemInfo collectSystemInfo() {
     SystemInfo system{};
 

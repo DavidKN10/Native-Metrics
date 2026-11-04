@@ -41,8 +41,8 @@
 #include <NativeMetrics/Models/GpuInfo.hpp>
 #include <NativeMetrics/Models/MemoryInfo.hpp>
 #include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
-#include <NativeMetrics/Models/SystemInfo.hpp>
 #include <NativeMetrics/Models/ProcessInfo.hpp>
+#include <NativeMetrics/Models/SystemInfo.hpp>
 
 #ifdef NATIVEMETRICS_EXPORTS
 	#define NATIVEMETRICS_API __declspec(dllexport)
@@ -64,4 +64,6 @@ extern "C" {
 	NATIVEMETRICS_API bool getProcessList(ProcessInfo* buffer, i32 bufferSize, i32* processesWritten);
 
 	NATIVEMETRICS_API bool getSystemInfo(SystemInfo* buffer, i32 bufferSize);
+
+	NATIVEMETRICS_API bool getGpuSummary(GpuSummary* buffer, i32 bufferSize, i32* adaptersWritten);
 }

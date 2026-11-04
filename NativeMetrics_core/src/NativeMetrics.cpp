@@ -100,3 +100,20 @@ bool getSystemInfo(SystemInfo* buffer, i32 bufferSize) {
 
     return true;
 }
+
+bool getGpuSummary(GpuSummary* buffer, i32 bufferSize, i32* adaptersWritten) {
+    if (!buffer || !adaptersWritten || bufferSize <= 0) {
+        return false;
+    }
+
+    auto adapters = getGpuAdapterNames();
+
+    i32 count = static_cast<i32>(adapters.size());
+    i32 toCopy = std::min<i32>(count, bufferSize);
+
+    for (int i = 0; i < toCopy; i++) {
+        buffer[i] = adapters[i];
+    }
+    *adaptersWritten = toCopy;
+    return true;
+}

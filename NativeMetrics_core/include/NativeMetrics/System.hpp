@@ -28,11 +28,12 @@
 #include <winternl.h>
 
 // Native Metrics library  
+#include <NativeMetrics/Cpu.hpp>
+#include <NativeMetrics/Gpu.hpp>
 #include <NativeMetrics/System.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
 #include <NativeMetrics/Models/SystemInfo.hpp>
-#include <NativeMetrics/Cpu.hpp>
 
 extern "C" NTSYSAPI NTSTATUS NTAPI RtlGetVersion(PRTL_OSVERSIONINFOW lpVersionInformation);
 
@@ -45,5 +46,7 @@ std::wstring getHostname();
 std::wstring getFirmwareType();
 
 void getWindowsInfo(SystemInfo& systemInfo);
+
+std::vector<GpuSummary> getGpuAdapterNames();
 
 SystemInfo collectSystemInfo();

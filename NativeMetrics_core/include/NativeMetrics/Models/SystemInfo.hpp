@@ -4,6 +4,7 @@
 #include <NativeMetrics/Types.hpp>
 
 constexpr int WCHAR_LENGTH = 256;
+constexpr int GPU_COUNT_MAX = 8;
 
 inline std::unordered_map<u64, std::wstring> WindowsReleases = {
     // Windows 11 
@@ -13,6 +14,10 @@ inline std::unordered_map<u64, std::wstring> WindowsReleases = {
     // Windows 10
     {19045, L"22H2"}, {19044, L"21H2"}, {19043, L"21H1"}, {19042, L"20H2"}, 
     {19041, L"2004"}, {18363, L"1909"}, {18362, L"1903"}, {17763, L"1809"}
+};
+
+struct GpuSummary {
+    wchar_t name[WCHAR_LENGTH]{};
 };
 
 struct SystemInfo {
@@ -26,7 +31,6 @@ struct SystemInfo {
 
     // hardware
     wchar_t processor[WCHAR_LENGTH]{};
-    wchar_t gpu[WCHAR_LENGTH]{};
 
     u64 buildNumber{};
     u64 installedRam{};
