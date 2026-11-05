@@ -36,7 +36,7 @@ namespace NativeMetrics
             SetTitleBar(titleBar);
             
             // show an initial page
-            ContentFrame.Navigate(typeof(ProcessesPage));
+            ContentFrame.Navigate(typeof(OverviewPage));
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -49,6 +49,9 @@ namespace NativeMetrics
             {
                 switch(item.Tag?.ToString())
                 {
+                    case "OverviewPage":
+                        ContentFrame.Navigate(typeof(OverviewPage));
+                        break;
                     case "ProcessesPage":
                         ContentFrame.Navigate(typeof(ProcessesPage));
                         break;

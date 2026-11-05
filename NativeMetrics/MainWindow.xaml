@@ -33,6 +33,7 @@
                         SelectionChanged="NavigationView_SelectionChanged">
 
             <NavigationView.MenuItems>
+                <NavigationViewItem Tag="OverviewPage" Content="Overview"/>
                 <NavigationViewItem Tag="ProcessesPage" Content="Processes"/>
                 <NavigationViewItem Tag="PerformancePage" Content="Performance"/>
                 <NavigationViewItem Tag="NetworkPage" Content="Network"/>

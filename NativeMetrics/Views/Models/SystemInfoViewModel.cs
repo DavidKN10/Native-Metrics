@@ -2,14 +2,17 @@
 using NativeMetrics.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NativeMetrics.Views.Models;
 
-public class SystemInfoViewModel
+public class SystemInfoViewModel : INotifyPropertyChanged
 {
     private string? _deviceName;
     private string? _systemType;
@@ -22,7 +25,7 @@ public class SystemInfoViewModel
     private ulong _installedRam;
     private ulong _storageCapacity;
     private ulong _usedStorage;
-    private List<GpuSummary> _gpuList;
+    public ObservableCollection<GpuSummary> _gpuList = new();
     
     public string? DeviceName 
     {
@@ -90,11 +93,11 @@ public class SystemInfoViewModel
         set { _usedStorage = value; }
     }
 
-    public List<GpuSummary> GpuList
+    public ObservableCollection<GpuSummary> GpuList
     {
         get { return _gpuList; }
-        set { _gpuList = value; }
-    }
+        set { _gpuList = value; OnPropertyChanged(); }
+    } 
 
     public FormattedValue InstalledRamFormatted { get; set; }
     public FormattedValue StorageCapacityFormatted { get; set; }
@@ -113,8 +116,6 @@ public class SystemInfoViewModel
         _installedRam = 0;
         _storageCapacity = 0;
         _usedStorage = 0;
-
-        _gpuList = new();
 
         InstalledRam = new();
         StorageCapacityFormatted = new();
@@ -141,7 +142,20 @@ public class SystemInfoViewModel
             UsedStorage = systemInfo.usedStorage;
         }
 
-        GpuList = RetreiveGpu();
+        List<GpuSummary> GPUs = RetreiveGpu();
+        foreach (GpuSummary gpu in GPUs)
+        {
+            if (gpu.name.Equals(string.Empty))
+            {
+                continue;
+            }
+
+            if (GpuList.Contains(gpu))
+            {
+                continue;
+            }
+            GpuList.Add(gpu);
+        }
 
         InstalledRamFormatted = Formatter.ByteMetricString(InstalledRam);
         StorageCapacityFormatted = Formatter.ByteMetricString(StorageCapacity);
@@ -156,5 +170,12 @@ public class SystemInfoViewModel
             return new(); 
         }
         return gpuAdapters.ToList();
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
