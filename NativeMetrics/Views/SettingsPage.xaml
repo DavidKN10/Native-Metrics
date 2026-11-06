@@ -27,6 +27,16 @@
                 </ComboBox>
             </StackPanel>
 
+            <TextBlock
+                Text="About"
+                FontSize="28"
+                FontWeight="SemiBold"/>
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <TextBlock
+                    Text="Version:"
+                    FontWeight="SemiBold"/>
+            </StackPanel>
+
 
         </StackPanel> 
     </ScrollViewer>

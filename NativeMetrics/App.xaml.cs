@@ -46,20 +46,14 @@ namespace NativeMetrics
             var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             var savedTheme = localSettings.Values["AppTheme"] as string;
 
-            if (!string.IsNullOrEmpty(savedTheme))
+            var requestedTheme = savedTheme switch
             {
-                switch(savedTheme)
-                {
-                    case "Light":
-                        Application.Current.RequestedTheme = ApplicationTheme.Light;
-                        break;
-                    case "Dark":
-                        Application.Current.RequestedTheme = ApplicationTheme.Dark;
-                        break;
-                }
-            }
+                "Light" => ElementTheme.Light,
+                "Dark" => ElementTheme.Dark,
+                _ => ElementTheme.Dark
+            };
 
-            _window = new MainWindow();
+            _window = new MainWindow(requestedTheme);
             _window.Activate();
         }
 

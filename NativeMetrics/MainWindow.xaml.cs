@@ -28,9 +28,14 @@ namespace NativeMetrics
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(ElementTheme requestedTheme)
         {
             InitializeComponent();
+
+            if (Content is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = requestedTheme;
+            }
           
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(titleBar);
