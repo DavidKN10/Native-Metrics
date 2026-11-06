@@ -43,8 +43,30 @@ namespace NativeMetrics
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var savedTheme = localSettings.Values["AppTheme"] as string;
+
+            if (!string.IsNullOrEmpty(savedTheme))
+            {
+                switch(savedTheme)
+                {
+                    case "Light":
+                        Application.Current.RequestedTheme = ApplicationTheme.Light;
+                        break;
+                    case "Dark":
+                        Application.Current.RequestedTheme = ApplicationTheme.Dark;
+                        break;
+                }
+            }
+
             _window = new MainWindow();
             _window.Activate();
+        }
+
+        private void SaveThemePreference(string theme)
+        {
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            localSettings.Values["AppTheme"] = theme;
         }
     }
 }

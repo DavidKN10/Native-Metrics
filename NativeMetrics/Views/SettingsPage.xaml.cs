@@ -27,4 +27,35 @@ public sealed partial class SettingsPage : Page
     {
         InitializeComponent();
     }
+
+    private void ThemeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var selectedTheme = (ThemeSelector.SelectedItem as ComboBoxItem)?.Tag?.ToString();
+        if (selectedTheme is "Light" or "Dark")
+        {
+            var requestedTheme = selectedTheme == "Light" ? ElementTheme.Light : ElementTheme.Dark;
+
+            if (XamlRoot?.Content is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = requestedTheme;
+            }
+
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppTheme"] = selectedTheme;
+        }
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        var savedTheme = localSettings.Values["AppTheme"] as string;
+        
+        foreach (ComboBoxItem item in ThemeSelector.Items)
+        {
+            if (item.Tag.ToString() == savedTheme)
+            {
+                ThemeSelector.SelectedItem = item;
+                break;
+            }
+        }
+    }
 }

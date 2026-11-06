@@ -8,7 +8,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock Text="Settings Page Test"/>
-    </Grid>
+    <ScrollViewer>
+        <StackPanel Spacing="20">
+            <TextBlock 
+                Text="Apperance"  
+                FontSize="28" 
+                FontWeight="SemiBold"/>
+
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <TextBlock
+                    Text="Select theme:"
+                    Margin="0,0,0,10"/>
+                <ComboBox x:Name="ThemeSelector"
+                    SelectionChanged="ThemeSelector_SelectionChanged">
+
+                    <ComboBoxItem Content="Light" Tag="Light"/>
+                    <ComboBoxItem Content="Dark" Tag="Dark"/>
+                </ComboBox>
+            </StackPanel>
+
+
+        </StackPanel> 
+    </ScrollViewer>
+    
 </Page>
