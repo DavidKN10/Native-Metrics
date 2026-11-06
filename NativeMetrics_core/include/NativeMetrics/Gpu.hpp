@@ -1,22 +1,22 @@
 #pragma once
 
 // C++ standard library
-#include <vector>
-#include <iostream>
 #include <algorithm>
+#include <iostream>
+#include <vector>
 
 // Windows API
 #include <WS2tcpip.h>
-#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
-#include <intsafe.h>
-#include <processthreadsapi.h>
-#include <TlHelp32.h>
 #include <Psapi.h>
-#include <iphlpapi.h>
-#include <sysinfoapi.h>
+#include <TlHelp32.h>
 #include <fileapi.h>
+#include <intsafe.h>
+#include <iphlpapi.h>
+#include <ipifcons.h>
+#include <processthreadsapi.h>
+#include <sysinfoapi.h>
 
 // DXCore
 #include <dxcore.h>
@@ -28,20 +28,22 @@
 // DirectX
 #include <d3d12.h>
 
-// Native Metrics library  
+// Native Metrics library
+#include <NativeMetrics/Models/GpuInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/GpuInfo.hpp>
 
 bool sameLuid(LUID& hardwareLuid, LUID& softwareLuid);
 
-// Note: I am using DXGI for GPU memory usage metrics but it has limitations. 
+namespace NativeMetrics::GPU {
+// Note: I am using DXGI for GPU memory usage metrics but it has limitations.
 void getAdapterDesc(GpuInfo& adapter, DXGI_ADAPTER_DESC2& desc);
 
 void udpateDedicatedMemoryUsage(GpuInfo& adapter, DXGI_QUERY_VIDEO_MEMORY_INFO& localMemoryInfo);
 
 void updateSharedMemoryUsage(GpuInfo& adapter, DXGI_QUERY_VIDEO_MEMORY_INFO& nonLocalMemoryInfo);
 
-void getGraphicsAdapters(std::vector<GpuInfo>& gpuList);
+void getAdapters(std::vector<GpuInfo>& gpuList);
 
-std::vector<GpuInfo> collectGpuInfo();
+std::vector<GpuInfo> collectInfo();
+} // namespace NativeMetrics::GPU

@@ -17,8 +17,8 @@ void testGpu() {
             std::cout << "Vendor ID: " << gpu.vendorId << std::endl;
 			std::wcout << L"Description: " << gpu.description << std::endl;
 			std::cout << "Usage: " << gpu.currentUsagePercent << "%" << std::endl;
-			std::cout << "Dedicated Memory: " << gpu.localCurrentMemoryBytes / (1024 * 1024 * 1024) << "/" << gpu.dedicatedVideoMemoryBytes / (1024 * 1024 * 1024) << " B" << std::endl;
-			std::cout << "Shared memory: " << gpu.nonLocalCurrentMemoryBytes / (1024 * 1024 * 1024) << "/" << gpu.sharedSystemMemoryBytes / (1024 * 1024 * 1024) << " B" << std::endl;
+			std::cout << "Dedicated Memory: " << gpu.localCurrentMemoryBytes / (1024 * 1024 * 1024) << "/" << gpu.dedicatedVideoMemoryBytes / (1024 * 1024 * 1024) << " GB" << std::endl;
+			std::cout << "Shared memory: " << gpu.nonLocalCurrentMemoryBytes / (1024 * 1024 * 1024) << "/" << gpu.sharedSystemMemoryBytes / (1024 * 1024 * 1024) << " GB" << std::endl;
 		}
 		std::cout << std::endl;
 	}

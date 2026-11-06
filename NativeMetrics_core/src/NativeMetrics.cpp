@@ -34,7 +34,7 @@ bool getGpuInfo(GpuInfo* buffer, i32 bufferSize, i32* adaptersWritten) {
         return false; 
     }
 
-    auto adapters = collectGpuInfo();
+    auto adapters = NativeMetrics::GPU::collectInfo();
     i32 count = static_cast<i32>(adapters.size());
     i32 toCopy = std::min<i32>(count, bufferSize);
 
