@@ -14,24 +14,25 @@
 
 // Windows API
 #include <WS2tcpip.h>
-#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
-#include <intsafe.h>
-#include <processthreadsapi.h>
 #include <TlHelp32.h>
 #include <Psapi.h>
-#include <iphlpapi.h>
-#include <sysinfoapi.h>
 #include <fileapi.h>
+#include <intsafe.h>
+#include <iphlpapi.h>
+#include <ipifcons.h>
+#include <processthreadsapi.h>
+#include <sysinfoapi.h>
 
-// Native Metrics library  
+// Native Metrics library
+#include <NativeMetrics/Models/CpuInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/CpuInfo.hpp>
 
 const u32 ONE_SEC = 1000;
 
+namespace NativeMetrics::CPU {
 inline PreviousSystemTimeSample previousTime{};
 
 std::wstring getProcessorName();
@@ -40,8 +41,9 @@ u32 getLogicalProcessors();
 u32 getPhysicalCores();
 u32 getBaseSpeedMHz();
 
-f64 getCpuUsage();
+f64 getUsage();
 
-void getCpuPerformanceInformation(CpuInfo& cpuInfo);
+void getPerformanceInformation(CpuInfo& cpuInfo);
 
-CpuInfo collectCpuInfo();
+CpuInfo collectInfo();
+} // namespace NativeMetrics::CPU

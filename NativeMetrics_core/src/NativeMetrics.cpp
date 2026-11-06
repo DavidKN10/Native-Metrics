@@ -4,8 +4,8 @@ bool getCpuInfo(CpuInfo* buffer, i32 bufferSize) {
     if (!buffer || bufferSize <= 0) {
         return false;
     }
-
-    CpuInfo cpuInfo = collectCpuInfo();
+    
+    CpuInfo cpuInfo = NativeMetrics::CPU::collectInfo();
     *buffer = cpuInfo;
 
     return true;

@@ -1,5 +1,6 @@
 #include <NativeMetrics/Cpu.hpp>
 
+namespace NativeMetrics::CPU {
 std::wstring getProcessorName() {
     /*
         We are getting the processor name by reading from the registry.
@@ -85,7 +86,7 @@ u32 getBaseSpeedMHz() {
     return baseSpeedMHz;
 }
 
-f64 getCpuUsage() {
+f64 getUsage() {
     FILETIME idle, kernel, user;
     GetSystemTimes(&idle, &kernel, &user);
 
@@ -97,35 +98,37 @@ f64 getCpuUsage() {
     u64 kernelDelta = currentKernelTime - previousTime.kernelTime;
     u64 userDelta = currentUserTime - previousTime.userTime;
 
-    u64 totalDelta = kernelDelta + userDelta;   // kernel time already contains idle time
+    u64 totalDelta = kernelDelta + userDelta; // kernel time already contains idle time
 
     f64 cpuUsage = (1.0 - (static_cast<f64>(idleDelta)) / (static_cast<f64>(totalDelta))) * 100.0;
-    
+
     previousTime.idleTime = currentIdleTime;
     previousTime.kernelTime = currentKernelTime;
     previousTime.userTime = currentUserTime;
-    
+
     return cpuUsage;
 }
 
-void getCpuPerformanceInformation(CpuInfo& cpuInfo) {
+void getPerformanceInformation(CpuInfo& cpuInfo) {
     PERFORMANCE_INFORMATION buffer{};
-    u32 bufferSize = sizeof(buffer);
-    if (GetPerformanceInfo(&buffer, bufferSize)) {
+    DWORD bufferSize = sizeof(buffer);
+
+    bool result = GetPerformanceInfo(&buffer, bufferSize); 
+    if (result) {
         cpuInfo.handles = buffer.HandleCount;
         cpuInfo.processCount = buffer.ProcessCount;
         cpuInfo.threadCount = buffer.ThreadCount;
     }
 }
 
-CpuInfo collectCpuInfo() {
+CpuInfo collectInfo() {
     CpuInfo cpuInfo{};
 
     std::wstring processorName = getProcessorName();
 
     wcsncpy_s(cpuInfo.processorName, processorName.c_str(), _TRUNCATE);
 
-    cpuInfo.cpuUsage = getCpuUsage();
+    cpuInfo.cpuUsage = getUsage();
 
     cpuInfo.logicalProcessors = getLogicalProcessors();
 
@@ -133,7 +136,8 @@ CpuInfo collectCpuInfo() {
 
     cpuInfo.baseSpeed = getBaseSpeedMHz();
 
-    getCpuPerformanceInformation(cpuInfo);
+    getPerformanceInformation(cpuInfo);
 
     return cpuInfo;
 }
+} // namespace NativeMetrics::CPU
