@@ -6,11 +6,12 @@
 
 #include <NativeMetrics/Types.hpp>
 
-constexpr int DRIVE_LETTER_LENGTH = 4; 
+constexpr int DRIVE_LETTER_LENGTH = 4;
 constexpr int DRIVE_TYPE_LENGTH = 256;
-constexpr int BUFFER_SIZE = 256; 
+constexpr int BUFFER_SIZE = 256;
 constexpr int GUID_SIZE = 50;
 
+namespace NativeMetrics::Disk {
 struct PreviousDiskSample {
     u64 bytesRead{};
     u64 bytesWritten{};
@@ -20,15 +21,17 @@ struct PreviousDiskSample {
     u64 queryTime{};
     std::chrono::steady_clock::time_point timestamp{};
 };
+} // namespace NativeMetrics::Disk
 
+// We marshal this struct in C# so putting it in a namespace would make it difficult.
 struct DiskInfo {
-    wchar_t driveLetter[DRIVE_LETTER_LENGTH] {};
-    wchar_t driveType[DRIVE_TYPE_LENGTH] {};
-    wchar_t volumeName[BUFFER_SIZE] {};
-    wchar_t fileSystemName[BUFFER_SIZE] {};
-    wchar_t busType[BUFFER_SIZE] {};
-    wchar_t model[BUFFER_SIZE] {};
-    wchar_t guidPath[GUID_SIZE] {};
+    wchar_t driveLetter[DRIVE_LETTER_LENGTH]{};
+    wchar_t driveType[DRIVE_TYPE_LENGTH]{};
+    wchar_t volumeName[BUFFER_SIZE]{};
+    wchar_t fileSystemName[BUFFER_SIZE]{};
+    wchar_t busType[BUFFER_SIZE]{};
+    wchar_t model[BUFFER_SIZE]{};
+    wchar_t guidPath[GUID_SIZE]{};
 
     u64 totalSpaceBytes{};
     u64 availableSpaceBytes{};

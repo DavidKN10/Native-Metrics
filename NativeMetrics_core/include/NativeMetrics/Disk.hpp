@@ -1,13 +1,13 @@
 #pragma once
 
 // C++ standard library
-#include <set>
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <cwchar>
 #include <iostream>
+#include <set>
 #include <stdio.h>
 #include <string>
 #include <tchar.h>
@@ -16,23 +16,24 @@
 
 // Windows API
 #include <WS2tcpip.h>
-#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
-#include <intsafe.h>
-#include <processthreadsapi.h>
-#include <TlHelp32.h>
 #include <Psapi.h>
-#include <iphlpapi.h>
-#include <sysinfoapi.h>
+#include <TlHelp32.h>
 #include <fileapi.h>
+#include <intsafe.h>
+#include <iphlpapi.h>
+#include <ipifcons.h>
+#include <processthreadsapi.h>
+#include <sysinfoapi.h>
 
-// Native Metrics library  
+// Native Metrics library
+#include <NativeMetrics/Models/DiskInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/DiskInfo.hpp>
 
-inline std::unordered_map<std::wstring, PreviousDiskSample> diskMetricHistory{};
+namespace NativeMetrics::Disk {
+inline std::unordered_map<std::wstring, NativeMetrics::Disk::PreviousDiskSample> diskMetricHistory{};
 
 void getDriveString(std::vector<DiskInfo>& diskList);
 
@@ -52,6 +53,7 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk);
 
 void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance);
 
-bool getDiskPerformance(u32 diskNumber, DiskInfo& disk);
+bool getPerformance(u32 diskNumber, DiskInfo& disk);
 
-std::vector<DiskInfo> collectDiskInfo();
+std::vector<DiskInfo> collectInfo();
+} // namespace NativeMetrics::Disk

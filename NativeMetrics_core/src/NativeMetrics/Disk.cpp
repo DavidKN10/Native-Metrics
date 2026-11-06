@@ -1,5 +1,6 @@
 #include <NativeMetrics/Disk.hpp>
 
+namespace NativeMetrics::Disk {
 void getDriveString(std::vector<DiskInfo>& diskList) {
     wchar_t buffer[512] = {};
 
@@ -17,12 +18,7 @@ void getDriveString(std::vector<DiskInfo>& diskList) {
 void getDriveGuid(DiskInfo& disk) {
     wchar_t buffer[50];
 
-    BOOL result = GetVolumeNameForVolumeMountPointW(
-        disk.driveLetter,
-        buffer, 
-        ARRAYSIZE(buffer) 
-    );
-
+    BOOL result = GetVolumeNameForVolumeMountPointW(disk.driveLetter, buffer, ARRAYSIZE(buffer));
     if (result) {
         wcsncpy_s(disk.guidPath, buffer, _TRUNCATE);
     }
@@ -72,7 +68,11 @@ void getVolumeInformation(DiskInfo& disk) {
     wchar_t fileSystemBuffer[256] = {};
     u32 fileSystemNameSize = std::size(fileSystemBuffer);
 
-    if (GetVolumeInformationW(disk.driveLetter, volumeNameBuffer, volumeNameSize, nullptr, nullptr, nullptr, fileSystemBuffer, fileSystemNameSize)) {
+    bool result =
+        GetVolumeInformationW(disk.driveLetter, volumeNameBuffer, volumeNameSize, nullptr, 
+                            nullptr, nullptr, fileSystemBuffer, fileSystemNameSize);
+
+    if (result) {
         wcsncpy_s(disk.volumeName, volumeNameBuffer, _TRUNCATE);
         wcsncpy_s(disk.fileSystemName, fileSystemBuffer, _TRUNCATE);
     }
@@ -85,43 +85,29 @@ u32 getPhysicalDiskNumber(DiskInfo& disk) {
     devicePath += L":";
 
     HANDLE diskHandle =
-        CreateFileW(
-            devicePath.c_str(), 
-            0, 
-            FILE_SHARE_READ | FILE_SHARE_WRITE, 
-            nullptr, 
-            OPEN_EXISTING, 
-            FILE_ATTRIBUTE_NORMAL, 
-            nullptr
-        );
+        CreateFileW(devicePath.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 
+                    FILE_ATTRIBUTE_NORMAL, nullptr);
 
     if (diskHandle == INVALID_HANDLE_VALUE) {
-        return 0; 
+        return 0;
     }
 
     // get physical disk
     std::vector<BYTE> buffer(1024);
-    u32 bufferSize = static_cast<u32>(buffer.size()); 
+    u32 bufferSize = static_cast<u32>(buffer.size());
     DWORD bytesReturned = 0;
 
-    BOOL result = DeviceIoControl(
-        diskHandle, 
-        IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, 
-        nullptr, 0, 
-        buffer.data(), 
-        bufferSize, 
-        &bytesReturned, 
-        nullptr
-    );
-    
+    BOOL result = DeviceIoControl(diskHandle, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, nullptr, 0, buffer.data(), 
+                                bufferSize, &bytesReturned, nullptr);
+
     CloseHandle(diskHandle);
 
     if (!result) {
-        return 0; 
+        return 0;
     }
 
     VOLUME_DISK_EXTENTS* extents = reinterpret_cast<VOLUME_DISK_EXTENTS*>(buffer.data());
-    
+
     if (extents->NumberOfDiskExtents > 0) {
         return extents->Extents[0].DiskNumber;
     }
@@ -130,7 +116,7 @@ u32 getPhysicalDiskNumber(DiskInfo& disk) {
 }
 
 void getBusType(DiskInfo& disk, STORAGE_BUS_TYPE& type) {
-    switch (type) { 
+    switch (type) {
         case BusTypeSata:
             wcsncpy_s(disk.busType, L"SATA", _TRUNCATE);
             break;
@@ -159,39 +145,25 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk) {
     std::wstring diskName = L"\\\\.\\PhysicalDrive";
     diskName += std::to_wstring(diskNumber);
 
-    HANDLE diskHandle = CreateFileW(
-        diskName.c_str(), 
-        0, 
-        FILE_SHARE_READ | FILE_SHARE_WRITE, 
-        nullptr, 
-        OPEN_EXISTING, 
-        0, 
-        nullptr
-    );
+    HANDLE diskHandle = CreateFileW(diskName.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 
+                                    0, nullptr);
 
     if (diskHandle == INVALID_HANDLE_VALUE) {
-        return false; 
+        return false;
     }
 
     STORAGE_PROPERTY_QUERY query{};
     query.PropertyId = StorageDeviceProperty;
     query.QueryType = PropertyStandardQuery;
     u32 bufferSize = sizeof(query);
-    
+
     STORAGE_DESCRIPTOR_HEADER header{};
     u32 headerSize = sizeof(header);
     DWORD bytesReturned = 0;
 
     // first call: determine buffer size required
-    BOOL result = DeviceIoControl(
-        diskHandle, 
-        IOCTL_STORAGE_QUERY_PROPERTY, 
-        &query, bufferSize, 
-        &header, headerSize, 
-        &bytesReturned, 
-        nullptr
-    );
-
+    BOOL result = DeviceIoControl(diskHandle, IOCTL_STORAGE_QUERY_PROPERTY, &query, bufferSize, &header, 
+                                headerSize, &bytesReturned, nullptr);
 
     if (!result) {
         CloseHandle(diskHandle);
@@ -201,29 +173,23 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk) {
     std::vector<BYTE> buffer(header.Size);
 
     // second call: retrieve properties
-    result = DeviceIoControl(
-        diskHandle, 
-        IOCTL_STORAGE_QUERY_PROPERTY, 
-        &query, sizeof(query),
-        buffer.data(), static_cast<DWORD>(buffer.size()),
-        &bytesReturned,
-        nullptr
-    );
+    result = DeviceIoControl(diskHandle, IOCTL_STORAGE_QUERY_PROPERTY, &query, sizeof(query), buffer.data(), 
+                            static_cast<DWORD>(buffer.size()), &bytesReturned, nullptr);
 
     if (!result) {
         CloseHandle(diskHandle);
         return false;
     }
-    
+
     STORAGE_DEVICE_DESCRIPTOR* descriptor = reinterpret_cast<STORAGE_DEVICE_DESCRIPTOR*>(buffer.data());
-    getBusType(disk, descriptor->BusType); 
+    getBusType(disk, descriptor->BusType);
 
     if (descriptor->ProductIdOffset != 0) {
         const char* productId = reinterpret_cast<const char*>(buffer.data() + descriptor->ProductIdOffset);
-        std::wstring productIdW = AsciiToWide(productId); 
+        std::wstring productIdW = AsciiToWide(productId);
         wcsncpy_s(disk.model, productIdW.c_str(), _TRUNCATE);
     }
-    
+
     CloseHandle(diskHandle);
     return true;
 }
@@ -234,31 +200,30 @@ void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance) {
 
     // Adding a new disk.
     if (it == diskMetricHistory.end()) {
-        diskMetricHistory[std::wstring(disk.guidPath)] = {
+        diskMetricHistory[std::wstring(disk.guidPath)] = {  
             disk.bytesRead,
-            disk.bytesWritten, 
+            disk.bytesWritten,
             static_cast<u64>(diskPerformance.ReadTime.QuadPart),
             static_cast<u64>(diskPerformance.WriteTime.QuadPart),
             static_cast<u64>(diskPerformance.IdleTime.QuadPart),
             static_cast<u64>(diskPerformance.QueryTime.QuadPart),
-            now
-        };
+            now};
 
         disk.readSpeed = 0.0;
         disk.writeSpeed = 0.0;
         disk.activeTimePercent = 0.0;
         return;
-    } 
-    
+    }
+
     auto& previous = it->second;
     f64 elapsedSeconds = std::chrono::duration<f64>(std::chrono::steady_clock::now() - previous.timestamp).count();
-    
+
     if (elapsedSeconds > 0.0 && disk.bytesRead >= previous.bytesRead) {
         // update read speed
         f64 readBytesDelta = static_cast<f64>(disk.bytesRead - previous.bytesRead);
         disk.readSpeed = readBytesDelta / elapsedSeconds;
     } else {
-        disk.readSpeed = 0.0; 
+        disk.readSpeed = 0.0;
     }
 
     if (elapsedSeconds > 0.0 && disk.bytesWritten >= previous.bytesWritten) {
@@ -290,57 +255,42 @@ void updateSpeedAndTime(DiskInfo& disk, DISK_PERFORMANCE& diskPerformance) {
     }
 
     // Turn this sample into the previous sample so we can use it in the next sample.
-    previous = {
-        disk.bytesRead, disk.bytesWritten, 
-        currentReadTime, currentWriteTime, currentIdleTime, currentQueryTime, 
-        now
-    };
+    previous = {disk.bytesRead, disk.bytesWritten, currentReadTime, currentWriteTime, currentIdleTime, currentQueryTime, now};
 }
 
-bool getDiskPerformance(u32 diskNumber, DiskInfo& disk) {
+bool getPerformance(u32 diskNumber, DiskInfo& disk) {
     std::wstring diskName = L"\\\\.\\PhysicalDrive";
     diskName += std::to_wstring(diskNumber);
 
-    HANDLE diskHandle = CreateFileW(
-        diskName.c_str(), 0, 
-        FILE_SHARE_READ | FILE_SHARE_WRITE, 
-        nullptr, 
-        OPEN_EXISTING, 
-        0, nullptr
-    );
+    HANDLE diskHandle = CreateFileW(diskName.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 
+                                    0, nullptr);
 
     if (diskHandle == INVALID_HANDLE_VALUE) {
         return false;
     }
-    
+
     DISK_PERFORMANCE buffer{};
     u32 bufferSize = sizeof(buffer);
     DWORD bytesReturned = 0;
-    
-    BOOL result = DeviceIoControl(
-        diskHandle, 
-        IOCTL_DISK_PERFORMANCE, 
-        nullptr, 0, 
-        &buffer, bufferSize, 
-        &bytesReturned,
-        nullptr 
-    );
+
+    BOOL result = DeviceIoControl(diskHandle, IOCTL_DISK_PERFORMANCE, nullptr, 0, &buffer, 
+                                bufferSize, &bytesReturned, nullptr);
 
     if (!result) {
         CloseHandle(diskHandle);
         return false;
     }
-    
+
     disk.bytesRead = buffer.BytesRead.QuadPart;
     disk.bytesWritten = buffer.BytesWritten.QuadPart;
 
     updateSpeedAndTime(disk, buffer);
-    
+
     CloseHandle(diskHandle);
     return true;
 }
 
-std::vector<DiskInfo> collectDiskInfo() {
+std::vector<DiskInfo> collectInfo() {
     std::vector<DiskInfo> disks{};
     getDriveString(disks);
 
@@ -351,15 +301,16 @@ std::vector<DiskInfo> collectDiskInfo() {
         getVolumeInformation(disk);
 
         u32 diskNumber = getPhysicalDiskNumber(disk);
-        
+
         if (!getPhysicalDiskInfo(diskNumber, disk)) {
-            continue; 
+            continue;
         }
 
-        if (!getDiskPerformance(diskNumber, disk)) {
+        if (!getPerformance(diskNumber, disk)) {
             continue;
         }
     }
 
     return disks;
 }
+} // namespace NativeMetrics::Disk

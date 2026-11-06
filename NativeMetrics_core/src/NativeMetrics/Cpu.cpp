@@ -16,7 +16,8 @@ std::wstring getProcessorName() {
         DWORD bufferSize = sizeof(buffer);
 
         // query the ProcessorNameString value
-        LSTATUS queryValueResult = RegQueryValueExW(key, L"ProcessorNameString", nullptr, nullptr, reinterpret_cast<LPBYTE>(buffer), &bufferSize);
+        LSTATUS queryValueResult = RegQueryValueExW(key, L"ProcessorNameString", nullptr, nullptr, reinterpret_cast<LPBYTE>(buffer), 
+                                                    &bufferSize);
         if (queryValueResult == ERROR_SUCCESS) {
             processorName = buffer;
         }
@@ -75,7 +76,8 @@ u32 getBaseSpeedMHz() {
         DWORD bufferSize = sizeof(LPBYTE);
         DWORD dataType = REG_DWORD;
 
-        LSTATUS queryValueResult = RegQueryValueExW(key, L"~MHz", nullptr, &dataType, reinterpret_cast<LPBYTE>(&buffer), &bufferSize);
+        LSTATUS queryValueResult = RegQueryValueExW(key, L"~MHz", nullptr, &dataType, reinterpret_cast<LPBYTE>(&buffer), 
+                                                    &bufferSize);
         if (queryValueResult == ERROR_SUCCESS) {
             baseSpeedMHz = buffer;
 

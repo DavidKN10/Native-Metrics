@@ -114,7 +114,7 @@ void getStorageCapcity(SystemInfo& systemInfo) {
     }
     
     for (auto& disk : diskList) {
-        getDriveSpace(disk); 
+       NativeMetrics::Disk::getDriveSpace(disk); 
     }
     
     u64 totalStorage{};
