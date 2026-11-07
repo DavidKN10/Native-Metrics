@@ -31,13 +31,25 @@
                 Text="About"
                 FontSize="28"
                 FontWeight="SemiBold"/>
-            <StackPanel Orientation="Horizontal" Spacing="20">
+            <StackPanel Orientation="Horizontal" Spacing="10">
                 <TextBlock
                     Text="Version:"
                     FontWeight="SemiBold"/>
+                <TextBlock Text="1.0.0"/>
             </StackPanel>
-
-
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock
+                    Text="GitHub:"
+                    FontWeight="SemiBold"/>
+                <TextBlock Text="https://github.com/DavidKN10/Native-Metrics"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock
+                    Text="License:"
+                    FontWeight="SemiBold"/>
+                <TextBlock Text="MIT"/>
+            </StackPanel>
+            
         </StackPanel> 
     </ScrollViewer>
     
