@@ -1,14 +1,15 @@
 #include <NativeMetrics/System.hpp>
 
+namespace NativeMetrics::System {
 std::wstring getDeviceName() {
-    wchar_t buffer[WCHAR_LENGTH]{}; 
+    wchar_t buffer[WCHAR_LENGTH]{};
     DWORD bufferSize = sizeof(buffer);
 
     bool result = GetComputerNameExW(ComputerNamePhysicalDnsHostname, buffer, &bufferSize);
     if (!result) {
-        return L""; 
+        return L"";
     }
-    
+
     std::wstring name{buffer};
     return name;
 }
@@ -19,15 +20,15 @@ std::wstring getProcessorAcrhitecture() {
     WORD architecture = si.wProcessorArchitecture;
 
     switch (architecture) {
-        case PROCESSOR_ARCHITECTURE_INTEL: 
+        case PROCESSOR_ARCHITECTURE_INTEL:
             return L"x86";
-        case PROCESSOR_ARCHITECTURE_ARM: 
+        case PROCESSOR_ARCHITECTURE_ARM:
             return L"ARM";
-        case PROCESSOR_ARCHITECTURE_IA64: 
+        case PROCESSOR_ARCHITECTURE_IA64:
             return L"Intel Itanium-based";
-        case PROCESSOR_ARCHITECTURE_AMD64: 
+        case PROCESSOR_ARCHITECTURE_AMD64:
             return L"x86-64";
-        case PROCESSOR_ARCHITECTURE_ARM64: 
+        case PROCESSOR_ARCHITECTURE_ARM64:
             return L"ARM64";
         default:
             return L"Uknown";
@@ -40,7 +41,7 @@ std::wstring getHostname() {
 
     bool result = GetComputerNameExW(ComputerNameDnsHostname, buffer, &bufferSize);
     if (!result) {
-        return L""; 
+        return L"";
     }
 
     std::wstring hostname{buffer};
@@ -49,10 +50,10 @@ std::wstring getHostname() {
 
 std::wstring getFirmwareType() {
     FIRMWARE_TYPE firmware{};
-    
+
     bool result = GetFirmwareType(&firmware);
     if (!result) {
-        return L"Unknown"; 
+        return L"Unknown";
     }
 
     switch (firmware) {
@@ -76,23 +77,23 @@ void getWindowsInfo(SystemInfo& systemInfo) {
 
     systemInfo.buildNumber = version.dwBuildNumber;
     u64 majorVersion = version.dwMajorVersion;
-    u64 minorVersion = version.dwMinorVersion; 
-    
+    u64 minorVersion = version.dwMinorVersion;
+
     // get windows edition
     if (majorVersion == 10 && minorVersion == 0) {
         if (version.dwBuildNumber >= 22000) {
             std::wstring edition = L"Windows 11 " + windowsEdition();
-            wcsncpy_s(systemInfo.windowsEdition, edition.c_str(), _TRUNCATE); 
+            wcsncpy_s(systemInfo.windowsEdition, edition.c_str(), _TRUNCATE);
         } else {
             std::wstring edition = L"Windows 10 " + windowsEdition();
             wcsncpy_s(systemInfo.windowsEdition, edition.c_str(), _TRUNCATE);
         }
     }
 
-    // map windows build number to release 
+    // map windows build number to release
     auto it = WindowsReleases.find(systemInfo.buildNumber);
     if (it != WindowsReleases.end()) {
-        wcsncpy_s(systemInfo.windowsVersion, it->second.c_str(), _TRUNCATE); 
+        wcsncpy_s(systemInfo.windowsVersion, it->second.c_str(), _TRUNCATE);
     } else {
         wcsncpy_s(systemInfo.windowsVersion, L"Unkown", _TRUNCATE);
     }
@@ -106,17 +107,17 @@ void getStorageCapcity(SystemInfo& systemInfo) {
     u32 length = GetLogicalDriveStringsW(std::size(buffer), buffer);
     if (length != 0) {
         for (wchar_t* drive = buffer; *drive; drive += wcslen(drive) + 1) {
-            DiskInfo currentDisk{}; 
+            DiskInfo currentDisk{};
             wcsncpy_s(currentDisk.driveLetter, drive, _TRUNCATE);
 
             diskList.push_back(currentDisk);
         }
     }
-    
+
     for (auto& disk : diskList) {
-       NativeMetrics::Disk::getDriveSpace(disk); 
+        NativeMetrics::Disk::getDriveSpace(disk);
     }
-    
+
     u64 totalStorage{};
     u64 usedStorage{};
     for (auto& disk : diskList) {
@@ -138,7 +139,7 @@ u64 getTotalMemory() {
 
 std::vector<GpuSummary> getGpuAdapterNames() {
     std::vector<GpuSummary> gpuList{};
-    
+
     // Get hardware adapters first.
     IDXCoreAdapterFactory* dxCoreFactory = nullptr;
     if (FAILED(DXCoreCreateAdapterFactory(&dxCoreFactory))) {
@@ -198,7 +199,7 @@ SystemInfo collectSystemInfo() {
 
     std::wstring deviceName = getDeviceName();
     wcsncpy_s(system.deviceName, deviceName.c_str(), _TRUNCATE);
-    
+
     std::wstring architecture = getProcessorAcrhitecture();
     wcsncpy_s(system.systemType, architecture.c_str(), _TRUNCATE);
 
@@ -218,3 +219,4 @@ SystemInfo collectSystemInfo() {
 
     return system;
 }
+} // namespace NativeMetrics::System

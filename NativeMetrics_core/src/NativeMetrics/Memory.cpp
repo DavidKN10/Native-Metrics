@@ -1,6 +1,7 @@
 #include <NativeMetrics/Memory.hpp>
 
-void getGlobalMemoryStatus(MemoryInfo& memoryInfo) {
+namespace NativeMetrics::Memory {
+void getGlobalStatus(MemoryInfo& memoryInfo) {
     MEMORYSTATUSEX statex{};
     statex.dwLength = sizeof(statex);
     GlobalMemoryStatusEx(&statex);
@@ -10,7 +11,7 @@ void getGlobalMemoryStatus(MemoryInfo& memoryInfo) {
     memoryInfo.memoryUsePercent = static_cast<u64>(statex.dwMemoryLoad);
 }
 
-void getMemoryPerformanceInformation(MemoryInfo& memoryInfo) {
+void getPerformanceInformation(MemoryInfo& memoryInfo) {
     PERFORMANCE_INFORMATION buffer{};
     u32 bufferSize = sizeof(buffer);
     if (GetPerformanceInfo(&buffer, bufferSize)) {
@@ -23,12 +24,13 @@ void getMemoryPerformanceInformation(MemoryInfo& memoryInfo) {
     }
 }
 
-MemoryInfo collectMemoryInfo() {
+MemoryInfo collectInfo() {
     MemoryInfo memoryInfo{};
 
-    getGlobalMemoryStatus(memoryInfo);
+    getGlobalStatus(memoryInfo);
 
-    getMemoryPerformanceInformation(memoryInfo);
+    getPerformanceInformation(memoryInfo);
 
     return memoryInfo;
 }
+} // namespace NativeMetrics::Memory

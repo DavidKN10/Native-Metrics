@@ -1,5 +1,6 @@
 #include <NativeMetrics/Process.hpp>
 
+namespace NativeMetrics::Process {
 void pew32ToProcessInfo(ProcessInfo& process, PROCESSENTRY32W& pew32) {
     wcsncpy_s(process.processName, pew32.szExeFile, _TRUNCATE);
     process.processId = pew32.th32ProcessID;
@@ -8,7 +9,7 @@ void pew32ToProcessInfo(ProcessInfo& process, PROCESSENTRY32W& pew32) {
     process.priorityClassBase = pew32.pcPriClassBase;
 }
 
-void getProcessMemory(ProcessInfo& process, PROCESS_MEMORY_COUNTERS_EX& processMemory) {
+void getMemory(ProcessInfo& process, PROCESS_MEMORY_COUNTERS_EX& processMemory) {
     u64 memoryUsageInt = bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
     u64 commitSizeInt = bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
     u64 privateMemoryInt = bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
@@ -47,7 +48,7 @@ std::vector<ProcessInfo> collectProcesses() {
 
         ProcessInfo currentProcess{};
         pew32ToProcessInfo(currentProcess, pew32);
-       
+
         HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pew32.th32ProcessID);
         if (hProcess == nullptr) {
             // protected processes that can't be opened should still be added
@@ -68,9 +69,10 @@ std::vector<ProcessInfo> collectProcesses() {
 
         // get process memory info
         PROCESS_MEMORY_COUNTERS_EX processMemory{};
-        bool processMemoryInfo = GetProcessMemoryInfo(hProcess, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&processMemory), sizeof(processMemory));
+        bool processMemoryInfo = GetProcessMemoryInfo(hProcess, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&processMemory), 
+                                                    sizeof(processMemory));
         if (processMemoryInfo) {
-            getProcessMemory(currentProcess, processMemory);           
+            NativeMetrics::Process::getMemory(currentProcess, processMemory);
         }
 
         CloseHandle(hProcess);
@@ -80,3 +82,4 @@ std::vector<ProcessInfo> collectProcesses() {
     CloseHandle(hProcessSnap);
     return processes;
 }
+} // namespace NativeMetrics::Process

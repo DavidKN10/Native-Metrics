@@ -14,26 +14,28 @@
 
 // Windows API
 #include <WS2tcpip.h>
-#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
-#include <intsafe.h>
-#include <processthreadsapi.h>
-#include <TlHelp32.h>
 #include <Psapi.h>
-#include <iphlpapi.h>
-#include <sysinfoapi.h>
+#include <TlHelp32.h>
 #include <fileapi.h>
+#include <intsafe.h>
+#include <iphlpapi.h>
+#include <ipifcons.h>
+#include <processthreadsapi.h>
+#include <sysinfoapi.h>
 
-// Native Metrics library  
+// Native Metrics library
+#include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/NetworkAdapterInfo.hpp>
 
+namespace NativeMetrics::Network {
 bool isDisplayAdapter(const MIB_IF_ROW2& row);
 
-void rowToNetworkAdapter(NetworkAdapterInfo& adapter, const MIB_IF_ROW2& row);
+void rowToAdapter(NetworkAdapterInfo& adapter, const MIB_IF_ROW2& row);
 
-void updateDownloadAndNetworkSpeed(NetworkAdapterInfo& adapter);
+void updateSpeed(NetworkAdapterInfo& adapter);
 
 std::vector<NetworkAdapterInfo> collectNetworkAdapters();
+} // namespace NativeMetrics::Network

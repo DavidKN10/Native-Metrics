@@ -1,27 +1,39 @@
 #pragma once
 
-#include <unordered_map>
 #include <NativeMetrics/Types.hpp>
+#include <unordered_map>
 
 constexpr int WCHAR_LENGTH = 256;
 constexpr int GPU_COUNT_MAX = 8;
 
+namespace NativeMetrics::System {
 inline std::unordered_map<u64, std::wstring> WindowsReleases = {
-    // Windows 11 
-    {26300, L"26H2"}, {26200, L"25H2"}, {26100, L"24H2"}, {22631, L"23H2"},
-    {22621, L"22H2"}, {22000, L"21H2"}, 
-    
-    // Windows 10
-    {19045, L"22H2"}, {19044, L"21H2"}, {19043, L"21H1"}, {19042, L"20H2"}, 
-    {19041, L"2004"}, {18363, L"1909"}, {18362, L"1903"}, {17763, L"1809"}
-};
+    // Windows 11
+    {26300, L"26H2"},
+    {26200, L"25H2"},
+    {26100, L"24H2"},
+    {22631, L"23H2"},
+    {22621, L"22H2"},
+    {22000, L"21H2"},
 
+    // Windows 10
+    {19045, L"22H2"},
+    {19044, L"21H2"},
+    {19043, L"21H1"},
+    {19042, L"20H2"},
+    {19041, L"2004"},
+    {18363, L"1909"},
+    {18362, L"1903"},
+    {17763, L"1809"}};
+}
+
+// We marshal these struct in C# so putting them in a namespace would make it difficult.
 struct GpuSummary {
     wchar_t name[WCHAR_LENGTH]{};
 };
 
 struct SystemInfo {
-    // system 
+    // system
     wchar_t deviceName[WCHAR_LENGTH]{};
     wchar_t systemType[WCHAR_LENGTH]{};
     wchar_t windowsVersion[WCHAR_LENGTH]{};

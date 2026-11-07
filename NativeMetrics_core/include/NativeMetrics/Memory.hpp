@@ -14,24 +14,26 @@
 
 // Windows API
 #include <WS2tcpip.h>
-#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
-#include <intsafe.h>
-#include <processthreadsapi.h>
-#include <TlHelp32.h>
 #include <Psapi.h>
-#include <iphlpapi.h>
-#include <sysinfoapi.h>
+#include <TlHelp32.h>
 #include <fileapi.h>
+#include <intsafe.h>
+#include <iphlpapi.h>
+#include <ipifcons.h>
+#include <processthreadsapi.h>
+#include <sysinfoapi.h>
 
-// Native Metrics library  
+// Native Metrics library
+#include <NativeMetrics/Models/MemoryInfo.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/MemoryInfo.hpp>
 
-void getGlobalMemoryStatus(MemoryInfo& memoryInfo);
+namespace NativeMetrics::Memory {
+void getGlobalStatus(MemoryInfo& memoryInfo);
 
-void getMemoryPerformanceInformation(MemoryInfo& memoryInfo);
+void getPerformanceInformation(MemoryInfo& memoryInfo);
 
-MemoryInfo collectMemoryInfo();
+MemoryInfo collectInfo();
+} // namespace NativeMetrics::Memory

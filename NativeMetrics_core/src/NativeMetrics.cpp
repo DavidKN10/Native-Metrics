@@ -50,7 +50,7 @@ bool getMemoryInfo(MemoryInfo* buffer, i32 bufferSize) {
         return false;
     }
 
-    MemoryInfo memoryInfo = collectMemoryInfo();
+    MemoryInfo memoryInfo = NativeMetrics::Memory::collectInfo();
     *buffer = memoryInfo;
     
     return true;
@@ -61,7 +61,7 @@ bool getProcessList(ProcessInfo *buffer, i32 bufferSize, i32* processesWritten) 
 		return false;
 	}
 
-	auto processes = collectProcesses();
+	auto processes = NativeMetrics::Process::collectProcesses();
 
 	i32 count = static_cast<i32>(processes.size());
 	i32 toCopy = std::min<i32>(count, bufferSize);
@@ -78,7 +78,7 @@ bool getNetworkAdapterInfo(NetworkAdapterInfo* buffer, i32 bufferSize, i32* adap
         return false;
     }
 
-    auto networkAdapters = collectNetworkAdapters();
+    auto networkAdapters = NativeMetrics::Network::collectNetworkAdapters();
 
     i32 count = static_cast<i32>(networkAdapters.size());
     i32 toCopy = std::min<i32>(count, bufferSize);
@@ -95,7 +95,7 @@ bool getSystemInfo(SystemInfo* buffer, i32 bufferSize) {
         return false;
     }
 
-    SystemInfo systemInfo = collectSystemInfo();
+    SystemInfo systemInfo = NativeMetrics::System::collectSystemInfo();
     *buffer = systemInfo;
 
     return true;
@@ -106,7 +106,7 @@ bool getGpuSummary(GpuSummary* buffer, i32 bufferSize, i32* adaptersWritten) {
         return false;
     }
 
-    auto adapters = getGpuAdapterNames();
+    auto adapters = NativeMetrics::System::getGpuAdapterNames();
 
     i32 count = static_cast<i32>(adapters.size());
     i32 toCopy = std::min<i32>(count, bufferSize);

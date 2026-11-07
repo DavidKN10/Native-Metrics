@@ -10,6 +10,7 @@
 constexpr int PROCESS_NAME_LENGTH = 260;
 constexpr int PROCESS_PATH_LENGTH = 1024;
 
+// We marshal this struct in C# so putting it in a namespace would make it difficult.
 struct ProcessInfo {
 	wchar_t processName[PROCESS_NAME_LENGTH] {};
     wchar_t processPath[PROCESS_PATH_LENGTH] {};

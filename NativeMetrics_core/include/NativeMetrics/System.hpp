@@ -14,30 +14,31 @@
 
 // Windows API
 #include <WS2tcpip.h>
-#include <ipifcons.h>
 #include <WinSock2.h>
 #include <Windows.h>
-#include <intsafe.h>
-#include <processthreadsapi.h>
-#include <TlHelp32.h>
 #include <Psapi.h>
-#include <iphlpapi.h>
-#include <sysinfoapi.h>
-#include <fileapi.h>
 #include <SetupAPI.h>
+#include <TlHelp32.h>
+#include <fileapi.h>
+#include <intsafe.h>
+#include <iphlpapi.h>
+#include <ipifcons.h>
+#include <processthreadsapi.h>
+#include <sysinfoapi.h>
 #include <winternl.h>
 
-// Native Metrics library  
+// Native Metrics library
 #include <NativeMetrics/Cpu.hpp>
 #include <NativeMetrics/Disk.hpp>
 #include <NativeMetrics/Gpu.hpp>
+#include <NativeMetrics/Models/SystemInfo.hpp>
 #include <NativeMetrics/System.hpp>
 #include <NativeMetrics/Types.hpp>
 #include <NativeMetrics/Util.hpp>
-#include <NativeMetrics/Models/SystemInfo.hpp>
 
 extern "C" NTSYSAPI NTSTATUS NTAPI RtlGetVersion(PRTL_OSVERSIONINFOW lpVersionInformation);
 
+namespace NativeMetrics::System {
 std::wstring getDeviceName();
 
 std::wstring getProcessorAcrhitecture();
@@ -55,3 +56,4 @@ u64 getTotalMemory();
 std::vector<GpuSummary> getGpuAdapterNames();
 
 SystemInfo collectSystemInfo();
+} // namespace NativeMetrics::System

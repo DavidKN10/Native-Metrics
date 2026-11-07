@@ -2,6 +2,7 @@
 
 #include <NativeMetrics/Types.hpp>
 
+// We marshal this struct in C# so putting it in a namespace would make it difficult.
 struct MemoryInfo {
     u64 pageSizeBytes{};
     u64 totalMemoryBytes{};

@@ -8,17 +8,20 @@
 
 constexpr int CHAR_LENGTH_MAX = 260;
 
+namespace NativeMetrics::Network {
 struct PreviousNetworkSample {
-    u64 receivedBytes{};    // InOctets
-    u64 sentBytes{};        // OutOctets
+    u64 receivedBytes{}; // InOctets
+    u64 sentBytes{};     // OutOctets
     std::chrono::steady_clock::time_point timestamp{};
 };
 
 inline std::unordered_map<u64, PreviousNetworkSample> networkHistory{};
+} // namespace NativeMetrics::Network
 
+// We marshal this struct in C# so putting it in a namespace would make it difficult.
 struct NetworkAdapterInfo {
-    wchar_t alias[CHAR_LENGTH_MAX] {};
-    wchar_t description[CHAR_LENGTH_MAX] {};
+    wchar_t alias[CHAR_LENGTH_MAX]{};
+    wchar_t description[CHAR_LENGTH_MAX]{};
 
     u64 luid{};
     u64 type{};
@@ -31,7 +34,7 @@ struct NetworkAdapterInfo {
     f64 downloadBytesPerSec{};
     f64 uploadBytesPerSec{};
     f64 throughput{};
-   
+
     bool isConnected{};
     bool isOperational{};
 };

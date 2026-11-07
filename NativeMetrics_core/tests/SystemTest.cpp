@@ -31,9 +31,9 @@ int main() {
             }  
         }
        
-        std::wcout << "Installed RAM: " << systemInfo.installedRam << std::endl;
-        std::wcout << "Storage capacity: " << systemInfo.storageCapacity << std::endl;
-        std::wcout << "Used storage: " << systemInfo.usedStorage << std::endl;
+        std::wcout << "Installed RAM: " << systemInfo.installedRam << " B" <<  std::endl;
+        std::wcout << "Storage capacity: " << systemInfo.storageCapacity << " B" << std::endl;
+        std::wcout << "Used storage: " << systemInfo.usedStorage << " B" << std::endl;
     } else {
         std::cout << "Failed to retrieve system info." << std::endl;
     }
