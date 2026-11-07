@@ -66,6 +66,37 @@ std::wstring getFirmwareType() {
     }
 }
 
+std::wstring windowsEdition() {
+    DWORD editionNumber{};
+    bool result = GetProductInfo(6, 3, 0, 0, &editionNumber);
+    if (!result) {
+        return L""; 
+    }
+
+    switch (editionNumber) {
+        case (PRODUCT_CORE):
+            return L"Home";
+        case (PRODUCT_CORE_N):
+            return L"Home N";
+        case (PRODUCT_PROFESSIONAL):
+            return L"Pro";
+        case (PRODUCT_PROFESSIONAL_N):
+            return L"Pro N";
+        case (PRODUCT_ENTERPRISE):
+            return L"Enterprise";
+        case (PRODUCT_ENTERPRISE_N):
+            return L"Enterprise N";
+        case (PRODUCT_EDUCATION):
+            return L"Education";
+        case (PRODUCT_PRO_FOR_EDUCATION):
+            return L"Pro Education";
+        case (PRODUCT_PRO_WORKSTATION):
+            return L"Pro for Workstations";
+        default:
+            return L"Unkown";
+    }
+}
+
 void getWindowsInfo(SystemInfo& systemInfo) {
     RTL_OSVERSIONINFOW version{};
     version.dwOSVersionInfoSize = sizeof(version);
@@ -184,7 +215,7 @@ std::vector<GpuSummary> getGpuAdapterNames() {
             hardwareAdapters[i]->GetProperty(DXCoreAdapterProperty::DriverDescription, descriptionSize, description.data());
             std::string descriptionStr(description.begin(), description.end());
 
-            std::wstring descriptionStrW = convertStringToWstring(descriptionStr);
+            std::wstring descriptionStrW = NativeMetrics::Convert::convertStringToWstring(descriptionStr);
             wcsncpy_s(currentAdapter.name, descriptionStrW.c_str(), _TRUNCATE);
         }
         gpuList.push_back(currentAdapter);
@@ -208,7 +239,7 @@ SystemInfo collectSystemInfo() {
 
     std::wstring firmware = getFirmwareType();
     wcsncpy_s(system.firmware, firmware.c_str(), _TRUNCATE);
-
+    
     std::wstring processor = NativeMetrics::CPU::getProcessorName();
     wcsncpy_s(system.processor, processor.c_str(), _TRUNCATE);
 

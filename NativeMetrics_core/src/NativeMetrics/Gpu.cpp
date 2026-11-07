@@ -70,7 +70,7 @@ void getAdapters(std::vector<GpuInfo>& gpuList) {
             hardwareAdapters[i]->GetProperty(DXCoreAdapterProperty::DriverDescription, descSize, description.data());
             std::string descriptionStr(description.begin(), description.end());
 
-            std::wstring descriptionStrW = convertStringToWstring(descriptionStr);
+            std::wstring descriptionStrW = NativeMetrics::Convert::convertStringToWstring(descriptionStr);
             wcsncpy_s(currentAdapter.description, descriptionStrW.c_str(), _TRUNCATE);
         }
 
@@ -78,7 +78,7 @@ void getAdapters(std::vector<GpuInfo>& gpuList) {
         if (SUCCEEDED(hardwareAdapters[i]->GetPropertySize(DXCoreAdapterProperty::InstanceLuid, &luidSize))) {
             LUID luid{};
             hardwareAdapters[i]->GetProperty(DXCoreAdapterProperty::InstanceLuid, luidSize, &luid);
-            currentAdapter.luid = luidToU64(luid);
+            currentAdapter.luid = NativeMetrics::Convert::luidToU64(luid);
         }
         gpuList.push_back(currentAdapter);
     }
@@ -106,7 +106,7 @@ void getAdapters(std::vector<GpuInfo>& gpuList) {
             continue;
         }
 
-        u64 adapterLuid = luidToU64(desc.AdapterLuid);
+        u64 adapterLuid = NativeMetrics::Convert::luidToU64(desc.AdapterLuid);
 
         // find hardware adapter from gpuList.
         auto it = std::find_if(gpuList.begin(), gpuList.end(), [adapterLuid](const GpuInfo& gpu) { return gpu.luid == adapterLuid; });

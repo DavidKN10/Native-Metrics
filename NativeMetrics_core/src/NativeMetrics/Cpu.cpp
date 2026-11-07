@@ -92,9 +92,9 @@ f64 getUsage() {
     FILETIME idle, kernel, user;
     GetSystemTimes(&idle, &kernel, &user);
 
-    u64 currentIdleTime = fileTimeToU64(idle);
-    u64 currentKernelTime = fileTimeToU64(kernel);
-    u64 currentUserTime = fileTimeToU64(user);
+    u64 currentIdleTime = NativeMetrics::Convert::fileTimeToU64(idle);
+    u64 currentKernelTime = NativeMetrics::Convert::fileTimeToU64(kernel);
+    u64 currentUserTime = NativeMetrics::Convert::fileTimeToU64(user);
 
     u64 idleDelta = currentIdleTime - previousTime.idleTime;
     u64 kernelDelta = currentKernelTime - previousTime.kernelTime;

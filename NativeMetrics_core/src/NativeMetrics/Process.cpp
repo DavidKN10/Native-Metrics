@@ -10,9 +10,9 @@ void pew32ToProcessInfo(ProcessInfo& process, PROCESSENTRY32W& pew32) {
 }
 
 void getMemory(ProcessInfo& process, PROCESS_MEMORY_COUNTERS_EX& processMemory) {
-    u64 memoryUsageInt = bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
-    u64 commitSizeInt = bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
-    u64 privateMemoryInt = bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
+    u64 memoryUsageInt = NativeMetrics::Convert::bytesToMB(static_cast<u64>(processMemory.WorkingSetSize));
+    u64 commitSizeInt = NativeMetrics::Convert::bytesToMB(static_cast<u64>(processMemory.PagefileUsage));
+    u64 privateMemoryInt = NativeMetrics::Convert::bytesToMB(static_cast<u64>(processMemory.PrivateUsage));
 
     process.memoryUsage = static_cast<f64>(memoryUsageInt);
     process.commitSize = static_cast<f64>(commitSizeInt);

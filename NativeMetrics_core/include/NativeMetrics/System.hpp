@@ -47,6 +47,8 @@ std::wstring getHostname();
 
 std::wstring getFirmwareType();
 
+std::wstring windowsEdition();
+
 void getWindowsInfo(SystemInfo& systemInfo);
 
 void getStorageCapcity(SystemInfo& systemInfo);

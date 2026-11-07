@@ -186,7 +186,7 @@ bool getPhysicalDiskInfo(u32 diskNumber, DiskInfo& disk) {
 
     if (descriptor->ProductIdOffset != 0) {
         const char* productId = reinterpret_cast<const char*>(buffer.data() + descriptor->ProductIdOffset);
-        std::wstring productIdW = AsciiToWide(productId);
+        std::wstring productIdW = NativeMetrics::Convert::AsciiToWide(productId);
         wcsncpy_s(disk.model, productIdW.c_str(), _TRUNCATE);
     }
 

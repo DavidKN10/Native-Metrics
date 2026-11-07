@@ -33,7 +33,7 @@
 #include <NativeMetrics/Util.hpp>
 
 namespace NativeMetrics::Disk {
-inline std::unordered_map<std::wstring, NativeMetrics::Disk::PreviousDiskSample> diskMetricHistory{};
+inline std::unordered_map<std::wstring, PreviousDiskSample> diskMetricHistory{};
 
 void getDriveString(std::vector<DiskInfo>& diskList);
 
