@@ -2,7 +2,7 @@
 
 namespace NativeMetrics::Disk {
 void getDriveString(std::vector<DiskInfo>& diskList) {
-    wchar_t buffer[512] = {};
+    wchar_t buffer[512]{};
 
     u32 length = GetLogicalDriveStringsW(std::size(buffer), buffer);
     if (length != 0) {
@@ -16,7 +16,7 @@ void getDriveString(std::vector<DiskInfo>& diskList) {
 }
 
 void getDriveGuid(DiskInfo& disk) {
-    wchar_t buffer[50];
+    wchar_t buffer[50]{};
 
     BOOL result = GetVolumeNameForVolumeMountPointW(disk.driveLetter, buffer, ARRAYSIZE(buffer));
     if (result) {
@@ -62,15 +62,14 @@ void getDriveSpace(DiskInfo& disk) {
 }
 
 void getVolumeInformation(DiskInfo& disk) {
-    wchar_t volumeNameBuffer[256] = {};
+    wchar_t volumeNameBuffer[256]{};
     u32 volumeNameSize = std::size(volumeNameBuffer);
 
-    wchar_t fileSystemBuffer[256] = {};
+    wchar_t fileSystemBuffer[256]{};
     u32 fileSystemNameSize = std::size(fileSystemBuffer);
 
-    bool result =
-        GetVolumeInformationW(disk.driveLetter, volumeNameBuffer, volumeNameSize, nullptr, 
-                            nullptr, nullptr, fileSystemBuffer, fileSystemNameSize);
+    bool result = GetVolumeInformationW(disk.driveLetter, volumeNameBuffer, volumeNameSize, nullptr, nullptr, nullptr,
+                                        fileSystemBuffer, fileSystemNameSize);
 
     if (result) {
         wcsncpy_s(disk.volumeName, volumeNameBuffer, _TRUNCATE);
@@ -84,9 +83,8 @@ u32 getPhysicalDiskNumber(DiskInfo& disk) {
     devicePath += disk.driveLetter[0];
     devicePath += L":";
 
-    HANDLE diskHandle =
-        CreateFileW(devicePath.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 
-                    FILE_ATTRIBUTE_NORMAL, nullptr);
+    HANDLE diskHandle = CreateFileW(devicePath.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 
+                                    FILE_ATTRIBUTE_NORMAL, nullptr);
 
     if (diskHandle == INVALID_HANDLE_VALUE) {
         return 0;

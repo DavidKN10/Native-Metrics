@@ -102,7 +102,6 @@ std::vector<NetworkAdapterInfo> collectNetworkAdapters() {
     i32 returnValue = GetIfTable2(&table);
 
     if (returnValue != NO_ERROR || table == nullptr) {
-        printError(TEXT("GetIfTable2"));
         return networkAdapters;
     } else {
         for (u64 i = 0; i < table->NumEntries; i++) {

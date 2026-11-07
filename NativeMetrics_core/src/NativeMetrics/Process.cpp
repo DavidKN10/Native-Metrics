@@ -22,7 +22,6 @@ void getMemory(ProcessInfo& process, PROCESS_MEMORY_COUNTERS_EX& processMemory) 
 std::vector<ProcessInfo> collectProcesses() {
     std::vector<ProcessInfo> processes{};
 
-    // take snapshot of all processes in system
     HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (hProcessSnap == INVALID_HANDLE_VALUE) {
         return processes;
@@ -56,10 +55,8 @@ std::vector<ProcessInfo> collectProcesses() {
             continue;
         }
 
-        // get process priority
         currentProcess.priorityClass = GetPriorityClass(hProcess);
 
-        // get process exe path if available
         wchar_t exePath[PROCESS_PATH_LENGTH];
         DWORD bufferSize = PROCESS_PATH_LENGTH;
 

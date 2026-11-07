@@ -7,12 +7,12 @@ std::wstring getProcessorName() {
     */
 
     std::wstring processorName = L"Unkown";
-    HKEY key;
+    HKEY key{};
 
     // open the registry key for the first logical processor
     LSTATUS openKeyResult = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &key);
     if (openKeyResult == ERROR_SUCCESS) {
-        wchar_t buffer[256];
+        wchar_t buffer[256]{};
         DWORD bufferSize = sizeof(buffer);
 
         // query the ProcessorNameString value
@@ -68,7 +68,7 @@ u32 getPhysicalCores() {
 
 u32 getBaseSpeedMHz() {
     u32 baseSpeedMHz = 0;
-    HKEY key;
+    HKEY key{};
 
     LSTATUS openKeyResult = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &key);
     if (openKeyResult == ERROR_SUCCESS) {

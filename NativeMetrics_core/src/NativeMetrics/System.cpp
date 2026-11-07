@@ -133,31 +133,13 @@ void getWindowsInfo(SystemInfo& systemInfo) {
 void getStorageCapcity(SystemInfo& systemInfo) {
     std::vector<DiskInfo> diskList{};
 
-    // Get drive strings.
-    wchar_t buffer[512]{};
-    u32 length = GetLogicalDriveStringsW(std::size(buffer), buffer);
-    if (length != 0) {
-        for (wchar_t* drive = buffer; *drive; drive += wcslen(drive) + 1) {
-            DiskInfo currentDisk{};
-            wcsncpy_s(currentDisk.driveLetter, drive, _TRUNCATE);
-
-            diskList.push_back(currentDisk);
-        }
-    }
+    NativeMetrics::Disk::getDriveString(diskList);
 
     for (auto& disk : diskList) {
         NativeMetrics::Disk::getDriveSpace(disk);
+        systemInfo.storageCapacity += disk.totalSpaceBytes;
+        systemInfo.usedStorage += disk.totalSpaceBytes - disk.freeSpaceBytes;
     }
-
-    u64 totalStorage{};
-    u64 usedStorage{};
-    for (auto& disk : diskList) {
-        totalStorage += disk.totalSpaceBytes;
-        usedStorage += disk.totalSpaceBytes - disk.freeSpaceBytes;
-    }
-
-    systemInfo.storageCapacity = totalStorage;
-    systemInfo.usedStorage = usedStorage;
 }
 
 u64 getTotalMemory() {
