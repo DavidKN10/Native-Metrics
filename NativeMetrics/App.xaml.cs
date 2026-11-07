@@ -26,7 +26,7 @@ namespace NativeMetrics
     /// </summary>
     public partial class App : Application
     {
-        private Window? _window;
+        public static Window? MainWindow { get; private set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -52,15 +52,9 @@ namespace NativeMetrics
                 "Dark" => ElementTheme.Dark,
                 _ => ElementTheme.Dark
             };
-
-            _window = new MainWindow(requestedTheme);
-            _window.Activate();
-        }
-
-        private void SaveThemePreference(string theme)
-        {
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            localSettings.Values["AppTheme"] = theme;
+            
+            MainWindow = new MainWindow(requestedTheme);
+            MainWindow.Activate();
         }
     }
 }

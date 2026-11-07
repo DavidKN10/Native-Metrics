@@ -17,6 +17,7 @@ using Windows.UI.ApplicationSettings;
 
 using NativeMetrics.Views;
 using NativeMetrics.Views.Network;
+using Microsoft.UI.Windowing;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -39,9 +40,31 @@ namespace NativeMetrics
           
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(titleBar);
+
+            var presenter = AppWindow.Presenter as OverlappedPresenter;
+            ApplySavedResolution();
+            presenter.IsResizable = false;
             
             // show an initial page
             ContentFrame.Navigate(typeof(OverviewPage));
+        }
+
+        private void ApplySavedResolution()
+        {
+            var savedResolution = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Resolution"] as string;
+
+            Windows.Graphics.SizeInt32? size = savedResolution switch
+            {
+                "Small" => new Windows.Graphics.SizeInt32(1280, 720),
+                "Medium" => new Windows.Graphics.SizeInt32(1600, 900),
+                "Large" => new Windows.Graphics.SizeInt32(1920, 1080),
+                _ => null
+            };
+
+            if (size is { } requestedSize)
+            {
+                AppWindow.Resize(requestedSize);
+            }
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -71,7 +94,6 @@ namespace NativeMetrics
                         break;
                 }
             }
-
         }
     }
 }

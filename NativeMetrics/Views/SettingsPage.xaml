@@ -18,12 +18,27 @@
             <StackPanel Orientation="Horizontal" Spacing="20">
                 <TextBlock
                     Text="Select theme:"
+                    FontWeight="SemiBold"
                     Margin="0,0,0,10"/>
                 <ComboBox x:Name="ThemeSelector"
                     SelectionChanged="ThemeSelector_SelectionChanged">
 
                     <ComboBoxItem Content="Light" Tag="Light"/>
                     <ComboBoxItem Content="Dark" Tag="Dark"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <TextBlock
+                    Text="Resolution:"
+                    FontWeight="SemiBold"
+                    Margin="0,0,0,10"/>
+                <ComboBox x:Name="ResolutionSelector"
+                          SelectionChanged="ResolutionSelector_SelectionChanged">
+                    
+                    <ComboBoxItem Content="1920x1080" Tag="Large"/>
+                    <ComboBoxItem Content="1600x900" Tag="Medium"/>
+                    <ComboBoxItem Content="1280x720" Tag="Small"/>
                 </ComboBox>
             </StackPanel>
 

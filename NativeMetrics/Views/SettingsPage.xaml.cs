@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -44,16 +46,54 @@ public sealed partial class SettingsPage : Page
         }
     }
 
+    public void SetWindowResolution(int width, int height)
+    {
+        var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+        var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+        var appWindow = AppWindow.GetFromWindowId(windowId);
+
+        appWindow.Resize(new SizeInt32(width, height));
+    }
+    
+    private void ResolutionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var selectedResolution = (ResolutionSelector.SelectedItem as ComboBoxItem)?.Tag?.ToString();
+        switch (selectedResolution) 
+        {
+            case "Small":
+                SetWindowResolution(1280, 720);
+                break;
+            case "Medium":
+                SetWindowResolution(1600, 900);
+                break;
+            case "Large":
+                SetWindowResolution(1920, 1080);
+                break;
+        }
+
+        Windows.Storage.ApplicationData.Current.LocalSettings.Values["Resolution"] = selectedResolution;
+    }
+
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         var savedTheme = localSettings.Values["AppTheme"] as string;
+        var savedResolution = localSettings.Values["Resolution"] as string;
         
         foreach (ComboBoxItem item in ThemeSelector.Items)
         {
             if (item.Tag.ToString() == savedTheme)
             {
                 ThemeSelector.SelectedItem = item;
+                break;
+            }
+        }
+
+        foreach (ComboBoxItem item in ResolutionSelector.Items)
+        {
+            if (item.Tag.ToString() == savedResolution)
+            {
+                ResolutionSelector.SelectedItem = item;
                 break;
             }
         }
