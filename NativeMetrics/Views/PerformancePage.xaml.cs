@@ -30,7 +30,7 @@ namespace NativeMetrics.Views
     public sealed partial class PerformancePage : Page
     {
         private readonly PerformanceContext _performanceContext;
-       
+
         public PerformancePage()
         {
             InitializeComponent();
@@ -41,11 +41,11 @@ namespace NativeMetrics.Views
 
             // show an initial page
             PerformanceContentFrame.Navigate(typeof(CpuPage), _performanceContext);
-            
+
             this.Loaded += PerformancePage_Loaded;
             this.Unloaded += PerformancePage_Unloaded;
         }
-    
+
         private async void PerformancePage_Loaded(object sender, RoutedEventArgs e)
         {
             await _performanceContext.CpuManager.RefreshAsync();
@@ -66,28 +66,30 @@ namespace NativeMetrics.Views
 
         private void PerformanceNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.SelectedItemContainer is NavigationViewItem item)
+            if (args.SelectedItemContainer is not NavigationViewItem item)
             {
-                if (item.Tag is DiskViewModel disk)
-                {
-                    PerformanceContentFrame.Navigate(typeof(DiskPage), disk);
-                    return;
-                }
-                else if (item.Tag is GpuViewModel gpu)
-                {
-                    PerformanceContentFrame.Navigate(typeof(GpuPage), gpu);
-                    return;
-                }
-                
-                switch(item.Tag?.ToString())
-                {
-                    case "CpuPage":
-                        PerformanceContentFrame.Navigate(typeof(CpuPage), _performanceContext); 
-                        break;
-                    case "MemoryPage":
-                        PerformanceContentFrame.Navigate(typeof(MemoryPage), _performanceContext);
-                        break;
-                }
+                return;
+            }
+
+            if (item.Tag is DiskViewModel disk)
+            {
+                PerformanceContentFrame.Navigate(typeof(DiskPage), disk);
+                return;
+            }
+            else if (item.Tag is GpuViewModel gpu)
+            {
+                PerformanceContentFrame.Navigate(typeof(GpuPage), gpu);
+                return;
+            }
+
+            switch (item.Tag?.ToString())
+            {
+                case "CpuPage":
+                    PerformanceContentFrame.Navigate(typeof(CpuPage), _performanceContext);
+                    break;
+                case "MemoryPage":
+                    PerformanceContentFrame.Navigate(typeof(MemoryPage), _performanceContext);
+                    break;
             }
         }
 
@@ -119,7 +121,7 @@ namespace NativeMetrics.Views
                     continue;
                 }
 
-                string? driveLetter = disk.DriveLetter?.Substring(0,1);
+                string? driveLetter = disk.DriveLetter?.Substring(0, 1);
                 string label = $"Disk ({driveLetter})";
                 PerformanceNavigationView.MenuItems.Add(new NavigationViewItem
                 {

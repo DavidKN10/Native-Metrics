@@ -143,10 +143,7 @@ public class MemoryViewModel : INotifyPropertyChanged
 
     public double MemoryUseBytes
     {
-        get
-        {
-            return Formatter.BytesToGB(TotalMemoryBytes - AvailableMemoryBytes);
-        }
+        get { return Formatter.BytesToGB(TotalMemoryBytes - AvailableMemoryBytes); }
     }
 
     public HistoryBuffer<double> MemoryUseHistory;
