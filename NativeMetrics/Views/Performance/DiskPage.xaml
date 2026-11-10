@@ -9,7 +9,8 @@
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
 
-    <ScrollViewer>
+    <ScrollViewer
+        Margin="10,10,0,0">
         <StackPanel Spacing="20">
 
             <StackPanel 
@@ -55,7 +56,7 @@
                 x:Name="ActiveTimeChart"
                 LegendPosition="Hidden"
                 Height="300"
-                Width="1000">
+                Width="900">
 
                 <lvc:CartesianChart.Series>
                     <lvc:SeriesCollection>
@@ -79,7 +80,7 @@
                 x:Name="TransferRateChart"
                 LegendPosition="Hidden"
                 Height="300"
-                Width="1000">
+                Width="900">
 
                 <lvc:CartesianChart.Series>
                     <lvc:SeriesCollection>

@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ScrollViewer>
+    <ScrollViewer Margin="20,10,0,0">
         
         <StackPanel Spacing="20">
             
@@ -166,7 +166,7 @@
                     Grid.Column="1"
                     ItemsSource="{x:Bind _viewModel.GpuList, Mode=OneWay}"
                     SelectionMode="None"
-                    Margin="0">
+                    Margin="-15,-10,0,0">
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="gpuvm:GpuSummary">

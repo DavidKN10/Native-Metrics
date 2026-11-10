@@ -17,7 +17,8 @@
         <TextBlock Grid.Row="0"
                    Text="Network"
                    FontSize="24"
-                   FontWeight="Bold"/>
+                   FontWeight="Bold"
+                   Margin="15,0,0,0"/>
 
         <NavigationView x:Name="NetworksNavigationView"
                         Grid.Row="1"

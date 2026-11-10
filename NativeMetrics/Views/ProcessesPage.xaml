@@ -18,7 +18,8 @@
         <TextBlock Grid.Row="0"
                    Text="Processes"
                    FontSize="24"
-                   FontWeight="Bold"/>
+                   FontWeight="Bold"
+                   Margin="20, 0, 0, 10"/>
 
         <tv:TableView 
             Grid.Row="1"

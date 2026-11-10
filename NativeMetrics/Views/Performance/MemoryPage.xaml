@@ -9,7 +9,8 @@
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
    
-    <StackPanel Spacing="20">
+    <StackPanel Spacing="20"
+                Margin="10,10,0,0">
         <TextBlock Text="Memory"
                    FontSize="24"
                    FontWeight="Bold"/>
@@ -21,7 +22,7 @@
             x:Name="MemoryUseChart"
             LegendPosition="Hidden"
             Height="300"
-            Width="1000">
+            Width="900">
 
             <lvc:CartesianChart.Series>
                 <lvc:SeriesCollection>

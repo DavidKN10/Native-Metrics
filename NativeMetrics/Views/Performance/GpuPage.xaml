@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     
-    <StackPanel Spacing="20">
+    <StackPanel Spacing="20"
+                Margin="10,10,0,0">
         <TextBlock
             Text="{Binding Description}"
             FontSize="28"

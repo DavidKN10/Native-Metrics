@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
-    <StackPanel Spacing="20">
+    <StackPanel Spacing="20"
+                Margin="10,10,0,0">
         <TextBlock Text="CPU"
                    FontSize="24"
                    FontWeight="Bold"/>
@@ -25,7 +26,7 @@
             x:Name="CpuUsageChart"
             LegendPosition="Hidden"
             Height="300"
-            Width="1000">
+            Width="900">
 
             <lvc:CartesianChart.Series>
                 <lvc:SeriesCollection>
