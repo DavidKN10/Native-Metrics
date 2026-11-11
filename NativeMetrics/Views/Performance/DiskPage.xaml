@@ -10,7 +10,10 @@
     mc:Ignorable="d">
 
     <ScrollViewer
-        Margin="10,10,0,0">
+        Margin="10,10,0,0"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Auto">
+        
         <StackPanel Spacing="20">
 
             <StackPanel 

@@ -8,25 +8,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
-   
-    <StackPanel Spacing="20"
-                Margin="10,10,0,0">
-        <TextBlock Text="Memory"
+    
+    <ScrollView Margin="10,10,0,0"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20">
+            <TextBlock Text="Memory"
                    FontSize="24"
                    FontWeight="Bold"/>
 
-        <TextBlock Text="Memory usage"
+            <TextBlock Text="Memory usage"
                    FontWeight="SemiBold"
                    Margin="0, 15, 0, 0"/>
-        <lvc:CartesianChart
+            <lvc:CartesianChart
             x:Name="MemoryUseChart"
             LegendPosition="Hidden"
             Height="300"
             Width="900">
 
-            <lvc:CartesianChart.Series>
-                <lvc:SeriesCollection>
-                    <lvc:XamlLineSeries
+                <lvc:CartesianChart.Series>
+                    <lvc:SeriesCollection>
+                        <lvc:XamlLineSeries
                         GeometrySize="0"
                         LineSmoothness="0"
                         SeriesName="Memory Usage"
@@ -34,106 +36,107 @@
                         GeometryStroke="{x:Null}"
                         Stroke="{lvc:SolidColorPaint Color='#0240fa', StrokeWidth=2}"
                         Values="{x:Bind _manager.MemoryStats.MemoryUseObservable, Mode=OneWay}"/>
-                </lvc:SeriesCollection>
-            </lvc:CartesianChart.Series>
-            
-        </lvc:CartesianChart>
+                    </lvc:SeriesCollection>
+                </lvc:CartesianChart.Series>
 
-        <Grid 
+            </lvc:CartesianChart>
+
+            <Grid 
             ColumnSpacing="20"
             RowSpacing="8">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            
-            <!-- First Column-->
-            <TextBlock Grid.Row="0"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- First Column-->
+                <TextBlock Grid.Row="0"
                        Grid.Column="0"
                        Text="Percent Use:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="0"
                        Grid.Column="1"
                        Text="{x:Bind _manager.MemoryStats.MemoryUsePercentFormatted.ValueString, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        Text="Total:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                        Grid.Column="1"
                        Text="{x:Bind _manager.MemoryStats.TotalMemoryFormatted.ValueString, Mode=OneWay}"/>
-           
-            <TextBlock Grid.Row="2"
+
+                <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        Text="Available:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                        Grid.Column="1"
                        Text="{x:Bind _manager.MemoryStats.AvailableMemoryFormatted.ValueString, Mode=OneWay}"/>
-           
-            <!-- Second Column-->
-            <TextBlock Grid.Row="0"
+
+                <!-- Second Column-->
+                <TextBlock Grid.Row="0"
                        Grid.Column="2"
                        Text="Commit current:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="0"
                        Grid.Column="3"
                        Text="{x:Bind _manager.MemoryStats.CommitCurrentFormatted.ValueString, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                        Grid.Column="2"
                        Text="Commit limit:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                        Grid.Column="3"
                        Text="{x:Bind _manager.MemoryStats.CommitLimitFormatted.ValueString, Mode=OneWay}"/>
-           
-            <TextBlock Grid.Row="2"
+
+                <TextBlock Grid.Row="2"
                        Grid.Column="2"
                        Text="Commit peak:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                        Grid.Column="3"
-                       Text="{x:Bind _manager.MemoryStats.CommitPeakFormatted.ValueString, Mode=OneWay}"/>           
-            
-            <!-- Third Column-->
-            <TextBlock Grid.Row="0"
+                       Text="{x:Bind _manager.MemoryStats.CommitPeakFormatted.ValueString, Mode=OneWay}"/>
+
+                <!-- Third Column-->
+                <TextBlock Grid.Row="0"
                        Grid.Column="4"
                        Text="Page size:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="0"
                        Grid.Column="5"
                        Text="{x:Bind _manager.MemoryStats.PageSizeFormatted.ValueString, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                        Grid.Column="4"
                        Text="Paged pool:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                        Grid.Column="5"
                        Text="{x:Bind _manager.MemoryStats.PagedPoolFormatted.ValueString, Mode=OneWay}"/>
-           
-            <TextBlock Grid.Row="2"
+
+                <TextBlock Grid.Row="2"
                        Grid.Column="4"
                        Text="Non-Paged pool:"
                        FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                        Grid.Column="5"
-                       Text="{x:Bind _manager.MemoryStats.NonPagedPoolFormatted.ValueString, Mode=OneWay}"/>          
-        </Grid>
-        
-    </StackPanel>
+                       Text="{x:Bind _manager.MemoryStats.NonPagedPoolFormatted.ValueString, Mode=OneWay}"/>
+            </Grid>
+
+        </StackPanel>
+    </ScrollView> 
     
 </Page>

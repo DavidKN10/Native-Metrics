@@ -8,29 +8,33 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
-    <StackPanel Spacing="20"
-                Margin="10,10,0,0">
-        <TextBlock Text="CPU"
+
+    <ScrollViewer Margin="10,10,0,0"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel 
+            Spacing="20">
+            <TextBlock Text="CPU"
                    FontSize="24"
                    FontWeight="Bold"/>
 
-        <TextBlock Text="{x:Bind _manager.CpuStats.ProcessorName, Mode=OneWay}"
+            <TextBlock Text="{x:Bind _manager.CpuStats.ProcessorName, Mode=OneWay}"
                    FontSize="18"
                    FontWeight="Normal"/>
-        <TextBlock
+            <TextBlock
             Text="Utilization %"
             FontWeight="SemiBold"
             Margin="0,15,0,0"/>
-        
-        <lvc:CartesianChart
+
+            <lvc:CartesianChart
             x:Name="CpuUsageChart"
             LegendPosition="Hidden"
             Height="300"
             Width="900">
 
-            <lvc:CartesianChart.Series>
-                <lvc:SeriesCollection>
-                    <lvc:XamlLineSeries
+                <lvc:CartesianChart.Series>
+                    <lvc:SeriesCollection>
+                        <lvc:XamlLineSeries
                         GeometrySize="0"
                         LineSmoothness="0"
                         SeriesName="CPU Usage"
@@ -38,90 +42,89 @@
                         GeometryStroke="{x:Null}"
                         Stroke="{lvc:SolidColorPaint Color='#0aa5f2', StrokeWidth=2}"
                         Values="{x:Bind _manager.CpuStats.CpuUsageObservable, Mode=OneWay}"/>
-                </lvc:SeriesCollection>
-            </lvc:CartesianChart.Series>
+                    </lvc:SeriesCollection>
+                </lvc:CartesianChart.Series>
 
-        </lvc:CartesianChart>
+            </lvc:CartesianChart>
 
-        <Grid
+            <Grid
             ColumnSpacing="20"
             RowSpacing="8">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <!-- Left column-->
-            <TextBlock Grid.Row="0"
+                <!-- Left column-->
+                <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="CPU Usage:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="0"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.CpuUsageFormatted.ValueString, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    Text="Handles:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.Handles, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Text="Processes:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.ProcessCount, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="3"
+                <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    Text="Threads:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="3"
+                <TextBlock Grid.Row="3"
                    Grid.Column="1"
                    Text="{x:Bind _manager.CpuStats.ThreadCount, Mode=OneWay}"/>
 
-            <!-- Right column -->
-            <TextBlock Grid.Row="0"
+                <!-- Right column -->
+                <TextBlock Grid.Row="0"
                    Grid.Column="2"
                    Text="Logical processors:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="0"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.LogicalProcessors, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                    Grid.Column="2"
                    Text="Cores:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.Cores, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                    Grid.Column="2"
                    Text="Base speed:"
                    FontWeight="SemiBold"/>
-            <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="2"
                    Grid.Column="3"
                    Text="{x:Bind _manager.CpuStats.BaseSpeedFormatted.ValueString, Mode=OneWay}"/>
-        
-        </Grid>
 
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 
-        
-    </StackPanel>
 </Page>

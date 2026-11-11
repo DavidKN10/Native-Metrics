@@ -7,108 +7,113 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
-    <StackPanel Spacing="20"
-                Margin="10,10,0,0">
-        <TextBlock
+
+    <ScrollViewer Margin="10,10,0,0"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+        
+        <StackPanel Spacing="20">
+            <TextBlock
             Text="{Binding Description}"
             FontSize="28"
             FontWeight="SemiBold"/>
 
-        <StackPanel 
+            <StackPanel 
             Spacing="12"
             Orientation="Horizontal">
-            <TextBlock 
+                <TextBlock 
                 Text="LUID:"
                 FontSize="18"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Text="{Binding Luid}"
                 FontSize="18"
                 FontWeight="SemiBold"/>
-        </StackPanel>
-        
-        <StackPanel 
+            </StackPanel>
+
+            <StackPanel 
             Spacing="12"
             Orientation="Horizontal">
-            <TextBlock 
+                <TextBlock 
                 Text="Vendor ID:"
                 FontSize="18"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Text="{Binding VendorId}"
                 FontSize="18"
                 FontWeight="SemiBold"/>
-        </StackPanel>
+            </StackPanel>
 
-        <Grid
+            <Grid
             ColumnSpacing="20"
             RowSpacing="8">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <TextBlock
+                <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
                 Text="Dedicated memory:"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
                 Text="{Binding DedicatedVideoMemoryFormatted.ValueString}"/>
-            
-            <TextBlock
+
+                <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
                 Text="Local memory:"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Grid.Row="0"
                 Grid.Column="3"
                 Text="{Binding LocalCurrentMemoryFormatted.ValueString}"/>
-            
-            <TextBlock
+
+                <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
                 Text="Shared memory:"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
                 Text="{Binding SharedSystemMemoryFormatted.ValueString}"/>
-            
-            <TextBlock
+
+                <TextBlock
                 Grid.Row="1"
                 Grid.Column="2"
                 Text="Non-local memory:"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Grid.Row="1"
                 Grid.Column="3"
                 Text="{Binding NonLocalCurrentMemoryFormatted.ValueString}"/>
-            
-            <TextBlock
+
+                <TextBlock
                 Grid.Row="2"
                 Grid.Column="0"
                 Text="Current use:"
                 FontWeight="SemiBold"/>
-            <TextBlock
+                <TextBlock
                 Grid.Row="2"
                 Grid.Column="1"
                 Text="{Binding CurrentUsagePercentFormatted.ValueString}"/>
 
-        </Grid>
-        
-    </StackPanel>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+
 </Page>

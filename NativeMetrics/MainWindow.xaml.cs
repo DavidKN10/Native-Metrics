@@ -41,6 +41,11 @@ namespace NativeMetrics
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(titleBar);
 
+            // set app icon
+            string iconPath = Path.Combine(AppContext.BaseDirectory, "Assets/default_icon16x16.ico");
+            this.AppWindow.SetIcon(iconPath);
+            
+            // apply saved resolution
             var presenter = AppWindow.Presenter as OverlappedPresenter;
             ApplySavedResolution();
             presenter.IsResizable = false;
