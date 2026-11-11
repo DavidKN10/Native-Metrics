@@ -9,7 +9,7 @@
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     mc:Ignorable="d">
     
-    <ScrollView Margin="10,10,0,0"
+    <ScrollViewer Margin="10,10,0,0"
                 HorizontalScrollBarVisibility="Auto"
                 VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="20">
@@ -137,6 +137,6 @@
             </Grid>
 
         </StackPanel>
-    </ScrollView> 
+    </ScrollViewer> 
     
 </Page>
