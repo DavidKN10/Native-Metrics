@@ -13,7 +13,9 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Windowing;
+using NativeMetrics.Services;
 using Windows.Graphics;
+using System.Runtime.InteropServices.Marshalling;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -46,13 +48,13 @@ public sealed partial class SettingsPage : Page
         }
     }
 
-    public void SetWindowResolution(int width, int height)
+    public void SetWindowResolution(float wScale, float hScale)
     {
         var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
         var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
         var appWindow = AppWindow.GetFromWindowId(windowId);
-
-        appWindow.Resize(new SizeInt32(width, height));
+        
+        WindowHelper.SetWindowResolution(appWindow, wScale, hScale);
     }
     
     private void ResolutionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -60,14 +62,14 @@ public sealed partial class SettingsPage : Page
         var selectedResolution = (ResolutionSelector.SelectedItem as ComboBoxItem)?.Tag?.ToString();
         switch (selectedResolution) 
         {
-            case "Small":
-                SetWindowResolution(1280, 720);
+            case "Compact":
+                SetWindowResolution(0.60f, 0.70f);
                 break;
-            case "Medium":
-                SetWindowResolution(1600, 900);
+            case "Default":
+                SetWindowResolution(0.75f, 0.80f);
                 break;
             case "Large":
-                SetWindowResolution(1920, 1080);
+                SetWindowResolution(0.90f, 0.90f);
                 break;
         }
 

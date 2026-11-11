@@ -39,9 +39,9 @@
                 <ComboBox x:Name="ResolutionSelector"
                           SelectionChanged="ResolutionSelector_SelectionChanged">
                     
-                    <ComboBoxItem Content="1920x1080" Tag="Large"/>
-                    <ComboBoxItem Content="1600x900" Tag="Medium"/>
-                    <ComboBoxItem Content="1280x720" Tag="Small"/>
+                    <ComboBoxItem Content="Large" Tag="Large"/>
+                    <ComboBoxItem Content="Default" Tag="Default"/>
+                    <ComboBoxItem Content="Compact" Tag="Compact"/>
                 </ComboBox>
             </StackPanel>
 

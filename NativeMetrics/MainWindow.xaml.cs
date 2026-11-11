@@ -6,6 +6,10 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Windowing;
+using NativeMetrics.Services;
+using NativeMetrics.Views;
+using NativeMetrics.Views.Network;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +19,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.ApplicationSettings;
 
-using NativeMetrics.Views;
-using NativeMetrics.Views.Network;
-using Microsoft.UI.Windowing;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -57,18 +58,21 @@ namespace NativeMetrics
         private void ApplySavedResolution()
         {
             var savedResolution = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Resolution"] as string;
-
-            Windows.Graphics.SizeInt32? size = savedResolution switch
+            var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+            var appWindow = AppWindow.GetFromWindowId(windowId);
+           
+            switch (savedResolution)
             {
-                "Small" => new Windows.Graphics.SizeInt32(1280, 720),
-                "Medium" => new Windows.Graphics.SizeInt32(1600, 900),
-                "Large" => new Windows.Graphics.SizeInt32(1920, 1080),
-                _ => null
-            };
-
-            if (size is { } requestedSize)
-            {
-                AppWindow.Resize(requestedSize);
+                case "Compact":
+                    WindowHelper.SetWindowResolution(appWindow, 0.60f, 0.70f); 
+                    break;
+                case "Default":
+                    WindowHelper.SetWindowResolution(appWindow, 0.75f, 0.80f); 
+                    break;
+                case "Large":
+                    WindowHelper.SetWindowResolution(appWindow, 0.90f, 0.90f); 
+                    break;
             }
         }
 
