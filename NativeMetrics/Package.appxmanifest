@@ -35,12 +35,16 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="NativeMetrics"
-        Description="NativeMetrics"
+        DisplayName="Native Metrics"
+        Description="System monitoring application for Windows. Built with WinUI 3 with a native C++ backend."
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        Square44x44Logo="Assets\app_icon44x44.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\small_tile142x142.png" Square310x310Logo="Assets\large_tile620x620.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square310x310Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

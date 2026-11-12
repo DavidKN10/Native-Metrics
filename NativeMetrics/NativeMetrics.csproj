@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -14,6 +14,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\app_icon44x44.scale-200.png" />
+    <None Remove="Assets\large_tile620x620.scale-200.png" />
+    <None Remove="Assets\small_tile142x142.scale-200.png" />
     <None Remove="Views\MemoryPage.xaml" />
     <None Remove="Views\Network\NetworkAdapterPage.xaml" />
     <None Remove="Views\Network\NetworkPage.xaml" />

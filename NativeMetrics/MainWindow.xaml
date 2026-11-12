@@ -23,6 +23,9 @@
         <TitleBar x:Name="titleBar" 
                   Title="NativeMetrics"
                   IsPaneToggleButtonVisible="False">
+            <TitleBar.IconSource>
+                <ImageIconSource ImageSource="/Assets/app_icon44x44.png"/>
+            </TitleBar.IconSource>
         </TitleBar>
         
         <NavigationView x:Name="NavigationView"

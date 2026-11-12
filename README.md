@@ -1,9 +1,9 @@
-# Native-Metrics
+# Native Metrics
 
 System monitoring application for Windows. Built with WinUI 3 with a native C++ backend.
 
 ## Index
-- [Native-Metrics](#native-metrics)
+- [Native Metrics](#native-metrics)
   - [Index](#index)
   - [Screenshots](#screenshots)
   - [Features](#features)
