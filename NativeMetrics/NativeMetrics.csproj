@@ -15,6 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\app_icon44x44.scale-200.png" />
+    <None Remove="Assets\badge_logo48x48.scale-200.png" />
     <None Remove="Assets\large_tile620x620.scale-200.png" />
     <None Remove="Assets\small_tile142x142.scale-200.png" />
     <None Remove="Views\MemoryPage.xaml" />
