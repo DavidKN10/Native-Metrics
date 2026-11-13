@@ -1,5 +1,9 @@
 # Native Metrics
 
+<div align=center>
+  <img src="docs/screenshots/app_icon.png" alt="Image of app's logo.">
+</div>
+
 System monitoring application for Windows. Built with WinUI 3 with a native C++ backend.
 
 ## Index
@@ -16,6 +20,9 @@ System monitoring application for Windows. Built with WinUI 3 with a native C++ 
 
 
 ## Screenshots
+<img src="docs/screenshots/overview_pag.png" alt="Image of app's overview page."/>
+<img src="docs/screenshots/processes_page.png" alt="Image of app's processes page."/>
+<img src="docs/screenshots/cpu_page.png" alt="Image of app's CPU info page."/>
 
 ## Features
 
