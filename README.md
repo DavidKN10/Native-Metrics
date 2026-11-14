@@ -17,6 +17,8 @@ System monitoring application for Windows. Built with WinUI 3 with a native C++ 
     - [Not Supported/Not Tested](#not-supportednot-tested)
   - [Quick Install](#quick-install)
   - [Quick Build](#quick-build)
+    - [Build Library](#build-library)
+    - [Building the App](#building-the-app)
   - [Documentation](#documentation)
   - [License](#license)
 
@@ -73,6 +75,31 @@ Software:
 ## Quick Install
 
 ## Quick Build
+Clone the repository:
+
+```bash
+git clone https://github.com/DavidKN10/Native-Metrics.git
+```
+
+### Build Library
+
+First you need to build the C++ library. In order to do that, you need to run `build.ps1` in the `Scripts` folder. This will use the default options and make a release build using MSVC.
+
+You can add arguments to specify what kind of build you want.
+
+```bash
+./build.ps1 -{build_type} -{generator}
+```
+
+For example, if you want to make a debug build with Ninja, you can add the folowing arguments:
+```bash
+./build.ps1 -Debug -Ninja
+```
+
+### Building the App
+The C++ library can be used outside this application, but in order for the app to use it, you need to create a release build with MSVC.
+
+In the `NativeMetrics` folder, open `NativeMetrics.slnx` with Visual Studio. When you click on run, the app should start working.
 
 ## Documentation
 
