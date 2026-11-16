@@ -9,10 +9,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WinRT;
 
 namespace NativeMetrics.Views.Models;
 
-public class DiskViewModel : INotifyPropertyChanged
+[GeneratedBindableCustomProperty]
+public partial class DiskViewModel : INotifyPropertyChanged
 {
     private string? _driveLetter;
     private string? _driveType;

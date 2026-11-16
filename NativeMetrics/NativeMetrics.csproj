@@ -28,7 +28,7 @@
     <None Remove="Views\ProcessesPage.xaml" />
     <None Remove="Views\SettingsPage.xaml" />
   </ItemGroup>
-	
+
 	<!-- NativeMetrics Core Library-->
 	<ItemGroup>
 		<Content Include="..\NativeMetrics_core\build\x64-windows-msvc-release\Release\NativeMetrics_core.dll">

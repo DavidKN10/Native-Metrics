@@ -43,11 +43,7 @@ With Native Metrics, you can view the following information:
 
 ## System Requirements
 ### Installation Requirements:
-Operating System:
-- Windows 10
-- Windows 11
-
-Architecture:
+- Windows 10 or 11
 - x64 processor
 
 **Recommended:**
@@ -56,7 +52,6 @@ Architecture:
 - 1920x1080 display
 
 ### Build Requirements:
-Software:
 - Visual Studio 2026
 - Visual Studio 18 2026
 - CMake 4.4.3
@@ -102,6 +97,9 @@ The C++ library can be used outside this application, but in order for the app t
 In the `NativeMetrics` folder, open `NativeMetrics.slnx` with Visual Studio. When you click on run, the app should start working.
 
 ## Documentation
+See [docs](https://github.com/DavidKN10/Native-Metrics/tree/main/docs) for more documentation on the frontend.
+
+See [Nativemetrics_core/docs](https://github.com/DavidKN10/Native-Metrics/tree/main/NativeMetrics_core/docs) for more documentation on the backend.
 
 ## License
 Native Metrics is licensed under MIT license. See [LICENSE](https://github.com/DavidKN10/Native-Metrics/blob/main/LICENSE) for more information.

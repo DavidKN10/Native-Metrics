@@ -9,10 +9,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WinRT;
 
 namespace NativeMetrics.Views.Models;
 
-public class ProcessesViewModel : INotifyPropertyChanged
+[GeneratedBindableCustomProperty]
+public partial class ProcessesViewModel : INotifyPropertyChanged
 {
     private string? _processName;
     private string? _processPath;

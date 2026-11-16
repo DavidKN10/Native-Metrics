@@ -8,10 +8,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WinRT;
 
 namespace NativeMetrics.Views.Models;
 
-public class GpuViewModel : INotifyPropertyChanged
+[GeneratedBindableCustomProperty]
+public partial class GpuViewModel : INotifyPropertyChanged
 {
     private string? _description;
     public ulong _luid;

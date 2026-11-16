@@ -20,7 +20,7 @@
                    FontSize="24"
                    FontWeight="Bold"
                    Margin="20, 0, 0, 10"/>
-
+        
         <tv:TableView 
             Grid.Row="1"
             ItemsSource="{x:Bind _processManager.Processes}" 

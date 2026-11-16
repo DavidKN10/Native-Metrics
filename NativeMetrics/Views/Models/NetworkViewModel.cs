@@ -9,10 +9,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using WinRT;
 
 namespace NativeMetrics.Views.Models;
 
-public class NetworkViewModel : INotifyPropertyChanged
+[GeneratedBindableCustomProperty]
+public partial class NetworkViewModel : INotifyPropertyChanged
 {
     private string? _alias;
     private string? _description;
