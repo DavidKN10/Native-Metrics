@@ -1,6 +1,6 @@
 # Native Metrics
 
-<div align=center>
+<div align="center">
   <img src="docs/screenshots/app_icon.png" alt="Image of app's logo.">
 </div>
 
