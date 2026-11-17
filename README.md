@@ -68,6 +68,7 @@ With Native Metrics, you can view the following information:
 - 32-bit Windows
 
 ## Quick Install
+Check the releases page and download the msix installer. Then open the installer to install the application. 
 
 ## Quick Build
 Clone the repository:
@@ -91,10 +92,14 @@ For example, if you want to make a debug build with Ninja, you can add the folow
 ./build.ps1 -Debug -Ninja
 ```
 
+If you want more information on building the C++ library, check [NativeMetrics_core/docs/BUILD](https://github.com/DavidKN10/Native-Metrics/blob/main/NativeMetrics_core/docs/BUILD.md)
+
 ### Building the App
 The C++ library can be used outside this application, but in order for the app to use it, you need to create a release build with MSVC.
 
 In the `NativeMetrics` folder, open `NativeMetrics.slnx` with Visual Studio. When you click on run, the app should start working.
+
+If you want more information about building the frontend, go to [docs/BUILD](https://github.com/DavidKN10/Native-Metrics/blob/main/docs/BUILD.md) to learn more. 
 
 ## Documentation
 See [docs](https://github.com/DavidKN10/Native-Metrics/tree/main/docs) for more documentation on the frontend.

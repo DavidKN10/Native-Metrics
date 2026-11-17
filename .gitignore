@@ -1,6 +1,7 @@
 # CS project files
 bin/
 obj/
+AppPackages/
 
 # CMake
 build/
