@@ -53,7 +53,7 @@
 extern "C" {
 	NATIVEMETRICS_API bool getCpuInfo(CpuInfo* buffer, i32 bufferSize);
 	
-    NATIVEMETRICS_API bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten);
+  NATIVEMETRICS_API bool getDiskInfo(DiskInfo* buffer, i32 bufferSize, i32* disksWritten);
 	
 	NATIVEMETRICS_API bool getGpuInfo(GpuInfo* buffer, i32 bufferSize, i32* adaptersWritten);
 	
