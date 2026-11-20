@@ -13,7 +13,8 @@ param(
     [switch]$Gpu,
     [switch]$Memory,
     [switch]$Network,
-    [switch]$Process
+    [switch]$Process,
+    [switch]$System
 )
 
 # root directory
@@ -26,6 +27,7 @@ $GpuExe = "GpuTest.exe"
 $MemoryExe = "MemoryTest.exe"
 $NetworkExe = "NetworkTest.exe"
 $ProcessExe = "ProcessTest.exe"
+$SystemExe = "SystemTest.exe"
 
 # build paths
 $DebugPathMsvc = Join-Path $RootDir "build\x64-windows-msvc-debug\Debug"
@@ -64,6 +66,11 @@ $ProcessDebugNinja = Join-Path $DebugPathNinja $ProcessExe
 $ProcessReleaseMsvc = Join-Path $ReleasePathMsvc $ProcessExe
 $ProcessReleaseNinja = Join-Path $ReleasePathNinja $ProcessExe
 
+$SystemDebugMsvc = Join-Path $DebugPathMsvc $SystemExe
+$SystemDebugNinja = Join-Path $DebugPathNinja $SystemExe
+$SystemReleaseMsvc = Join-Path $ReleasePathMsvc $SystemExe
+$SystemReleaseNinja = Join-Path $ReleasePathNinja $SystemExe
+
 if ($Debug) {
     if ($Msvc) {
         if ($Cpu) {
@@ -101,6 +108,13 @@ if ($Debug) {
                 Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessDebugMsvc 
+        }
+        elseif ($System) {
+            if (!(Test-Path $SystemDebugMsvc)) {
+                Write-Error "Could not find SystemTest.exe"
+            }
+            & $SystemDebugMsvc 
+
         }
         else {
             Write-Host "Did not specify a test."
@@ -142,6 +156,12 @@ if ($Debug) {
                 Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessDebugNinja 
+        }
+        elseif ($System) {
+            if (!(Test-Path $SystemDebugNinja)) {
+                Write-Error "Could not find SystemTest.exe"
+            }
+            & $SystemDebugNinja
         }
         else {
             Write-Host "Did not specify a test."
@@ -189,6 +209,12 @@ elseif ($Release) {
             }
             & $ProcessReleaseMsvc 
         }
+        elseif ($System) {
+            if (!(Test-Path $SystemReleaseMsvc)) {
+                Write-Error "Could not find SystemTest.exe"
+            }
+            & $SystemReleaseMsvc
+        }
         else {
             Write-Host "Did not specify a test."
         }
@@ -229,6 +255,12 @@ elseif ($Release) {
                 Write-Error "Could not find ProcessTest.exe"
             }
             & $ProcessReleaseNinja 
+        }
+        elseif ($System) {
+            if (!(Test-Path $SystemReleaseNinja)) {
+                Write-Error "Could not find SystemTest.exe"
+            }
+            & $SystemReleaseNinja
         }
         else {
             Write-Host "Did not specify a test."
