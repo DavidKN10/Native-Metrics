@@ -4,9 +4,23 @@
 - [Backend Architecture](#backend-architecture)
 - [Index](#index)
 - [Overview](#overview)
-- [Module Organization](#module-organization)
+- [Project Organization](#project-organization)
 - [Data Flow](#data-flow)
+  - [CPU](#cpu)
+  - [Disk](#disk)
+  - [GPU](#gpu)
+  - [Memory](#memory)
+  - [Network](#network)
+  - [Processes](#processes)
+  - [System](#system)
 - [Windows API](#windows-api)
+  - [CPU](#cpu-1)
+  - [Disk](#disk-1)
+  - [GPU](#gpu-1)
+  - [Memory](#memory-1)
+  - [Network](#network-1)
+  - [Processes](#processes-1)
+  - [System](#system-1)
 - [Data Collection Strategy](#data-collection-strategy)
 - [State Management](#state-management)
 - [Threading Model](#threading-model)
@@ -40,11 +54,153 @@ if (result) {
 }
 ```
 
-# Module Organization
+# Project Organization
+The project is organized by the following:
+- CPU
+- Memory
+- Disk
+- Network
+- GPU
+- Processes
+- System 
+- Utilities
+- NativeMetrics
+
+These categories are straightforward. CPU is in charge of metrics related to the processor, Memory is in charge of metrics related to RAM, and so on. System refers to an overview of the entire system. It contains metrics from other categories but more simplified. Utilities contains helper functions that the other sections will utilize.
+
+The main header for this project is `NativeMetrics.hpp`. This header all other headers and the functions that the library exposes. See [API](https://github.com/DavidKN10/Native-Metrics/blob/main/NativeMetrics_core/docs/API.md) for more information.
+
+If you wanted only specific functions, you could include the other headers. For example, you can use `Cpu.hpp` if you only want CPU metrics.
 
 # Data Flow
 
+Below are diagrams that demonstrate how a request travels through the library and how data is returned.
+## CPU
+
+## Disk
+
+## GPU
+
+## Memory
+
+## Network
+
+## Processes
+
+## System
+
+
 # Windows API
+
+For this project, the Windows API was used a lot. The following sections show how the API was used for each part.
+
+## CPU
+`RegKeyOpenExW`, `RegQueryValueExW`
+- These functions were used to read the registry in order to obtain the processor name and the processor's base speed.
+
+`GetSystemInfo`
+- This function was used to obtain the processor's number of logial processors.
+
+`GetLogicaProcessorInformationEx`
+- This function was used to get the number of physical cores in the processor.
+
+`GetSystemTimes`
+- In order to calculate the CPU usage, I used `GetSystemTimes` to get the idle, kernel, and user time.
+
+`GetPerformanceInfo`
+- This function was used in order to obtain the number of handles, threads, and processes.
+
+## Disk
+`GetLogicalDriveStringsW`
+- This function was very crucial as it was able to give us the number of drives and their drive letters. The other API functions depend on the drive letter.
+
+`GetVolumeNameForVolumeMountPointW`
+- Gives us the the GUID of the physical disk that the drive belong to. Now we have some information about the physical disks.
+
+`GetDriveTypeW`
+- Gives us the type of drive (CD-ROM, fixed drive, etc.).
+
+`GetDiskFreeSpace`
+- Gives us storage information like total space, free space, available space.
+
+`GetVolumeInformation`
+- This gives us the drive's name and file system name.
+
+`CreateFileW` 
+- Many functions related to the physical disk requrie a file handle. So we use this functions to create a file handle with the drive's path.
+
+`DeviceIoControl`
+- This function is used to find what physical disk the drive belongs to. From here, we can use this function again with different flags get more information about the physical disk.
+
+## GPU
+For GPU metrics, DXCore and DXGI was used.
+
+`GetProperty`
+- Used to obtain the graphics card's description and LUID.
+
+`GetDesc2`
+- Used to obtain the vendor ID, dedicated video memory, and shared system memory.
+
+`QueryVideoMemoryInfo`
+- Used to update the shared and and dedicated video memory usage.
+
+## Memory
+`GlobalMemoryStatusEx`
+- This function gives us total memory, available memory, and memory usage percent.
+
+`GetPerformanceInfo`
+- This function gives us metrics like page size, current commit, commit limit, peak commit, paged pool memory, and non-paged pool memory.
+
+## Network
+`GetIfTable2`
+- This function writes to `MIB_IF_TABLE`, which can be used to obtain a `MIB_IF_ROW2`.
+
+`MIB_IF_ROW2`
+- This struct can give us a lot of useful information about a network adapter. We can find the type, alias, description, LUID, link speed, and much more. We can also use some members like `MediaConnectState`, `OperStatus`, and `Type` to filter out adapters that we don't want to display. 
+
+## Processes
+`CreateToolHelp32Snapshot`
+- Takes a snapshot of all the processes that were running when this function was called. This provides the foundation where we will collect our processes information.
+
+`OpenProcess`
+- Let's us read information about a process.
+
+`PROCESSENTRY32W`
+- This struct will cotain the current process when we iterate through the snapshot. We can see information like pid, name, threads, and base priority.
+
+`GetPriorityClass`
+- Gives us the process's priority.
+
+`QueryFullProcessImageName`
+- Gives us the path where the process was ran.
+
+`GetProcessMemoryInfo`
+- Writes to a `PROCESS_MEMORY_COUNTERS_EX` which will contain a process's information related to memory.
+
+`PROCESS_MEMORY_COUNTERS_EX`
+- Contains information like memory usage, commit size, and private memory.
+
+## System
+`GetComputerNameExW`
+- Gives us the computer's name and the host name.
+
+`GetNativeSystemInfo`
+- This function was used to obtain the processor architecture.
+
+`GetFirmwareType`
+- Gives us the type of firmware like BIOS or UEFI.
+
+`GetProductInfo`
+- Gives us the Windows edition.
+
+`RtlGetVersion`
+- We can get Windows information like OS version and build number.
+
+`GlobalMemoryStatusEx`
+- We use it to display the total amount of RAM.
+
+`GetProperty`
+- This function was used in order to obtain the list of GPUs and their names.
 
 # Data Collection Strategy
 
