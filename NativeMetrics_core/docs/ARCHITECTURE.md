@@ -22,8 +22,13 @@
   - [Processes](#processes-1)
   - [System](#system-1)
 - [Data Collection Strategy](#data-collection-strategy)
-- [State Management](#state-management)
-- [Threading Model](#threading-model)
+  - [CPU](#cpu-2)
+  - [Disk](#disk-2)
+  - [GPU](#gpu-2)
+  - [Memory](#memory-2)
+  - [Network](#network-2)
+  - [Processes](#processes-2)
+  - [System](#system-2)
 - [Memory Management](#memory-management)
 - [Error Handling](#error-handling)
 - [Extending the Library](#extending-the-library)
@@ -203,12 +208,61 @@ For GPU metrics, DXCore and DXGI was used.
 - This function was used in order to obtain the list of GPUs and their names.
 
 # Data Collection Strategy
+Most of the data requires a function call in the Windows API. However, there are some metrics that require us to make the calculations.
 
-# State Management
+## CPU
+- Sampling by calling Windows API functions.
+- CPU usage requires the calculation of  the difference between the current and previous call.
 
-# Threading Model
+## Disk
+- Sampling by calling Windows API functions.
+- Disk speed metrics requires the calculation of the difference between the current abd previous call.
+
+## GPU 
+- DXGI adapter enumeration.
+- Adapter information obtained with DXGI or DXCore.
+- Storing previous samples not required.
+
+## Memory
+- Sampling by calling Windows API.
+- Storing previous samples not required.
+
+## Network
+- Sampling by calling Windows API.
+- Network speed calculations required storing previous samples.
+
+## Processes
+- Sampling by getting a snapshot of all running processes using Windows API.
+- Storing previous samples not required.
+
+## System
+- Sampling by calling Windows API.
+- DXGI and DXCore required for making GPU list.
+- Storing previous samples not required.
 
 # Memory Management
+
+For some of the components, memory allocation is not required. You just need to initialize a struct and pass a pointer to the library's function in order to write data to it.
+In this example, I used `getMemoryInfo` to get information about the system's memory.
+```cpp
+MemoryInfo memInfo{};
+i32 buffSize = sizeof(MemoryInfo);
+if (getMemoryInfo(&memInfo, buffSize)) {
+  std::cout << "Success!" << std::endl;
+}
+```
+
+There are some functions that will require you to create an array of structs. You simply create a fixed sized array and pass the pointer to the array.
+In this example, I created used `getProcessList` to get a list of structs.
+```cpp
+std::vector<ProcessInfo> list(1024);
+i32 processesWritten{};
+if (getProcessList(list.data(), 1024, &processesWritten)) {
+  std::cout << "Success!" << std::endl;
+}
+```
+
+This library utilized fixed-sized arrays and structs. As mentioned before, the reason dynamic data structures, like STL containers, are not used is due to the fact that this library was intended to be used in other programming languages as well. For example, if I wanted to use this library in C#, it would be difficult to make an implementation where a library function writes data to an std::vector. It's much simpler to use an array since both languages have them.
 
 # Error Handling
 
